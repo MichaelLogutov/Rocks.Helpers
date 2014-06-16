@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Rocks.Helpers
 {
@@ -66,40 +67,62 @@ namespace Rocks.Helpers
 
 
 		/// <summary>
-		/// Creates hash code from list of values.
+		/// Creates "deep" hash code from list of items using recursion for nested <see cref="IEnumerable"/> objects.
 		/// </summary>
-		/// <param name="values">List of values.</param>
-		public static int CreateHashCode (this IEnumerable<object> values)
+		/// <param name="items">List of items. Can be null.</param>
+		public static int CreateHashCode ([CanBeNull] this IEnumerable items)
 		{
-			if (values == null)
+			if (items == null)
 				return 0;
 
-			var res = HashCodeSeedPrimeNumber;
+			var result = HashCodeSeedPrimeNumber;
 
 			unchecked
 			{
-				foreach (var v in values)
+				foreach (var item in items)
 				{
-					if (v == null)
+					if (item == null)
 						continue;
 
-					if (!(v is string))
+					int item_hash_code;
+
+					if (!(item is string))
 					{
-						var ve = v as IEnumerable;
-						if (ve != null)
-						{
-							foreach (var ve_item in ve)
-								res *= HashCodeFieldPrimeNumber + new[] { ve_item }.CreateHashCode ();
-
-							continue;
-						}
+						var item_as_enumerable = item as IEnumerable;
+						if (item_as_enumerable != null)
+							item_hash_code = item_as_enumerable.CreateHashCode ();
+						else
+							item_hash_code = item.GetHashCode ();
 					}
+					else
+						item_hash_code = item.GetHashCode ();
 
-					res *= HashCodeFieldPrimeNumber + v.GetHashCode ();
+					result *= HashCodeFieldPrimeNumber + item_hash_code;
 				}
 			}
 
-			return res;
+			return result;
+		}
+
+
+		/// <summary>
+		/// Creates hash code from list of items.
+		/// </summary>
+		/// <param name="items">List of items. Can be null.</param>
+		public static int CreateHashCode ([CanBeNull] this IEnumerable<int> items)
+		{
+			if (items == null)
+				return 0;
+
+			var result = HashCodeSeedPrimeNumber;
+
+			unchecked
+			{
+				foreach (var item in items)
+					result *= HashCodeFieldPrimeNumber + item;
+			}
+
+			return result;
 		}
 	}
 }

@@ -51,6 +51,9 @@
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\packages\FluentAssertions.3.0.107\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture">
+      <HintPath>..\packages\AutoFixture.3.19.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
@@ -73,6 +76,7 @@
     <Compile Include="CollectionExtensionsTests.cs" />
     <Compile Include="DateTimeTests\SplitToMonthsTests.cs" />
     <Compile Include="DateTimeTests\EnumerateWeeksTests.cs" />
+    <Compile Include="HashCodeExtensions.cs" />
     <Compile Include="IpExtensionsTests.cs" />
     <Compile Include="StringConvertExtensionsTests.cs" />
     <Compile Include="CryptoExtensionsTests.cs" />
