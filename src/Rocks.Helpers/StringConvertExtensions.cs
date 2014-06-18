@@ -5,64 +5,218 @@ namespace Rocks.Helpers
 {
 	public static class StringConvertExtensions
 	{
-		public static bool? ToBool (this string str)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to bool.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		public static bool? ToBool (this string value)
 		{
 			bool result;
-			if (!bool.TryParse (str, out result))
+			if (!bool.TryParse (value, out result))
 				return null;
 
 			return result;
 		}
 
 
-		public static bool ToBool (this string str, bool defaultValue)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to bool.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		public static bool ToBool (this string value, bool defaultValue)
 		{
 			bool result;
-			if (!bool.TryParse (str, out result))
+			if (!bool.TryParse (value, out result))
 				return defaultValue;
 
 			return result;
 		}
 
 
-		public static int? ToInt (this string str)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to integer.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static int? ToInt (this string value, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
 		{
 			int result;
-			if (!int.TryParse (str, out result))
+			if (!int.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
 				return null;
 
 			return result;
 		}
 
 
-		public static int ToInt (this string str, int defaultValue)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to integer.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static int ToInt (this string value, int defaultValue, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
 		{
 			int result;
-			if (!int.TryParse (str, out result))
+			if (!int.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
 				return defaultValue;
 
 			return result;
 		}
 
 
-		public static long? ToLong (this string str)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to long.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static long? ToLong (this string value, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
 		{
 			long result;
-			if (!long.TryParse (str, out result))
+			if (!long.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
 				return null;
 
 			return result;
 		}
 
 
-		public static long ToLong (this string str, long defaultValue)
+		/// <summary>
+		/// Convert string <paramref name="value"/> to long.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static long ToLong (this string value, long defaultValue, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
 		{
 			long result;
-			if (!long.TryParse (str, out result))
+			if (!long.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
 				return defaultValue;
 
 			return result;
 		}
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to decimal.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static decimal? ToDecimal (this string value, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
+		{
+			decimal result;
+			if (!decimal.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return null;
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to decimal.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static decimal ToDecimal (this string value, decimal defaultValue, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
+		{
+			decimal result;
+			if (!decimal.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return defaultValue;
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to float.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static float? ToFloat (this string value, NumberStyles style = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo culture = null)
+		{
+			float result;
+			if (!float.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return null;
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to float.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static float ToFloat (this string value,
+		                             float defaultValue,
+		                             NumberStyles style = NumberStyles.Float | NumberStyles.AllowThousands,
+		                             CultureInfo culture = null)
+		{
+			float result;
+			if (!float.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return defaultValue;
+
+			return result;
+		}
+
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to double.
+		/// Returns null if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static double? ToDouble (this string value, NumberStyles style = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo culture = null)
+		{
+			double result;
+			if (!double.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return null;
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Convert string <paramref name="value"/> to double.
+		/// Returns <paramref name="defaultValue"/> if value can not be parsed.
+		/// </summary>
+		/// <param name="value">Value as a string.</param>
+		/// <param name="defaultValue">Default value that will be returned if parse failed.</param>
+		/// <param name="style">A combination of styles that can be present in <paramref name="value"/> for parse to succeed.</param>
+		/// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
+		public static double ToDouble (this string value,
+		                               double defaultValue,
+		                               NumberStyles style = NumberStyles.Float | NumberStyles.AllowThousands,
+		                               CultureInfo culture = null)
+		{
+			double result;
+			if (!double.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+				return defaultValue;
+
+			return result;
+		}
+
 
 
 		// ReSharper disable once FieldCanBeMadeReadOnly.Global
