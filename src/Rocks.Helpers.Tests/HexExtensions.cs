@@ -46,7 +46,7 @@ namespace Rocks.Helpers.Tests
 		public void ToHexString_ReturnsCorrectString ()
 		{
 			// arrange
-			var data = new byte[] { 1, 10, 3 };
+			var data = new byte[] { 1, 10, 3, 255 };
 
 
 			// act
@@ -54,7 +54,23 @@ namespace Rocks.Helpers.Tests
 
 
 			// assert
-			result.Should ().Be ("010A03");
+			result.Should ().Be ("010a03ff");
+		}
+
+
+		[TestMethod]
+		public void ToHexString_UpperCase_ReturnsCorrectString ()
+		{
+			// arrange
+			var data = new byte[] { 1, 10, 3, 255 };
+
+
+			// act
+			var result = data.ToHexString (true);
+
+
+			// assert
+			result.Should ().Be ("010A03FF");
 		}
 
 
