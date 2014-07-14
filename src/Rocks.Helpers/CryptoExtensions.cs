@@ -45,24 +45,22 @@ namespace Rocks.Helpers
 			var length_data = BitConverter.GetBytes (data.Length);
 
 			using (var pdb = new Rfc2898DeriveBytes (password, salt))
+			using (var algorithm = new RijndaelManaged ())
 			{
-				using (var algorithm = new RijndaelManaged ())
+				algorithm.Padding = PaddingMode.Zeros;
+				algorithm.Key = pdb.GetBytes (32);
+				algorithm.IV = pdb.GetBytes (16);
+
+				using (var memory_stream = new MemoryStream ())
 				{
-					algorithm.Padding = PaddingMode.Zeros;
-					algorithm.Key = pdb.GetBytes (32);
-					algorithm.IV = pdb.GetBytes (16);
+					memory_stream.Write (length_data, 0, length_data.Length);
 
-					using (var memory_stream = new MemoryStream ())
+					using (var crypto_stream = new CryptoStream (memory_stream, algorithm.CreateEncryptor (), CryptoStreamMode.Write))
 					{
-						memory_stream.Write (length_data, 0, length_data.Length);
+						crypto_stream.Write (data, 0, data.Length);
+						crypto_stream.FlushFinalBlock ();
 
-						using (var crypto_stream = new CryptoStream (memory_stream, algorithm.CreateEncryptor (), CryptoStreamMode.Write))
-						{
-							crypto_stream.Write (data, 0, data.Length);
-							crypto_stream.FlushFinalBlock ();
-
-							return Convert.ToBase64String (memory_stream.GetBuffer (), 0, (int) memory_stream.Length);
-						}
+						return Convert.ToBase64String (memory_stream.GetBuffer (), 0, (int) memory_stream.Length);
 					}
 				}
 			}
@@ -86,24 +84,44 @@ namespace Rocks.Helpers
 			var length_data = BitConverter.ToInt32 (data, 0);
 
 			using (var pdb = new Rfc2898DeriveBytes (password, salt))
+			using (var algorithm = new RijndaelManaged ())
 			{
-				using (var algorithm = new RijndaelManaged ())
+				algorithm.Padding = PaddingMode.Zeros;
+				algorithm.Key = pdb.GetBytes (32);
+				algorithm.IV = pdb.GetBytes (16);
+
+				using (var memory_stream = new MemoryStream ())
+				using (var crypto_stream = new CryptoStream (memory_stream, algorithm.CreateDecryptor (), CryptoStreamMode.Write))
 				{
-					algorithm.Padding = PaddingMode.Zeros;
-					algorithm.Key = pdb.GetBytes (32);
-					algorithm.IV = pdb.GetBytes (16);
+					crypto_stream.Write (data, 4, data.Length - 4);
+					crypto_stream.Flush ();
 
-					using (var memory_stream = new MemoryStream ())
-					{
-						using (var crypto_stream = new CryptoStream (memory_stream, algorithm.CreateDecryptor (), CryptoStreamMode.Write))
-						{
-							crypto_stream.Write (data, 4, data.Length - 4);
-							crypto_stream.Flush ();
-
-							return Encoding.UTF8.GetString (memory_stream.GetBuffer (), 0, length_data);
-						}
-					}
+					return Encoding.UTF8.GetString (memory_stream.GetBuffer (), 0, length_data);
 				}
+			}
+		}
+
+
+		/// <summary>
+		/// Generates hash from the <paramref name="value"/> using the specified <paramref name="algorithm"/>.
+		/// </summary>
+		/// <param name="value">Value to be hashed.</param>
+		/// <param name="algorithm">Algorithm name.</param>
+		/// <param name="encoding">Encoding of the <paramref name="value"/>. If null the <see cref="Encoding.UTF8"/> is used.</param>
+		public static byte[] GetHash ([NotNull] this string value, string algorithm = "SHA256", Encoding encoding = null)
+		{
+			if (value == null)
+				throw new ArgumentNullException ("value");
+
+			using (var hash_algorithm = HashAlgorithm.Create (algorithm))
+			{
+				if (hash_algorithm == null)
+					throw new NotSupportedException (string.Format ("Hash algorithm \"{0}\" is not supported.", algorithm));
+
+				var data = (encoding ?? Encoding.UTF8).GetBytes (value);
+				var hash = hash_algorithm.ComputeHash (data);
+
+				return hash;
 			}
 		}
 	}
