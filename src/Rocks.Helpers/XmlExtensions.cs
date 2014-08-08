@@ -23,6 +23,12 @@ namespace Rocks.Helpers
 		[NotNull]
 		public static XElement GetElement ([NotNull] this XElement e, [NotNull] string name)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (name))
+				throw new ArgumentNullException ("name");
+
 			var n = e.Element (name);
 			if (n == null)
 			{
@@ -43,6 +49,12 @@ namespace Rocks.Helpers
 		[NotNull]
 		public static XElement GetElement ([NotNull] this XElement e, [NotNull] params string[] names)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (names == null)
+				throw new ArgumentNullException ("names");
+
 			return e.GetElement ((IEnumerable<string>) names);
 		}
 
@@ -56,6 +68,12 @@ namespace Rocks.Helpers
 		[NotNull]
 		public static XElement GetElement ([NotNull] this XElement e, [NotNull] IEnumerable<string> names)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (names == null)
+				throw new ArgumentNullException ("names");
+
 			foreach (var name in names)
 			{
 				var n = e.Element (name);
@@ -77,10 +95,13 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="e">Root element.</param>
 		/// <param name="xpath">XPath to element.</param>
-		public static void RemoveElement (this XNode e, [NotNull] string xpath)
+		public static void RemoveElement ([NotNull] this XNode e, [NotNull] string xpath)
 		{
 			if (e == null)
-				return;
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (xpath))
+				throw new ArgumentNullException ("xpath");
 
 			var node = e.XPathSelectElement (xpath);
 			if (node != null)
@@ -94,10 +115,13 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="e">Source element.</param>
 		/// <param name="xml">XML (can be null).</param>
-		[ContractAnnotation ("e:null => null")]
-		public static XElement AddXml (this XElement e, [CanBeNull] string xml)
+		[NotNull]
+		public static XElement AddXml ([NotNull] this XElement e, [CanBeNull] string xml)
 		{
-			if (e != null && !string.IsNullOrEmpty (xml))
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (!string.IsNullOrEmpty (xml))
 				e.Add (XElement.Parse (xml));
 
 			return e;
@@ -112,6 +136,12 @@ namespace Rocks.Helpers
 		[NotNull]
 		public static XElement Remove ([NotNull] this XElement e, [NotNull] string xpath)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (xpath))
+				throw new ArgumentNullException ("xpath");
+
 			foreach (var node in e.XPathSelectElements (xpath).ToArray ())
 				node.Remove ();
 
@@ -127,6 +157,12 @@ namespace Rocks.Helpers
 		[NotNull]
 		public static XElement Rename ([NotNull] this XElement e, [NotNull] string newName)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (newName))
+				throw new ArgumentNullException ("newName");
+
 			return new XElement (newName, e.Attributes (), e.Elements ());
 		}
 
@@ -159,10 +195,13 @@ namespace Rocks.Helpers
 		/// <param name="e">Source xml element.</param>
 		/// <param name="attributeName">Name of the attribute.</param>
 		[CanBeNull]
-		public static string GetAttribute ([CanBeNull] this XElement e, [NotNull] string attributeName)
+		public static string GetAttribute ([NotNull] this XElement e, [NotNull] string attributeName)
 		{
 			if (e == null)
-				return null;
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (attributeName))
+				throw new ArgumentNullException ("attributeName");
 
 			var a = e.Attribute (attributeName);
 			if (a != null)
@@ -184,8 +223,15 @@ namespace Rocks.Helpers
 		///     Culture to be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement SetValue ([NotNull] this XElement e, [NotNull] string name, [CanBeNull] object value, CultureInfo culture = null)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (name))
+				throw new ArgumentNullException ("name");
+
 			var n = e.Element (name);
 			if (n == null)
 			{
@@ -218,8 +264,15 @@ namespace Rocks.Helpers
 		///     Culture to be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement SetAttribute ([NotNull] this XElement e, [NotNull] string attributeName, [CanBeNull] object value, CultureInfo culture = null)
 		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (attributeName))
+				throw new ArgumentNullException ("attributeName");
+
 			var a = e.Attribute (attributeName);
 			if (a == null)
 			{
@@ -252,9 +305,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this byte? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -268,6 +322,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this byte value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -285,9 +340,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this short? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -301,6 +357,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this short value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -318,9 +375,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this int? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -334,6 +392,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this int value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -351,9 +410,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this long? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -367,6 +427,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this long value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -384,9 +445,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this float? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -400,6 +462,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this float value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -417,9 +480,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this double? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -433,6 +497,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this double value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -450,9 +515,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this decimal? value, string name, string format = "G29", CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -466,6 +532,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this decimal value, string name, string format = "G29", CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -483,9 +550,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this TimeSpan? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -499,6 +567,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this TimeSpan value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -516,9 +585,10 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this DateTime? value, string name, string format = null, CultureInfo culture = null)
 		{
-			return value.HasValue ? value.Value.ToXElement (name, format, culture) : null;
+			return value != null ? value.Value.ToXElement (name, format, culture) : null;
 		}
 
 
@@ -532,6 +602,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[NotNull]
 		public static XElement ToXElement (this DateTime value, string name, string format = null, CultureInfo culture = null)
 		{
 			return new XElement (name, value.ToString (format, culture ?? CultureInfo.InvariantCulture));
@@ -544,6 +615,7 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="value">Value.</param>
 		/// <param name="name">Name of the <see cref="XElement" />.</param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this string value, string name)
 		{
 			return !string.IsNullOrEmpty (value) ? new XElement (name, value) : null;
@@ -560,6 +632,7 @@ namespace Rocks.Helpers
 		///     Culture that will be used when converting <paramref name="value" /> to string. If null the
 		///     <see cref="CultureInfo.InvariantCulture" /> will be used.
 		/// </param>
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static XElement ToXElement (this object value, string name, CultureInfo culture = null)
 		{
 			return value != null ? new XElement (name, Convert.ToString (value, culture ?? CultureInfo.InvariantCulture)) : null;
@@ -572,8 +645,15 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="assembly">Assembly with the resource.</param>
 		/// <param name="resourceName">Resource name.</param>
-		public static XElement LoadFromResource (Assembly assembly, string resourceName)
+		[NotNull]
+		public static XElement LoadFromResource ([NotNull] Assembly assembly, [NotNull] string resourceName)
 		{
+			if (assembly == null)
+				throw new ArgumentNullException ("assembly");
+
+			if (string.IsNullOrEmpty (resourceName))
+				throw new ArgumentNullException ("resourceName");
+
 			var stream = assembly.GetManifestResourceStream (resourceName);
 			if (stream == null)
 				throw new InvalidOperationException ("Resource '" + resourceName + "' not found in assmebly " + assembly.FullName);
@@ -588,8 +668,12 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="xml">Source xml.</param>
 		/// <param name="format">True if result needs to be formatted.</param>
-		public static string ToString (this XNode xml, bool format)
+		[NotNull]
+		public static string ToString ([NotNull] this XNode xml, bool format)
 		{
+			if (xml == null)
+				throw new ArgumentNullException ("xml");
+
 			return xml.ToString (format, null);
 		}
 
@@ -600,10 +684,11 @@ namespace Rocks.Helpers
 		/// <param name="xml">Source xml.</param>
 		/// <param name="format">True if result needs to be formatted.</param>
 		/// <param name="encoding">Result string encoding. If null UTF-16 will be used.</param>
-		public static string ToString (this XNode xml, bool format, Encoding encoding)
+		[NotNull]
+		public static string ToString ([NotNull] this XNode xml, bool format, Encoding encoding)
 		{
 			if (xml == null)
-				return string.Empty;
+				throw new ArgumentNullException ("xml");
 
 			encoding = encoding ?? Encoding.Unicode;
 
@@ -632,8 +717,12 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="xml">Source xml.</param>
 		/// <param name="format">True if result needs to be formatted.</param>
-		public static string ToString (this XDocument xml, bool format)
+		[NotNull]
+		public static string ToString ([NotNull] this XDocument xml, bool format)
 		{
+			if (xml == null)
+				throw new ArgumentNullException ("xml");
+
 			return xml.ToString (format, null);
 		}
 
@@ -644,10 +733,11 @@ namespace Rocks.Helpers
 		/// <param name="xml">Source xml.</param>
 		/// <param name="format">True if result needs to be formatted.</param>
 		/// <param name="encoding">Result string encoding. If null UTF-16 will be used.</param>
-		public static string ToString (this XDocument xml, bool format, Encoding encoding)
+		[NotNull]
+		public static string ToString ([NotNull] this XDocument xml, bool format, Encoding encoding)
 		{
 			if (xml == null)
-				return string.Empty;
+				throw new ArgumentNullException ("xml");
 
 			using (var stream = new EncodeSpecifiedStringWriter (encoding ?? Encoding.Unicode))
 			{
@@ -655,6 +745,46 @@ namespace Rocks.Helpers
 
 				return stream.ToString ();
 			}
+		}
+
+
+		/// <summary>
+		///     Returns new dettached element if source element is null.
+		/// </summary>
+		/// <param name="e">Source element.</param>
+		/// <param name="name">Newly created element name.</param>
+		[NotNull]
+		public static XElement EmptyIfNull (this XElement e, [NotNull] string name)
+		{
+			if (e != null)
+				return e;
+
+			if (string.IsNullOrEmpty (name))
+				throw new ArgumentNullException ("name");
+
+			return new XElement (name);
+		}
+
+
+		/// <summary>
+		///     Returns new dettached attribute if source attribute is null.
+		/// </summary>
+		/// <param name="attribute">Source attribute.</param>
+		/// <param name="name">Newly created attribute name.</param>
+		/// <param name="value">Newly created attribute value.</param>
+		[NotNull]
+		public static XAttribute EmptyIfNull (this XAttribute attribute, [NotNull] string name, [NotNull] object value)
+		{
+			if (attribute != null)
+				return attribute;
+
+			if (string.IsNullOrEmpty (name))
+				throw new ArgumentNullException ("name");
+
+			if (value == null)
+				throw new ArgumentNullException ("value");
+
+			return new XAttribute (name, value);
 		}
 	}
 }

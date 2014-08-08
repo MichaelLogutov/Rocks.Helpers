@@ -9,15 +9,6 @@ namespace Rocks.Helpers
 {
 	public static class ValueExtensions
 	{
-		private static readonly Regex ValidateRegExEmail =
-			new Regex (@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
-			           RegexOptions.Compiled |
-			           RegexOptions.CultureInvariant |
-			           RegexOptions.IgnoreCase |
-			           RegexOptions.IgnorePatternWhitespace |
-			           RegexOptions.ExplicitCapture);
-
-
 		private static readonly Regex ValidateRegExEntityUrl = new Regex (@"^[\w-_]+$",
 		                                                                  RegexOptions.Compiled |
 		                                                                  RegexOptions.CultureInvariant |
@@ -26,7 +17,7 @@ namespace Rocks.Helpers
 		                                                                  RegexOptions.ExplicitCapture);
 
 
-		[ContractAnnotation ("value:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("value:null => halt")]
 		public static T RequiredNotNull<T> (this T value, string paramName, string message = null) where T : class
 		{
 			if (value == null)
@@ -46,7 +37,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("value:null => halt")]
 		public static string RequiredNotNullOrWhiteSpace (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrWhiteSpace (value))
@@ -56,7 +47,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("value:null => halt")]
 		public static string RequiredNotNullOrEmpty (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrEmpty (value))
@@ -66,7 +57,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("value:null => halt")]
 		public static T RequiredNotNullOrEmpty<T> (this T value, string paramName, string message = null) where T : class
 		{
 			if (value == null)
@@ -84,7 +75,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("values:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("values:null => halt")]
 		public static ICollection<T> RequiredNotNullOrEmpty<T> (this ICollection<T> values, string paramName, string message = null)
 		{
 			if (values == null || values.Count == 0)
@@ -94,7 +85,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("values:null => halt"), NotNull]
+		[NotNull, ContractAnnotation ("values:null => halt")]
 		public static IEnumerable<T> RequiredNotNullOrEmpty<T> (this IEnumerable<T> values, string paramName, string message = null)
 		{
 			if (values == null || !values.Any ())
@@ -140,6 +131,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotLessThan<T> (this T? value, T minValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -149,6 +141,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotLessThan<T> (this T? value, T? minValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null && minValue != null)
@@ -167,6 +160,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T minValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -176,6 +170,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T? minValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null && minValue != null)
@@ -194,6 +189,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotGreaterThan<T> (this T? value, T maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -203,6 +199,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotGreaterThan<T> (this T? value, T? maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null && maxValue != null)
@@ -221,6 +218,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -230,6 +228,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T? maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null && maxValue != null)
@@ -248,6 +247,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredIn<T> (this T? value, T minValue, T maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -257,6 +257,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredIn<T> (this T? value, T? minValue, T? maxValue, string paramName) where T : struct, IComparable
 		{
 			if (value != null)
@@ -282,6 +283,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static T? RequiredEnum<T> (this T? value, string paramName, string message = null)
 			where T : struct
 		{
@@ -347,49 +349,30 @@ namespace Rocks.Helpers
 		}
 
 
+		[CanBeNull, ContractAnnotation ("value:null => null")]
 		public static string Trimmed (this string value)
 		{
 			return value == null ? null : value.Trim ();
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static string AsValidEmail (this string value, string paramName, string message = null)
 		{
-			if (!string.IsNullOrEmpty (value) && !ValidateRegExEmail.IsMatch (value))
+			if (!string.IsNullOrEmpty (value) && value.IndexOf ('@') > 0)
 				throw new FormatException (message ?? string.Format ("Parameter \"{0}\" has invalid email format: {1}", paramName, value));
 
 			return value;
 		}
 
 
+		[ContractAnnotation ("value:null => null")]
 		public static string AsValidEntityUrl (this string value, string paramName, string message = null)
 		{
 			if (!string.IsNullOrEmpty (value) && !ValidateRegExEntityUrl.IsMatch (value))
 				throw new FormatException (message ?? string.Format ("Parameter \"{0}\" has invalid entity url format: {1}", paramName, value));
 
 			return value;
-		}
-
-
-
-		[Obsolete ("This method is obsolete. Use RequiredNotNullOrEmpty or RequiredNotNullOrWhiteSpace.", true)]
-		public static string Required (this string value, string paramName, string message = null)
-		{
-			return value.RequiredNotNullOrWhiteSpace (paramName, message);
-		}
-
-
-		[Obsolete ("This method is obsolete. Use RequiredNotNullOrEmpty.", true)]
-		public static T Required<T> (this T value, string paramName, string message = null) where T : class
-		{
-			return value.RequiredNotNullOrEmpty (paramName, message);
-		}
-
-
-		[Obsolete ("This method is obsolete. Use RequiredNotNull.", true)]
-		public static T Required<T> (this T? value, string paramName, string message = null) where T : struct
-		{
-			return value.RequiredNotNull (paramName, message);
 		}
 	}
 }
