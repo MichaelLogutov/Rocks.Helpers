@@ -754,7 +754,7 @@ namespace Rocks.Helpers
 		/// <param name="e">Source element.</param>
 		/// <param name="name">Newly created element name.</param>
 		[NotNull]
-		public static XElement EmptyIfNull (this XElement e, [NotNull] string name)
+		public static XElement NewIfNull (this XElement e, [NotNull] string name)
 		{
 			if (e != null)
 				return e;
@@ -773,7 +773,7 @@ namespace Rocks.Helpers
 		/// <param name="name">Newly created attribute name.</param>
 		/// <param name="value">Newly created attribute value.</param>
 		[NotNull]
-		public static XAttribute EmptyIfNull (this XAttribute attribute, [NotNull] string name, [NotNull] object value)
+		public static XAttribute NewIfNull (this XAttribute attribute, [NotNull] string name, [NotNull] object value)
 		{
 			if (attribute != null)
 				return attribute;
