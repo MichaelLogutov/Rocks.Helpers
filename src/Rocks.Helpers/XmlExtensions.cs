@@ -60,21 +60,21 @@ namespace Rocks.Helpers
 
 
 		/// <summary>
-		///     Get the element with specified path (as list of <paramref name="names" />).
+		///     Get the element with specified path (as list of <paramref name="elementNames" />).
 		///     If element is not exist it will be created.
 		/// </summary>
 		/// <param name="e">Root element.</param>
-		/// <param name="names">A path of the required element as a list of element's names.</param>
+		/// <param name="elementNames">A path of the required element as a list of element's names.</param>
 		[NotNull]
-		public static XElement GetElement ([NotNull] this XElement e, [NotNull] IEnumerable<string> names)
+		public static XElement GetElement ([NotNull] this XElement e, [NotNull] IEnumerable<string> elementNames)
 		{
 			if (e == null)
 				throw new ArgumentNullException ("e");
 
-			if (names == null)
-				throw new ArgumentNullException ("names");
+			if (elementNames == null)
+				throw new ArgumentNullException ("elementNames");
 
-			foreach (var name in names)
+			foreach (var name in elementNames)
 			{
 				var n = e.Element (name);
 				if (n == null)
@@ -195,13 +195,78 @@ namespace Rocks.Helpers
 		/// <param name="e">Source xml element.</param>
 		/// <param name="attributeName">Name of the attribute.</param>
 		[CanBeNull]
-		public static string GetAttribute ([NotNull] this XElement e, [NotNull] string attributeName)
+		public static string GetAttributeValue ([NotNull] this XElement e, [NotNull] string attributeName)
 		{
 			if (e == null)
 				throw new ArgumentNullException ("e");
 
 			if (string.IsNullOrEmpty (attributeName))
 				throw new ArgumentNullException ("attributeName");
+
+			var a = e.Attribute (attributeName);
+			if (a != null)
+				return a.Value;
+
+			return null;
+		}
+
+
+		/// <summary>
+		///     Gets XML element attribute text. Returns null if no such attribute present.
+		/// </summary>
+		/// <param name="e">Source xml element.</param>
+		/// <param name="xpath">XPath to element with attribute.</param>
+		/// <param name="attributeName">Name of the attribute.</param>
+		[CanBeNull]
+		public static string GetAttributeValue ([NotNull] this XElement e, [NotNull] string xpath, [NotNull] string attributeName)
+		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (xpath == null)
+				throw new ArgumentNullException ("xpath");
+
+			if (string.IsNullOrEmpty (attributeName))
+				throw new ArgumentNullException ("attributeName");
+
+			e = e.XPathSelectElement (xpath);
+			if (e == null)
+				return null;
+
+			var a = e.Attribute (attributeName);
+			if (a != null)
+				return a.Value;
+
+			return null;
+		}
+
+
+		/// <summary>
+		///     Gets XML element attribute text. Returns null if no such attribute present.
+		/// </summary>
+		/// <param name="e">Source xml element.</param>
+		/// <param name="elementNames">A path of the required element as a list of element's names.</param>
+		/// <param name="attributeName">Name of the attribute.</param>
+		[CanBeNull]
+		public static string GetAttributeValue ([NotNull] this XElement e, [NotNull] IEnumerable<string> elementNames, [NotNull] string attributeName)
+		{
+			if (e == null)
+				throw new ArgumentNullException ("e");
+
+			if (string.IsNullOrEmpty (attributeName))
+				throw new ArgumentNullException ("attributeName");
+
+			if (elementNames == null)
+				throw new ArgumentNullException ("elementNames");
+
+			foreach (var name in elementNames)
+			{
+				var n = e.Element (name);
+				if (n == null)
+					return null;
+
+				e = n;
+			}
 
 			var a = e.Attribute (attributeName);
 			if (a != null)
@@ -754,7 +819,7 @@ namespace Rocks.Helpers
 		/// <param name="e">Source element.</param>
 		/// <param name="name">Newly created element name.</param>
 		[NotNull]
-		public static XElement NewIfNull (this XElement e, [NotNull] string name)
+		public static XElement NewIfNull (this XElement e, [NotNull] string name = "element")
 		{
 			if (e != null)
 				return e;
@@ -773,7 +838,7 @@ namespace Rocks.Helpers
 		/// <param name="name">Newly created attribute name.</param>
 		/// <param name="value">Newly created attribute value.</param>
 		[NotNull]
-		public static XAttribute NewIfNull (this XAttribute attribute, [NotNull] string name, [NotNull] object value)
+		public static XAttribute NewIfNull (this XAttribute attribute, [NotNull] string name = "attr", object value = null)
 		{
 			if (attribute != null)
 				return attribute;
@@ -781,10 +846,7 @@ namespace Rocks.Helpers
 			if (string.IsNullOrEmpty (name))
 				throw new ArgumentNullException ("name");
 
-			if (value == null)
-				throw new ArgumentNullException ("value");
-
-			return new XAttribute (name, value);
+			return new XAttribute (name, value ?? true);
 		}
 	}
 }
