@@ -124,5 +124,37 @@ namespace Rocks.Helpers.Tests
 			// assert
 			action.ShouldThrow<FormatException> ();
 		}
+
+
+		[TestMethod]
+		public void AsValidEmail_ValidEmail_DoesNotThrows ()
+		{
+			// arrange
+			var email = "a@a";
+
+
+			// act
+			var action = new Action (() => email.AsValidEmail ("email"));
+
+
+			// assert
+			action.ShouldNotThrow ();
+		}
+
+
+		[TestMethod]
+		public void AsValidEmail_InvalidEmail_Throws ()
+		{
+			// arrange
+			var email = "aaa";
+
+
+			// act
+			var action = new Action (() => email.AsValidEmail ("email"));
+
+
+			// assert
+			action.ShouldThrow<FormatException> ();
+		}
 	}
 }
