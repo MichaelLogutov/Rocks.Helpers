@@ -66,6 +66,66 @@ namespace Rocks.Helpers.Tests
 
 
 		[TestMethod]
+		public void AsList_ReturnsIList ()
+		{
+			// arrange
+			var data = new[] { "a", null, "b" };
+
+
+			// act
+			var result = data.Select (x => x).AsList ();
+
+
+			// assert
+			result.Should ()
+			      .BeAssignableTo<IList<string>> ()
+			      .And
+			      .NotBeSameAs (data)
+			      .And
+			      .Equal (new[] { "a", null, "b" });
+		}
+
+
+		[TestMethod]
+		public void AsList_Null_ReturnsNull ()
+		{
+			var result = ((string[]) null).AsList ();
+
+			result.Should ().BeNull ();
+		}
+
+
+		[TestMethod]
+		public void AsArray_ReturnsIArray ()
+		{
+			// arrange
+			var data = new[] { "a", null, "b" };
+
+
+			// act
+			var result = data.Select (x => x).AsArray ();
+
+
+			// assert
+			result.Should ()
+			      .BeAssignableTo<string[]> ()
+			      .And
+			      .NotBeSameAs (data)
+			      .And
+			      .Equal (new[] { "a", null, "b" });
+		}
+
+
+		[TestMethod]
+		public void AsArray_Null_ReturnsNull ()
+		{
+			var result = ((string[]) null).AsArray ();
+
+			result.Should ().BeNull ();
+		}
+
+
+		[TestMethod]
 		public void AsReadOnlyList_ReturnsIReadOnlyList ()
 		{
 			// arrange
@@ -79,6 +139,8 @@ namespace Rocks.Helpers.Tests
 			// assert
 			result.Should ()
 			      .BeAssignableTo<IReadOnlyList<string>> ()
+			      .And
+			      .NotBeSameAs (data)
 			      .And
 			      .Equal (new[] { "a", null, "b" });
 		}
@@ -107,6 +169,8 @@ namespace Rocks.Helpers.Tests
 			// assert
 			result.Should ()
 			      .BeAssignableTo<IReadOnlyCollection<string>> ()
+			      .And
+			      .NotBeSameAs (data)
 			      .And
 			      .Equal (new[] { "a", null, "b" });
 		}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Rocks.Helpers
@@ -59,10 +60,44 @@ namespace Rocks.Helpers
 
 
 		/// <summary>
+		///     Converts values list to array of <typeparamref name="T"/>.
+		/// </summary>
+		[ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+		public static T[] AsArray<T> ([CanBeNull] this IEnumerable<T> values)
+		{
+			if (values == null)
+				return null;
+
+			var list = values as List<T>;
+			if (list != null)
+				return list.ToArray ();
+
+			return values.ToArray ();
+		}
+
+
+		/// <summary>
+		///     Converts values list to <see cref="IList{T}" />.
+		/// </summary>
+		[ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+		public static IList<T> AsList<T> ([CanBeNull] this IEnumerable<T> values)
+		{
+			if (values == null)
+				return null;
+
+			var list = values as IList<T>;
+			if (list != null)
+				return list;
+
+			return values.ToList ();
+		}
+
+
+		/// <summary>
 		///     Converts values list to <see cref="IReadOnlyList{T}" />.
 		/// </summary>
-		[ContractAnnotation ("values:null => null")]
-		public static IReadOnlyList<T> AsReadOnlyList<T> (this IEnumerable<T> values)
+		[ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+		public static IReadOnlyList<T> AsReadOnlyList<T> ([CanBeNull] this IEnumerable<T> values)
 		{
 			if (values == null)
 				return null;
@@ -83,7 +118,7 @@ namespace Rocks.Helpers
 		/// <summary>
 		///     Converts values list to <see cref="IReadOnlyCollection{T}" />.
 		/// </summary>
-		[ContractAnnotation ("values:null => null")]
+		[ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static IReadOnlyCollection<T> AsReadOnlyCollection<T> (this IEnumerable<T> values)
 		{
 			if (values == null)
@@ -107,6 +142,7 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <typeparam name="T">Type of the items.</typeparam>
 		/// <param name="items">Enumeration items.</param>
+		[ContractAnnotation ("items:null => true"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static bool IsNullOrEmpty<T> (this T items) where T : class, IEnumerable
 		{
 			if (items == null)
@@ -130,6 +166,7 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <typeparam name="T">Type of the items.</typeparam>
 		/// <param name="items">Enumeration items.</param>
+		[ContractAnnotation ("items:null => true"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static bool IsNullOrEmpty<T> (this ICollection<T> items)
 		{
 			return items == null || items.Count == 0;
@@ -262,6 +299,9 @@ namespace Rocks.Helpers
 		}
 
 
+		/// <summary>
+		///     Splits <paramref name="items" /> to arrays of <paramref name="chunkSize" />.
+		/// </summary>
 		public static IEnumerable<T[]> SplitToChunks<T> (this IEnumerable<T> items, int chunkSize)
 		{
 			if (items == null)
