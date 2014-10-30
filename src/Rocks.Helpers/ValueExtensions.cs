@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
@@ -17,7 +18,7 @@ namespace Rocks.Helpers
 		                                                                  RegexOptions.ExplicitCapture);
 
 
-		[NotNull, ContractAnnotation ("value:null => halt")]
+		[NotNull, ContractAnnotation ("value:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotNull<T> (this T value, string paramName, string message = null) where T : class
 		{
 			if (value == null)
@@ -27,7 +28,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => halt")]
+		[ContractAnnotation ("value:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotNull<T> (this T? value, string paramName, string message = null) where T : struct
 		{
 			if (value == null)
@@ -37,7 +38,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[NotNull, ContractAnnotation ("value:null => halt")]
+		[NotNull, ContractAnnotation ("value:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string RequiredNotNullOrWhiteSpace (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrWhiteSpace (value))
@@ -47,7 +48,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[NotNull, ContractAnnotation ("value:null => halt")]
+		[NotNull, ContractAnnotation ("value:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string RequiredNotNullOrEmpty (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrEmpty (value))
@@ -57,7 +58,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[NotNull, ContractAnnotation ("value:null => halt")]
+		[NotNull, ContractAnnotation ("value:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotNullOrEmpty<T> (this T value, string paramName, string message = null) where T : class
 		{
 			if (value == null)
@@ -75,7 +76,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[NotNull, ContractAnnotation ("values:null => halt")]
+		[NotNull, ContractAnnotation ("values:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static ICollection<T> RequiredNotNullOrEmpty<T> (this ICollection<T> values, string paramName, string message = null)
 		{
 			if (values == null || values.Count == 0)
@@ -85,7 +86,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[NotNull, ContractAnnotation ("values:null => halt")]
+		[NotNull, ContractAnnotation ("values:null => halt"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static IEnumerable<T> RequiredNotNullOrEmpty<T> (this IEnumerable<T> values, string paramName, string message = null)
 		{
 			if (values == null || !values.Any ())
@@ -95,6 +96,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static DateTimeOffset Required (this DateTimeOffset value, string paramName, string message = null)
 		{
 			if (value == DateTimeOffset.MinValue)
@@ -104,6 +106,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static int RequiredId (this int value, string paramName, string message = null)
 		{
 			if (value > 0)
@@ -116,6 +119,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredEqualsTo<T> (this T value, T value2, string paramName, string message = null)
 		{
 			if (Equals (value, value2))
@@ -128,6 +132,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotEqualsTo<T> (this T value, T value2, string paramName, string message = null)
 		{
 			if (!Equals (value, value2))
@@ -140,7 +145,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotLessThan<T> (this T? value, T minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null)
@@ -150,7 +155,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotLessThan<T> (this T? value, T? minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null && minValue != null)
@@ -160,6 +165,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotLessThan<T> (this T value, T minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value.CompareTo (minValue) >= 0)
@@ -172,7 +178,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null)
@@ -182,7 +188,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T? minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null && minValue != null)
@@ -192,6 +198,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotLessOrEqualsThan<T> (this T value, T minValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value.CompareTo (minValue) <= 0)
@@ -206,7 +213,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotGreaterThan<T> (this T? value, T maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null)
@@ -216,7 +223,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotGreaterThan<T> (this T? value, T? maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null && maxValue != null)
@@ -226,6 +233,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotGreaterThan<T> (this T value, T maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value.CompareTo (maxValue) <= 0)
@@ -238,7 +246,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T maxValue, string paramName, string message = null)
 			where T : struct, IComparable
 		{
@@ -249,7 +257,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T? maxValue, string paramName, string message = null)
 			where T : struct, IComparable
 		{
@@ -260,6 +268,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredNotGreaterOrEqualsThan<T> (this T value, T maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value.CompareTo (maxValue) < 0)
@@ -272,7 +281,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredIn<T> (this T? value, T minValue, T maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value != null)
@@ -282,7 +291,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredIn<T> (this T? value, T? minValue, T? maxValue, string paramName, string message = null) where T : struct, IComparable
 		{
 			if (value == null)
@@ -299,6 +308,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredIn<T> (this T value, T minValue, T maxValue, string paramName, string message = null) where T : IComparable
 		{
 			if (value.CompareTo (minValue) >= 0 && value.CompareTo (maxValue) <= 0)
@@ -311,7 +321,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T? RequiredEnum<T> (this T? value, string paramName, string message = null)
 			where T : struct
 		{
@@ -322,6 +332,7 @@ namespace Rocks.Helpers
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T RequiredEnum<T> (this T value, string paramName, string message = null)
 			where T : struct
 		{
@@ -335,7 +346,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("values:null => null")]
+		[ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static IEnumerable<T> RequiredAll<T> (this IEnumerable<T> values, Action<T> check)
 		{
 			if (values == null)
@@ -348,41 +359,42 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => defaultValue:canbenull")]
+		[ContractAnnotation ("value:null => defaultValue:canbenull"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string WithDefault (this string value, string defaultValue)
 		{
 			return string.IsNullOrWhiteSpace (value) ? defaultValue : value;
 		}
 
 
-		[ContractAnnotation ("value:null => defaultValue:canbenull")]
+		[ContractAnnotation ("value:null => defaultValue:canbenull"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T WithDefault<T> (this T value, T defaultValue) where T : class
 		{
 			return value ?? defaultValue;
 		}
 
 
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T WithDefault<T> (this T? value, T defaultValue) where T : struct
 		{
 			return value ?? defaultValue;
 		}
 
 
-		[ContractAnnotation ("value:null => defaultValue:canbenull")]
+		[ContractAnnotation ("value:null => defaultValue:canbenull"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T WithDefaultIfNullOrEmpty<T> (this T value, T defaultValue) where T : class, IEnumerable
 		{
 			return value.IsNullOrEmpty () ? defaultValue : value;
 		}
 
 
-		[CanBeNull, ContractAnnotation ("value:null => null")]
+		[CanBeNull, ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string Trimmed (this string value)
 		{
 			return value == null ? null : value.Trim ();
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string AsValidEmail (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrEmpty (value) || value.Count (x => x == '@') == 1)
@@ -395,7 +407,7 @@ namespace Rocks.Helpers
 		}
 
 
-		[ContractAnnotation ("value:null => null")]
+		[ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static string AsValidEntityUrl (this string value, string paramName, string message = null)
 		{
 			if (string.IsNullOrEmpty (value) || ValidateRegExEntityUrl.IsMatch (value))

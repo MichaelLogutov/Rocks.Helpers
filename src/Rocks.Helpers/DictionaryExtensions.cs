@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Rocks.Helpers
@@ -12,7 +13,9 @@ namespace Rocks.Helpers
 		/// <param name="dictionary">Source dictionary.</param>
 		/// <param name="key">Key.</param>
 		/// <param name="defaultValue">Default value.</param>
-		public static TValue GetValueOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default (TValue))
+		public static TValue GetValueOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> dictionary,
+		                                                      TKey key,
+		                                                      TValue defaultValue = default (TValue))
 		{
 			TValue res;
 
@@ -29,7 +32,8 @@ namespace Rocks.Helpers
 		/// <param name="dictionary">Source dictionary.</param>
 		/// <param name="key">Key.</param>
 		/// <param name="defaultValue">Default value.</param>
-		public static TValue? GetValueOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = null) where TValue : struct
+		public static TValue? GetValueOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = null)
+			where TValue : struct
 		{
 			TValue res;
 

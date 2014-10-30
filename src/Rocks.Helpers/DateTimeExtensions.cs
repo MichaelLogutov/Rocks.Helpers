@@ -64,6 +64,17 @@ namespace Rocks.Helpers
 		}
 
 
+		public static IEnumerable<DateTime> SplitToPeriods (this DateTime startDate, DateTime endDate, TimeSpan period)
+		{
+			var date = startDate;
+			while (date <= endDate)
+			{
+				yield return date;
+				date += period;
+			}
+		}
+
+
 		public static IEnumerable<DateTime> SplitToDays (this DateTime startDate, DateTime endDate)
 		{
 			var date = startDate;
@@ -75,7 +86,9 @@ namespace Rocks.Helpers
 		}
 
 
-		public static IEnumerable<Tuple<DateTime, DateTime>> SplitToWeeks (this DateTime startDate, DateTime endDate, DayOfWeek firstDayOfWeek = DayOfWeek.Monday)
+		public static IEnumerable<Tuple<DateTime, DateTime>> SplitToWeeks (this DateTime startDate,
+		                                                                   DateTime endDate,
+		                                                                   DayOfWeek firstDayOfWeek = DayOfWeek.Monday)
 		{
 			var date = startDate;
 			while (date <= endDate)

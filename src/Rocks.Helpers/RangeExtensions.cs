@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Rocks.Helpers
 {
@@ -11,6 +12,7 @@ namespace Rocks.Helpers
 		/// <param name="value">Value.</param>
 		/// <param name="min">Minimal range value.</param>
 		/// <param name="max">Maximal range value.</param>
+		[MethodImpl (MethodImplOptions.AggressiveInlining)]
 		public static T Clamp<T> (this T value, T min, T max) where T : IComparable<T>
 		{
 			var result = value;
