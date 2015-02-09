@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Rocks.Helpers

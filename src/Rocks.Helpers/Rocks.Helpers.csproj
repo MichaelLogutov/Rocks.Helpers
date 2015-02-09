@@ -73,6 +73,7 @@
     <Compile Include="EncodeSpecifiedStringWriter.cs" />
     <Compile Include="HashCodeExtensions.cs" />
     <Compile Include="HexExtensions.cs" />
+    <Compile Include="IOExtensions.cs" />
     <Compile Include="IpExtensions.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="RandomizationExtensions.cs" />
