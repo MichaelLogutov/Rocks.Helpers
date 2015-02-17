@@ -88,6 +88,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFormattingExtensionsTests.cs" />
     <Compile Include="TestEnumerable.cs" />
+    <Compile Include="TypeExtensionsTests\ClassTests.cs" />
+    <Compile Include="TypeExtensionsTests\InterfaceTests.cs" />
     <Compile Include="UrlExtensionsTests.cs" />
     <Compile Include="ValueExtensionsTests.cs" />
     <Compile Include="XmlExtensionsTests.cs" />
