@@ -19,6 +19,9 @@ namespace Rocks.Helpers
 
         public static bool Implements (this Type inspectedType, Type desiredType)
         {
+            if (desiredType.IsAssignableFrom (inspectedType))
+                return true;
+
             if (!desiredType.IsGenericTypeDefinition)
                 return inspectedType.GetInterfaces ().Any (desiredType.IsAssignableFrom);
 
