@@ -7,11 +7,11 @@
         private static TimeSpanFormatStrings _default =
             new TimeSpanFormatStrings
             {
-                MSec = " ms",
-                Sec = " sec",
-                Min = " min",
-                Hour = " h",
-                Day = " d",
+                Milliseconds = " ms",
+                Seconds = " sec",
+                Minutes = " min",
+                Hours = " h",
+                Days = " d",
             };
 
         #endregion
@@ -24,11 +24,11 @@
             set { _default = value; }
         }
 
-        public string MSec { get; set; }
-        public string Sec { get; set; }
-        public string Min { get; set; }
-        public string Hour { get; set; }
-        public string Day { get; set; }
+        public string Milliseconds { get; set; }
+        public string Seconds { get; set; }
+        public string Minutes { get; set; }
+        public string Hours { get; set; }
+        public string Days { get; set; }
 
         #endregion
     }

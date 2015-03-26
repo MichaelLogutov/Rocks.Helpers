@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
@@ -9,39 +10,113 @@ namespace Rocks.Helpers
 {
     public static class StringFormattingExtensions
     {
+        /// <summary>
+        ///     Formats <see cref="TimeSpan" /> as string with specified suffixes
+        ///     for each measure (days, hours, minutes, seconds and milliseconds).
+        /// </summary>
+        /// <param name="time">Value to be formatted.</param>
+        /// <param name="formatStrings">String suffixes for formatting each measure.</param>
+        /// <param name="measures">Return only specified top significant measures.</param>
         public static string ToFormattedString (this TimeSpan time,
-                                                CultureInfo culture = null,
+                                                int? measures = null,
                                                 TimeSpanFormatStrings formatStrings = null)
         {
-            string result;
+            measures.RequiredNotLessOrEqualsThan (0, "measures");
+            measures.RequiredNotGreaterThan (5, "measures");
+
+            if (time == TimeSpan.Zero || time.Ticks < 0)
+                return string.Empty;
+
+            var result = new StringBuilder ();
+
+            int? first_measure = null;
+            var max_measure = measures ?? 5;
 
             var format_strings = formatStrings ?? TimeSpanFormatStrings.Default;
 
-            if (time.TotalSeconds < 1)
-                result = time.Milliseconds.ToString (culture) + format_strings.MSec;
-            else if (time.TotalMinutes < 1)
+
+            if (time.Days > 0)
             {
-                result = time.Seconds.ToString (culture) + format_strings.Sec + " " +
-                         time.Milliseconds.ToString (culture) + format_strings.MSec;
-            }
-            else if (time.TotalHours < 1)
-            {
-                result = time.Minutes.ToString (culture) + format_strings.Min + " " +
-                         time.Seconds.ToString (culture) + format_strings.Sec;
-            }
-            else if (time.TotalDays < 1)
-            {
-                result = time.Hours.ToString (culture) + format_strings.Hour + " " +
-                         time.Minutes.ToString (culture) + format_strings.Min;
-            }
-            else
-            {
-                result = time.Days.ToString (culture) + format_strings.Day + " " +
-                         time.Hours.ToString (culture) + format_strings.Hour + " " +
-                         time.Minutes.ToString (culture) + format_strings.Min;
+                const int current_measure = 4;
+
+                first_measure = current_measure;
+
+                if (first_measure - current_measure < max_measure)
+                {
+                    result.Append (time.Days);
+                    result.Append (format_strings.Days);
+                }
             }
 
-            return result;
+            if (time.Hours > 0)
+            {
+                const int current_measure = 3;
+
+                if (first_measure == null)
+                    first_measure = current_measure;
+
+                if (first_measure - current_measure < max_measure)
+                {
+                    if (result.Length > 0)
+                        result.Append (' ');
+
+                    result.Append (time.Hours);
+                    result.Append (format_strings.Hours);
+                }
+            }
+
+            if (time.Minutes > 0)
+            {
+                const int current_measure = 2;
+
+                if (first_measure == null)
+                    first_measure = current_measure;
+
+                if (first_measure - current_measure < max_measure)
+                {
+                    if (result.Length > 0)
+                        result.Append (' ');
+
+                    result.Append (time.Minutes);
+                    result.Append (format_strings.Minutes);
+                }
+            }
+
+            if (time.Seconds > 0)
+            {
+                const int current_measure = 1;
+
+                if (first_measure == null)
+                    first_measure = current_measure;
+
+                if (first_measure - current_measure < max_measure)
+                {
+                    if (result.Length > 0)
+                        result.Append (' ');
+
+                    result.Append (time.Seconds);
+                    result.Append (format_strings.Seconds);
+                }
+            }
+
+            if (time.Milliseconds > 0)
+            {
+                const int current_measure = 0;
+
+                if (first_measure == null)
+                    first_measure = current_measure;
+
+                if (first_measure - current_measure < max_measure)
+                {
+                    if (result.Length > 0)
+                        result.Append (' ');
+
+                    result.Append (time.Milliseconds);
+                    result.Append (format_strings.Milliseconds);
+                }
+            }
+
+            return result.ToString ();
         }
 
 
