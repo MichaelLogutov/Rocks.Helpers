@@ -63,7 +63,7 @@ namespace Rocks.Helpers
         ///     Converts values list to array of <typeparamref name="T"/>.
         /// </summary>
         [ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T> ([CanBeNull] this IEnumerable<T> values)
+        public static T[] ConvertToArray<T> ([CanBeNull] this IEnumerable<T> values)
         {
             if (values == null)
                 return null;
@@ -80,7 +80,7 @@ namespace Rocks.Helpers
         ///     Converts values list to <see cref="IList{T}" />.
         /// </summary>
         [ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static IList<T> AsList<T> ([CanBeNull] this IEnumerable<T> values)
+        public static IList<T> ConvertToList<T> ([CanBeNull] this IEnumerable<T> values)
         {
             if (values == null)
                 return null;
@@ -97,7 +97,7 @@ namespace Rocks.Helpers
         ///     Converts values list to <see cref="IReadOnlyList{T}" />.
         /// </summary>
         [ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static IReadOnlyList<T> AsReadOnlyList<T> ([CanBeNull] this IEnumerable<T> values)
+        public static IReadOnlyList<T> ConvertToReadOnlyList<T> ([CanBeNull] this IEnumerable<T> values)
         {
             if (values == null)
                 return null;
@@ -118,7 +118,7 @@ namespace Rocks.Helpers
         ///     Converts values list to <see cref="IReadOnlyCollection{T}" />.
         /// </summary>
         [ContractAnnotation ("values:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static IReadOnlyCollection<T> AsReadOnlyCollection<T> (this IEnumerable<T> values)
+        public static IReadOnlyCollection<T> ConvertToReadOnlyCollection<T> (this IEnumerable<T> values)
         {
             if (values == null)
                 return null;

@@ -67,14 +67,14 @@ namespace Rocks.Helpers.Tests
 
 
         [TestMethod]
-        public void AsList_ReturnsIList ()
+        public void ConvertToList_ReturnsIList ()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).AsList ();
+            var result = data.Select (x => x).ConvertToList ();
 
 
             // assert
@@ -88,23 +88,23 @@ namespace Rocks.Helpers.Tests
 
 
         [TestMethod]
-        public void AsList_Null_ReturnsNull ()
+        public void ConvertToList_Null_ReturnsNull ()
         {
-            var result = ((string[]) null).AsList ();
+            var result = ((string[]) null).ConvertToList ();
 
             result.Should ().BeNull ();
         }
 
 
         [TestMethod]
-        public void AsArray_ReturnsIArray ()
+        public void ConvertToArray_ReturnsIArray ()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).AsArray ();
+            var result = data.Select (x => x).ConvertToArray ();
 
 
             // assert
@@ -118,23 +118,23 @@ namespace Rocks.Helpers.Tests
 
 
         [TestMethod]
-        public void AsArray_Null_ReturnsNull ()
+        public void ConvertToArray_Null_ReturnsNull ()
         {
-            var result = ((string[]) null).AsArray ();
+            var result = ((string[]) null).ConvertToArray ();
 
             result.Should ().BeNull ();
         }
 
 
         [TestMethod]
-        public void AsReadOnlyList_ReturnsIReadOnlyList ()
+        public void ConvertToReadOnlyList_ReturnsIReadOnlyList ()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).AsReadOnlyList ();
+            var result = data.Select (x => x).ConvertToReadOnlyList ();
 
 
             // assert
@@ -148,23 +148,23 @@ namespace Rocks.Helpers.Tests
 
 
         [TestMethod]
-        public void AsReadOnlyList_Null_ReturnsNull ()
+        public void ConvertToReadOnlyList_Null_ReturnsNull ()
         {
-            var result = ((string[]) null).AsReadOnlyList ();
+            var result = ((string[]) null).ConvertToReadOnlyList ();
 
             result.Should ().BeNull ();
         }
 
 
         [TestMethod]
-        public void AsReadOnlyCollection_ReturnsIReadOnlyCollection ()
+        public void ConvertToReadOnlyCollection_ReturnsIReadOnlyCollection ()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).AsReadOnlyCollection ();
+            var result = data.Select (x => x).ConvertToReadOnlyCollection ();
 
 
             // assert
@@ -178,9 +178,9 @@ namespace Rocks.Helpers.Tests
 
 
         [TestMethod]
-        public void AsReadOnlyCollection_Null_ReturnsNull ()
+        public void ConvertToReadOnlyCollection_Null_ReturnsNull ()
         {
-            var result = ((string[]) null).AsReadOnlyCollection ();
+            var result = ((string[]) null).ConvertToReadOnlyCollection ();
 
             result.Should ().BeNull ();
         }
