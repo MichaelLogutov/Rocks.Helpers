@@ -8,6 +8,20 @@ namespace Rocks.Helpers.Tests
     public class StringFormattingExtensionsTests
     {
         [TestMethod]
+        public void TimeSpan_ToFormattedString_Zero_ReturnsZeroMilliseconds ()
+        {
+            TimeSpan.Zero.ToFormattedString ().Should ().Be ("0 ms");
+        }
+
+
+        [TestMethod]
+        public void TimeSpan_ToFormattedString_NegativeMilliseconds_ReturnsNegativeMilliseconds ()
+        {
+            new TimeSpan (0, 0, 0, 0, -123).ToFormattedString ().Should ().Be ("-123 ms");
+        }
+
+
+        [TestMethod]
         public void TimeSpan_ToFormattedString_Milliseconds_ReturnsMilliseconds ()
         {
             new TimeSpan (0, 0, 0, 0, 123).ToFormattedString ().Should ().Be ("123 ms");
@@ -53,13 +67,6 @@ namespace Rocks.Helpers.Tests
         public void TimeSpan_ToFormattedString_DaysHoursMinutesSecondsAndMilliseconds_ReturnsDaysHoursMinutesSecondsAndMilliseconds ()
         {
             new TimeSpan (9, 8, 7, 45, 123).ToFormattedString ().Should ().Be ("9 d 8 h 7 min 45 sec 123 ms");
-        }
-
-
-        [TestMethod]
-        public void TimeSpan_ToFormattedString_Zero_ReturnsEmptyString ()
-        {
-            TimeSpan.Zero.ToFormattedString ().Should ().Be (string.Empty);
         }
 
 

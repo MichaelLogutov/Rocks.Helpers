@@ -24,16 +24,23 @@ namespace Rocks.Helpers
             measures.RequiredNotLessOrEqualsThan (0, "measures");
             measures.RequiredNotGreaterThan (5, "measures");
 
-            if (time == TimeSpan.Zero || time.Ticks < 0)
-                return string.Empty;
-
             var result = new StringBuilder ();
-
-            int? first_measure = null;
-            var max_measure = measures ?? 5;
-
             var format_strings = formatStrings ?? TimeSpanFormatStrings.Default;
 
+
+            if (time == TimeSpan.Zero)
+                return "0" + format_strings.Milliseconds;
+
+            if (time.Ticks < 0)
+            {
+                result.Append ('-');
+                time = time.Negate ();
+            }
+
+            
+            int? first_measure = null;
+            var max_measure = measures ?? 5;
+            var add_separator = false;
 
             if (time.Days > 0)
             {
@@ -45,6 +52,7 @@ namespace Rocks.Helpers
                 {
                     result.Append (time.Days);
                     result.Append (format_strings.Days);
+                    add_separator = true;
                 }
             }
 
@@ -57,11 +65,12 @@ namespace Rocks.Helpers
 
                 if (first_measure - current_measure < max_measure)
                 {
-                    if (result.Length > 0)
+                    if (add_separator)
                         result.Append (' ');
 
                     result.Append (time.Hours);
                     result.Append (format_strings.Hours);
+                    add_separator = true;
                 }
             }
 
@@ -74,11 +83,12 @@ namespace Rocks.Helpers
 
                 if (first_measure - current_measure < max_measure)
                 {
-                    if (result.Length > 0)
+                    if (add_separator)
                         result.Append (' ');
 
                     result.Append (time.Minutes);
                     result.Append (format_strings.Minutes);
+                    add_separator = true;
                 }
             }
 
@@ -91,11 +101,12 @@ namespace Rocks.Helpers
 
                 if (first_measure - current_measure < max_measure)
                 {
-                    if (result.Length > 0)
+                    if (add_separator)
                         result.Append (' ');
 
                     result.Append (time.Seconds);
                     result.Append (format_strings.Seconds);
+                    add_separator = true;
                 }
             }
 
@@ -108,11 +119,12 @@ namespace Rocks.Helpers
 
                 if (first_measure - current_measure < max_measure)
                 {
-                    if (result.Length > 0)
+                    if (add_separator)
                         result.Append (' ');
 
                     result.Append (time.Milliseconds);
                     result.Append (format_strings.Milliseconds);
+                    add_separator = true;
                 }
             }
 
