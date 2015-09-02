@@ -81,7 +81,7 @@
     <Compile Include="RandomizationExtensions.cs" />
     <Compile Include="RangeExtensions.cs" />
     <Compile Include="SelfImplementingTypeInfo.cs" />
-    <Compile Include="SqlDaraAccessExtensions.cs" />
+    <Compile Include="SqlExtensions.cs" />
     <Compile Include="StringConvertExtensions.cs" />
     <Compile Include="CryptoExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
