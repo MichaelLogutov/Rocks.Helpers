@@ -55,9 +55,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -79,6 +81,7 @@
     <Compile Include="RandomizationExtensions.cs" />
     <Compile Include="RangeExtensions.cs" />
     <Compile Include="SelfImplementingTypeInfo.cs" />
+    <Compile Include="SqlDaraAccessExtensions.cs" />
     <Compile Include="StringConvertExtensions.cs" />
     <Compile Include="CryptoExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
