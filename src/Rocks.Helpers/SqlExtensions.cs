@@ -3,6 +3,9 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 namespace Rocks.Helpers
@@ -136,6 +139,46 @@ namespace Rocks.Helpers
             parameters.Add (parameter);
 
             return parameter;
+        }
+
+
+        /// <summary>
+        ///     Reads long string from <paramref name="reader"/> by concatinating all rows
+        ///     strings from column with <paramref name="ordinal"/> index.
+        /// </summary>
+        [CanBeNull]
+        public static string GetLongString ([NotNull] this DbDataReader reader, int ordinal)
+        {
+            if (!reader.HasRows)
+                return null;
+
+            var result = new StringBuilder ();
+
+            while (reader.Read ())
+                result.Append (reader.GetString (ordinal));
+
+            return result.ToString ();
+        }
+
+
+        /// <summary>
+        ///     Reads long string from <paramref name="reader"/> by concatinating all rows
+        ///     strings from column with <paramref name="ordinal"/> index.
+        /// </summary>
+        [CanBeNull]
+        public static async Task<string> GetLongStringAsync ([NotNull] this DbDataReader reader,
+                                                             int ordinal,
+                                                             CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (!reader.HasRows)
+                return null;
+
+            var result = new StringBuilder ();
+
+            while (await reader.ReadAsync (cancellationToken).ConfigureAwait (false))
+                result.Append (reader.GetString (ordinal));
+
+            return result.ToString ();
         }
     }
 }
