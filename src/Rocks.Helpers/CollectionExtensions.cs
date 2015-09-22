@@ -356,10 +356,10 @@ namespace Rocks.Helpers
                 return new CollectionComparisonResult<T> ();
 
             if (source != null && destination == null)
-                return new CollectionComparisonResult<T> { OnlyInSource = source.ConvertToList () };
+                return new CollectionComparisonResult<T> { OnlyInSource = source.ToList () };
 
             if (source == null)
-                return new CollectionComparisonResult<T> { OnlyInDestination = destination.ConvertToList () };
+                return new CollectionComparisonResult<T> { OnlyInDestination = destination.ToList () };
 
             var result = new CollectionComparisonResult<T> ();
 
@@ -377,9 +377,13 @@ namespace Rocks.Helpers
             if (only_in_destination.Count > 0)
                 result.OnlyInDestination = only_in_destination;
 
-            var in_both = source_list.Where (s => destination_list.Any (d => comparer (s, d))).ToList ();
-            if (in_both.Count > 0)
-                result.InBoth = in_both;
+            var source_in_both = source_list.Where (s => destination_list.Any (d => comparer (s, d))).ToList ();
+            if (source_in_both.Count > 0)
+                result.SourceInBoth = source_in_both;
+
+            var destination_in_both = destination_list.Where (d => source_list.Any (s => comparer (s, d))).ToList ();
+            if (destination_in_both.Count > 0)
+                result.DestinationInBoth = destination_in_both;
 
             return result;
         }

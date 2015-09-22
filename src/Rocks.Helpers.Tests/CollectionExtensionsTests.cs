@@ -500,17 +500,19 @@ namespace Rocks.Helpers.Tests
 
 
         [Theory]
-        [InlineData (null, null, null, null, null)]
-        [InlineData (null, "abc", null, null, "abc")]
-        [InlineData ("abc", null, "abc", null, null)]
-        [InlineData ("abc", "abc", null, "abc", null)]
-        [InlineData ("abc", "ab", "c", "ab", null)]
-        [InlineData ("ab", "abc", null, "ab", "c")]
-        [InlineData ("abd", "abc", "d", "ab", "c")]
+        [InlineData (null, null, null, null, null, null)]
+        [InlineData (null, "abc", null, null, null, "abc")]
+        [InlineData ("abc", null, "abc", null, null, null)]
+        [InlineData ("abc", "abc", null, "abc", "abc", null)]
+        [InlineData ("abc", "ab", "c", "ab", "ab", null)]
+        [InlineData ("ab", "abc", null, "ab", "ab", "c")]
+        [InlineData ("abd", "abc", "d", "ab", "ab", "c")]
+        [InlineData ("abda", "abcb", "d", "aba", "abb", "c")]
         public void CompareTo_Theory_Comply (string source,
                                              string desination,
                                              string expectedOnlyInSource,
-                                             string expectedInBoth,
+                                             string expectedSourceInBoth,
+                                             string expectedDestinationInBoth,
                                              string expectedOnlyInDestination)
         {
             // act
@@ -522,7 +524,8 @@ namespace Rocks.Helpers.Tests
                 (new CollectionComparisonResult<char>
                  {
                      OnlyInSource = expectedOnlyInSource != null ? expectedOnlyInSource.ToCharArray () : null,
-                     InBoth = expectedInBoth != null ? expectedInBoth.ToCharArray () : null,
+                     SourceInBoth = expectedSourceInBoth != null ? expectedSourceInBoth.ToCharArray () : null,
+                     DestinationInBoth = expectedDestinationInBoth != null ? expectedDestinationInBoth.ToCharArray () : null,
                      OnlyInDestination = expectedOnlyInDestination != null ? expectedOnlyInDestination.ToCharArray () : null
                  });
         }

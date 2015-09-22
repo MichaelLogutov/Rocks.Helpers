@@ -12,10 +12,16 @@ namespace Rocks.Helpers
         public IList<T> OnlyInSource { get; set; }
 
         /// <summary>
-        ///     Items, present in both collections.
+        ///     Source items, present in both collections.
         /// </summary>
         [CanBeNull]
-        public IList<T> InBoth { get; set; }
+        public IList<T> SourceInBoth { get; set; }
+
+        /// <summary>
+        ///     Destination items, present in both collections.
+        /// </summary>
+        [CanBeNull]
+        public IList<T> DestinationInBoth { get; set; }
 
         /// <summary>
         ///     Items, present only in the destination collection.
