@@ -352,16 +352,22 @@ namespace Rocks.Helpers
         {
             comparer.RequiredNotNull ("comparer");
 
+            var result = new CollectionComparisonResult<T> ();
+
             if (source == null && destination == null)
-                return new CollectionComparisonResult<T> ();
+                return result;
 
             if (source != null && destination == null)
-                return new CollectionComparisonResult<T> { OnlyInSource = source.ToList () };
+            {
+                result.OnlyInSource.AddRange (source);
+                return result;
+            }
 
             if (source == null)
-                return new CollectionComparisonResult<T> { OnlyInDestination = destination.ToList () };
-
-            var result = new CollectionComparisonResult<T> ();
+            {
+                result.OnlyInDestination.AddRange (destination);
+                return result;
+            }
 
             var source_list = source.ConvertToList ();
             Debug.Assert (source_list != null, "source_list != null");
@@ -369,21 +375,10 @@ namespace Rocks.Helpers
             var destination_list = destination.ConvertToList ();
             Debug.Assert (destination_list != null, "destination_list != null");
 
-            var only_in_source = source_list.Where (s => !destination_list.Any (d => comparer (s, d))).ToList ();
-            if (only_in_source.Count > 0)
-                result.OnlyInSource = only_in_source;
-
-            var only_in_destination = destination_list.Where (d => !source_list.Any (s => comparer (s, d))).ToList ();
-            if (only_in_destination.Count > 0)
-                result.OnlyInDestination = only_in_destination;
-
-            var source_in_both = source_list.Where (s => destination_list.Any (d => comparer (s, d))).ToList ();
-            if (source_in_both.Count > 0)
-                result.SourceInBoth = source_in_both;
-
-            var destination_in_both = destination_list.Where (d => source_list.Any (s => comparer (s, d))).ToList ();
-            if (destination_in_both.Count > 0)
-                result.DestinationInBoth = destination_in_both;
+            result.OnlyInSource.AddRange (source_list.Where (s => !destination_list.Any (d => comparer (s, d))));
+            result.SourceInBoth.AddRange (source_list.Where (s => destination_list.Any (d => comparer (s, d))));
+            result.DestinationInBoth.AddRange (destination_list.Where (d => source_list.Any (s => comparer (s, d))));
+            result.OnlyInDestination.AddRange (destination_list.Where (d => !source_list.Any (s => comparer (s, d))));
 
             return result;
         }

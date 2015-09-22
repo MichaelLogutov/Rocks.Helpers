@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions;
-using Ploeh.AutoFixture.Dsl;
 using Xunit;
 
 // ReSharper disable ExpressionIsAlwaysNull
@@ -500,12 +499,15 @@ namespace Rocks.Helpers.Tests
 
 
         [Theory]
-        [InlineData (null, null, null, null, null, null)]
-        [InlineData (null, "abc", null, null, null, "abc")]
-        [InlineData ("abc", null, "abc", null, null, null)]
-        [InlineData ("abc", "abc", null, "abc", "abc", null)]
-        [InlineData ("abc", "ab", "c", "ab", "ab", null)]
-        [InlineData ("ab", "abc", null, "ab", "ab", "c")]
+        [InlineData (null, null, "", "", "", "")]
+        [InlineData ("", "", "", "", "", "")]
+        [InlineData (null, "abc", "", "", "", "abc")]
+        [InlineData ("", "abc", "", "", "", "abc")]
+        [InlineData ("abc", null, "abc", "", "", "")]
+        [InlineData ("abc", "", "abc", "", "", "")]
+        [InlineData ("abc", "abc", "", "abc", "abc", "")]
+        [InlineData ("abc", "ab", "c", "ab", "ab", "")]
+        [InlineData ("ab", "abc", "", "ab", "ab", "c")]
         [InlineData ("abd", "abc", "d", "ab", "ab", "c")]
         [InlineData ("abda", "abcb", "d", "aba", "abb", "c")]
         public void CompareTo_Theory_Comply (string source,
@@ -523,10 +525,10 @@ namespace Rocks.Helpers.Tests
             result.ShouldBeEquivalentTo
                 (new CollectionComparisonResult<char>
                  {
-                     OnlyInSource = expectedOnlyInSource != null ? expectedOnlyInSource.ToCharArray () : null,
-                     SourceInBoth = expectedSourceInBoth != null ? expectedSourceInBoth.ToCharArray () : null,
-                     DestinationInBoth = expectedDestinationInBoth != null ? expectedDestinationInBoth.ToCharArray () : null,
-                     OnlyInDestination = expectedOnlyInDestination != null ? expectedOnlyInDestination.ToCharArray () : null
+                     OnlyInSource = expectedOnlyInSource.ToCharArray (),
+                     SourceInBoth = expectedSourceInBoth.ToCharArray (),
+                     DestinationInBoth = expectedDestinationInBoth.ToCharArray (),
+                     OnlyInDestination = expectedOnlyInDestination.ToCharArray ()
                  });
         }
     }
