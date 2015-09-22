@@ -531,5 +531,37 @@ namespace Rocks.Helpers.Tests
                      OnlyInDestination = expectedOnlyInDestination.ToCharArray ()
                  });
         }
+
+
+        [Theory]
+        [InlineData (null, null, "", "", "")]
+        [InlineData ("abc", null, "abc", "", "")]
+        [InlineData (null, "abc", "", "", "abc")]
+        [InlineData ("abc", "abc", "", "a-a,b-b,c-c", "")]
+        [InlineData ("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
+        public void MergeInto_Theory_Comply (string source,
+                                             string desination,
+                                             string expectedInserts,
+                                             string expectedUpdates,
+                                             string expectedDeletes)
+        {
+            // arrange
+            var inserts = new List<char> ();
+            var updates = new List<string> ();
+            var deletes = new List<char> ();
+
+            // act
+            source.MergeInto (existedItems: desination,
+                              compare: (a, b) => a == b,
+                              insert: x => inserts.Add (x),
+                              update: (s, d) => updates.Add (s + "-" + d),
+                              delete: x => deletes.Add (x));
+
+
+            // assert
+            inserts.Should ().Equal (expectedInserts);
+            updates.Should ().Equal (expectedUpdates.Split (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            deletes.Should ().Equal (expectedDeletes);
+        }
     }
 }

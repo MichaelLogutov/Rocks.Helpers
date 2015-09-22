@@ -382,5 +382,57 @@ namespace Rocks.Helpers
 
             return result;
         }
+
+
+        /// <summary>
+        ///     <para>
+        ///         Compares <paramref name="newItems"/> and <paramref name="existedItems"/>
+        ///         using the <paramref name="compare"/> function.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="insert"/> action for
+        ///         every item only in <paramref name="newItems"/>.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="update"/> action for
+        ///         every item existed boeth in <paramref name="newItems"/> and <paramref name="existedItems"/>,
+        ///         passing existed item from <paramref name="newItems"/> as first argument
+        ///         and existed item from <paramref name="existedItems"/> as the second argument.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="delete"/> action for
+        ///         every item only in <paramref name="existedItems"/>.
+        ///     </para>
+        /// </summary>
+        public static void MergeInto<T> ([CanBeNull] this IEnumerable<T> newItems,
+                                         [CanBeNull] IEnumerable<T> existedItems,
+                                         [NotNull] Func<T, T, bool> compare,
+                                         [CanBeNull] Action<T> insert,
+                                         [CanBeNull] Action<T, T> update,
+                                         [CanBeNull] Action<T> delete)
+        {
+            var comparison = newItems.CompareTo (existedItems, compare);
+
+            if (insert != null)
+            {
+                foreach (var item in comparison.OnlyInSource)
+                    insert (item);
+            }
+
+            if (update != null)
+            {
+                foreach (var item in comparison.SourceInBoth)
+                {
+                    var dest_item = comparison.DestinationInBoth.First (x => compare (item, x));
+                    update (item, dest_item);
+                }
+            }
+
+            if (delete != null)
+            {
+                foreach (var item in comparison.OnlyInDestination)
+                    delete (item);
+            }
+        }
     }
 }
