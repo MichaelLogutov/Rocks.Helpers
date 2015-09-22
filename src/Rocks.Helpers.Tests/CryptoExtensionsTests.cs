@@ -1,26 +1,25 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class CryptoExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Decode_Null_ReturnsNull ()
 		{
 			((string) null).Decode ("abc").Should ().BeNull ();
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void Decode_Empty_ReturnsEmpty ()
 		{
 			string.Empty.Decode ("abc").Should ().BeEmpty ();
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void Decode_AfterEncode_ReturnsOriginalValue ()
 		{
 			var original = "ZWNBAgL5cLH6UaDs";
@@ -34,7 +33,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetHash_Default_ReturnsCorrectSHA256Hash ()
 		{
 			// arrange
@@ -50,7 +49,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetHash_MD5_ReturnsCorrectHash ()
 		{
 			// arrange
@@ -66,7 +65,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetHash_SHA512_ReturnsCorrectHash ()
 		{
 			// arrange
@@ -82,3 +81,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+

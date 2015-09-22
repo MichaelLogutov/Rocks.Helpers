@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class UrlExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void PropertiesToRouteValueDictionary_Null_ReturnsEmpty ()
 		{
 			var result = ((object) null).PropertiesToRouteValueDictionary ();
@@ -18,7 +17,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void PropertiesToRouteValueDictionary_NotNull_ReturnsCorrectList ()
 		{
 			var result = new { a = "b" }.PropertiesToRouteValueDictionary ();
@@ -52,7 +51,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void PropertiesToRouteValueDictionary_PropertyWithDisplayFormatAttribute_UsesDataFormatString ()
 		{
 			// arrange
@@ -77,7 +76,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void PropertiesToRouteValueDictionary_PropertyWithDisplayFormatAttribute_AndHtmlEncodeTrue_ShouldNotHtmlEncode ()
 		{
 			// arrange
@@ -96,7 +95,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void PropertiesToRouteValueDictionary_ExplicitPropertySet_IgnoresExplicitProperty ()
 		{
 			// arrange
@@ -113,7 +112,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void PropertiesToQueryParameters_Null_ReturnsEmpty ()
 		{
 			// arrange
@@ -128,7 +127,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_Null_ReturnsEmpty ()
 		{
 			// arrange
@@ -143,7 +142,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_Empty_ReturnsEmpty ()
 		{
 			// arrange
@@ -159,7 +158,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_OneItem_ReturnsCorrectQueryString ()
 		{
 			// arrange
@@ -178,7 +177,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_TwoItems_UsesAmpersand ()
 		{
 			// arrange
@@ -198,7 +197,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_OneItemIsEnumerable_AddsAllItemItems ()
 		{
 			// arrange
@@ -217,7 +216,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_ItemNameCapitalized_LowerCaseOfTheFirstLetterForTheName ()
 		{
 			// arrange
@@ -236,7 +235,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToQueryStringParameters_UsesHtmlEncodeForItemValue ()
 		{
 			// arrange
@@ -255,3 +254,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+

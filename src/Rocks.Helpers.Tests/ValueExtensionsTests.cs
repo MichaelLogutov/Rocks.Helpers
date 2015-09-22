@@ -1,10 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class ValueExtensionsTests
 	{
 		public enum TestEnum
@@ -14,7 +13,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ShouldRequireEnum_Ok ()
 		{
 			var target = TestEnum.A;
@@ -23,7 +22,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ShouldRequireEnum_OkNullable ()
 		{
 			var target = (TestEnum?) TestEnum.A;
@@ -32,17 +31,18 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
-		[ExpectedException (typeof (ArgumentOutOfRangeException))]
+		[Fact]
 		public void ShouldRequireEnum_FailWhenInvalid ()
 		{
 			var target = (TestEnum) 0;
 
-			target.RequiredEnum ("target");
+			Action act = () => target.RequiredEnum ("target");
+
+		    act.ShouldThrow<ArgumentOutOfRangeException> ();
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ShouldRequiredAll_Ok ()
 		{
 			var target = new[] { TestEnum.A, TestEnum.B };
@@ -51,17 +51,18 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
-		[ExpectedException (typeof (ArgumentOutOfRangeException))]
+		[Fact]
 		public void ShouldRequiredAll_FailWhenInvalid ()
 		{
 			var target = new[] { TestEnum.A, (TestEnum) 0 };
 
-			target.RequiredAll (x => x.RequiredEnum ("target"));
+			Action act = () => target.RequiredAll (x => x.RequiredEnum ("target"));
+
+		    act.ShouldThrow<ArgumentOutOfRangeException> ();
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEntityUrl_ValidUrl_DoesNotThrows ()
 		{
 			// arrange
@@ -77,7 +78,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEntityUrl_ValidUrlWithRussianChars_DoesNotThrows ()
 		{
 			// arrange
@@ -93,7 +94,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEntityUrl_Null_DoesNotThrows ()
 		{
 			// arrange
@@ -110,7 +111,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEntityUrl_InvalidUrl_Throws ()
 		{
 			// arrange
@@ -126,7 +127,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEmail_ValidEmail_DoesNotThrows ()
 		{
 			// arrange
@@ -142,7 +143,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void AsValidEmail_InvalidEmail_Throws ()
 		{
 			// arrange
@@ -158,3 +159,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+

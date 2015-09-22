@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionComparisonResult.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EncodeSpecifiedStringWriter.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="HexExtensions.cs" />
     <Compile Include="IOExtensions.cs" />
     <Compile Include="IpExtensions.cs" />
+    <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="RandomizationExtensions.cs" />
     <Compile Include="RangeExtensions.cs" />

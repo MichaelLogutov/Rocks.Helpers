@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-    [TestClass]
     public class RangeExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void Clamp_ValueWithinRange_ReturnsValue ()
         {
             // arrange
@@ -21,7 +20,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Clamp_ValueLessThanMin_ReturnsMin ()
         {
             // arrange
@@ -36,7 +35,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Clamp_ValueGreaterThanMax_ReturnsMax ()
         {
             // arrange
@@ -51,7 +50,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Min_ValueGreaterThanMin_ReturnsValue ()
         {
             // arrange
@@ -66,7 +65,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Min_ValueLessThanMin_ReturnsMin ()
         {
             // arrange
@@ -81,7 +80,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Max_ValueLessThanMax_ReturnsValue ()
         {
             // arrange
@@ -96,7 +95,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Max_ValueGreaterThanMax_ReturnsMax ()
         {
             // arrange
@@ -111,3 +110,5 @@ namespace Rocks.Helpers.Tests
         }
     }
 }
+
+

@@ -1,13 +1,12 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests.DateTimeTests
 {
-	[TestClass]
 	public class SplitToMonthsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_OneDate_ReturnsOneMonthSameDates ()
 		{
 			// arrange
@@ -27,7 +26,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_LessThanAMonth_ReturnsOneMonthSameDates ()
 		{
 			// arrange
@@ -47,7 +46,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_OneWholeMonth_ReturnsOneMonthSameDates ()
 		{
 			// arrange
@@ -67,7 +66,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_OneMonthStartingInMid_ReturnsOneMonthSameDates ()
 		{
 			// arrange
@@ -87,7 +86,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_OneMonthEndingInMid_ReturnsOneMonthSameDates ()
 		{
 			// arrange
@@ -107,7 +106,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void SplitToMonths_TwoMonthsStartingAndEndingInMid_ReturnsTwoMonthsWithSameDates ()
 		{
 			// arrange
@@ -128,3 +127,5 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 		}
 	}
 }
+
+

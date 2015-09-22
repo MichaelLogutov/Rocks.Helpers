@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Xml.Linq;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class XmlExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetElement_OneName_Exists_Returns ()
 		{
 			// arrange
@@ -25,7 +24,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetElement_TwoNames_Exists_Returns ()
 		{
 			// arrange
@@ -41,7 +40,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetElement_OneName_NotExists_Creates ()
 		{
 			// arrange
@@ -59,7 +58,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetElement_TwoNames_NotExists_Creates ()
 		{
 			// arrange
@@ -77,7 +76,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetValue_NullElement_NoName_ReturnsNull ()
 		{
 			// arrange
@@ -92,7 +91,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetValue_Exists_NoName_ReturnsValue ()
 		{
 			// arrange
@@ -107,7 +106,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetValue_NullElement_WithName_ReturnsNull ()
 		{
 			// arrange
@@ -122,7 +121,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void GetValue_Exists_WithName_ReturnsValue ()
 		{
 			// arrange
@@ -137,3 +136,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+

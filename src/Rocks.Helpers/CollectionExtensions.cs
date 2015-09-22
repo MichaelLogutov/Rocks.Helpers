@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -201,7 +202,11 @@ namespace Rocks.Helpers
         }
 
 
-        public static int Remove<T> (this ICollection<T> items, Func<T, bool> predicate)
+        /// <summary>
+        ///     Removes items by <paramref name="predicate"/> from the list.
+        ///     Returns the list of removed items.
+        /// </summary>
+        public static IList<T> Remove<T> (this ICollection<T> items, Func<T, bool> predicate)
         {
             var items_to_remove = items.Where (predicate).ToList ();
 
@@ -211,10 +216,13 @@ namespace Rocks.Helpers
                     throw new InvalidOperationException ("Failed to remove item: " + item);
             }
 
-            return items_to_remove.Count;
+            return items_to_remove;
         }
 
 
+        /// <summary>
+        ///     Sorts the <paramref name="items"/> in the same order as passed <paramref name="ids"/> list.
+        /// </summary>
         public static IEnumerable<TItem> SortById<TItem, TId> (this IEnumerable<TItem> items, IEnumerable<TId> ids, Func<TItem, TId> getId)
         {
             if (items == null)
@@ -331,6 +339,49 @@ namespace Rocks.Helpers
 
             foreach (var item in items)
                 source.Add (item);
+        }
+
+
+        /// <summary>
+        ///     Compares two collections using <paramref name="comparer"/> function.
+        /// </summary>
+        [NotNull]
+        public static CollectionComparisonResult<T> CompareTo<T> ([CanBeNull] this IEnumerable<T> source,
+                                                                  [CanBeNull] IEnumerable<T> destination,
+                                                                  [NotNull] Func<T, T, bool> comparer)
+        {
+            comparer.RequiredNotNull ("comparer");
+
+            if (source == null && destination == null)
+                return new CollectionComparisonResult<T> ();
+
+            if (source != null && destination == null)
+                return new CollectionComparisonResult<T> { OnlyInSource = source.ConvertToList () };
+
+            if (source == null)
+                return new CollectionComparisonResult<T> { OnlyInDestination = destination.ConvertToList () };
+
+            var result = new CollectionComparisonResult<T> ();
+
+            var source_list = source.ConvertToList ();
+            Debug.Assert (source_list != null, "source_list != null");
+
+            var destination_list = destination.ConvertToList ();
+            Debug.Assert (destination_list != null, "destination_list != null");
+
+            var only_in_source = source_list.Where (s => !destination_list.Any (d => comparer (s, d))).ToList ();
+            if (only_in_source.Count > 0)
+                result.OnlyInSource = only_in_source;
+
+            var only_in_destination = destination_list.Where (d => !source_list.Any (s => comparer (s, d))).ToList ();
+            if (only_in_destination.Count > 0)
+                result.OnlyInDestination = only_in_destination;
+
+            var in_both = source_list.Where (s => destination_list.Any (d => comparer (s, d))).ToList ();
+            if (in_both.Count > 0)
+                result.InBoth = in_both;
+
+            return result;
         }
     }
 }

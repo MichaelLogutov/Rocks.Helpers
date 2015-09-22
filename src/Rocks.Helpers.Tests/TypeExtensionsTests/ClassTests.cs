@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests.TypeExtensionsTests
 {
-    [TestClass]
     public class ClassTests
     {
         private class ClassA<T>
@@ -39,7 +38,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void DoesNotInherits_ReturnsFalse ()
         {
             // arrange
@@ -55,7 +54,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void InheritedOpenGenericInterface_ReturnsTrue ()
         {
             // arrange
@@ -71,7 +70,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IndirectlyInheritedOpenGenericInterface_ReturnsTrue ()
         {
             // arrange
@@ -87,7 +86,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void InheritedOpenGenericClass_ReturnsTrue ()
         {
             // arrange
@@ -103,7 +102,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Self_ReturnsTrue ()
         {
             // arrange
@@ -119,7 +118,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void DirectlyInheritsClass_ReturnsTrue ()
         {
             // arrange
@@ -135,3 +134,5 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
     }
 }
+
+

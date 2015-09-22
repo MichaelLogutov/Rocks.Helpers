@@ -1,13 +1,12 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class IpExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ToLong_CorrectlyConverts ()
 		{
 			// arrange
@@ -23,7 +22,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToIPAddress_CorrectlyConverts ()
 		{
 			// arrange
@@ -39,3 +38,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+

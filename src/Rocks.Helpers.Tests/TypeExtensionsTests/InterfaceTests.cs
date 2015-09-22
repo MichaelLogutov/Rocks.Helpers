@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Rocks.Helpers.Tests.TypeExtensionsTests
 {
-    [TestClass]
     public class InterfaceTests
     {
         private interface IInterfaceA<T>
@@ -20,7 +19,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Interface_DoesNotInherits_ReturnsFalse ()
         {
             // arrange
@@ -36,7 +35,7 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Interface_InheritedOpenGenericInterface_ReturnsTrue ()
         {
             // arrange
@@ -51,3 +50,5 @@ namespace Rocks.Helpers.Tests.TypeExtensionsTests
         }
     }
 }
+
+

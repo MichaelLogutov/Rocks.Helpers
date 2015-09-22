@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ploeh.AutoFixture.Dsl;
+using Xunit;
 
 // ReSharper disable ExpressionIsAlwaysNull
 
 namespace Rocks.Helpers.Tests
 {
-    [TestClass]
     public class CollectionExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void SkipNull_OneItemNull_ReturnsNoNulls ()
         {
             var result = (new[] { "a", null, "b" }).SkipNull ();
@@ -21,7 +21,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SkipNull_Null_ReturnsEmpty ()
         {
             var result = ((string[]) null).SkipNull ();
@@ -30,7 +30,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SkipNullOrEmpty_OneItemEmptyString_AndOneItemNull_ReturnsNoNullOrEmpty ()
         {
             var result = (new[] { "a", null, "b", string.Empty }).SkipNullOrEmpty ();
@@ -39,7 +39,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ShouldSkipNullOrEmpty_Null_ReturnsEmpty ()
         {
             var result = ((string[]) null).SkipNullOrEmpty ();
@@ -48,7 +48,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TrimAll_ReturnsAllTrimmed ()
         {
             var result = (new[] { "a", "b ", " c" }).TrimAll ();
@@ -57,7 +57,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TrimAll_Null_ReturnsEmpty ()
         {
             var result = ((string[]) null).TrimAll ();
@@ -66,7 +66,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToList_ReturnsIList ()
         {
             // arrange
@@ -87,7 +87,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToList_Null_ReturnsNull ()
         {
             var result = ((string[]) null).ConvertToList ();
@@ -96,7 +96,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToArray_ReturnsIArray ()
         {
             // arrange
@@ -117,7 +117,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToArray_Null_ReturnsNull ()
         {
             var result = ((string[]) null).ConvertToArray ();
@@ -126,7 +126,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToReadOnlyList_ReturnsIReadOnlyList ()
         {
             // arrange
@@ -147,7 +147,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToReadOnlyList_Null_ReturnsNull ()
         {
             var result = ((string[]) null).ConvertToReadOnlyList ();
@@ -156,7 +156,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToReadOnlyCollection_ReturnsIReadOnlyCollection ()
         {
             // arrange
@@ -177,7 +177,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ConvertToReadOnlyCollection_Null_ReturnsNull ()
         {
             var result = ((string[]) null).ConvertToReadOnlyCollection ();
@@ -186,7 +186,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IsNullOrEmpty_Empty_ReturnsTrue ()
         {
             var result = new string[0].IsNullOrEmpty ();
@@ -195,7 +195,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IsNullOrEmpty_NotEmpty_ReturnsFalse ()
         {
             var result = new[] { "a" }.IsNullOrEmpty ();
@@ -204,7 +204,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IsNullOrEmpty_Null_ReturnsTrue ()
         {
             var result = ((IEnumerable<string>) null).IsNullOrEmpty ();
@@ -213,7 +213,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IsNullOrEmpty_ShouldEnumerateOnce ()
         {
             // arrange
@@ -230,7 +230,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void FirstOrNull_ShouldEnumerateOnce ()
         {
             // arrange
@@ -247,7 +247,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void FirstOrNull_Null_ReturnsNull ()
         {
             var result = ((int[]) null).FirstOrNull ();
@@ -256,7 +256,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void FirstOrNull_Empty_ReturnsNull ()
         {
             var result = new int[0].FirstOrNull ();
@@ -265,7 +265,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SortById_ReturnsCorrectlySorted ()
         {
             // arrange
@@ -293,7 +293,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void DistinctBy_ShouldReturnUniqueWithTheSameOrder ()
         {
             // arrange
@@ -314,7 +314,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IndexOf_Found_ReturnsCorrectIndex ()
         {
             // arrange
@@ -335,7 +335,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IndexOf_NotFound_ReturnsMinusOne ()
         {
             // arrange
@@ -355,7 +355,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SplitToChunks_Null_ReturnsEmpty ()
         {
             // arrange
@@ -371,7 +371,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SplitToChunks_Empty_ReturnsEmpty ()
         {
             // arrange
@@ -387,7 +387,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SplitToChunks_EqualNumberOfItemsToChunkSize_ReturnsOneChunkWithAllItems ()
         {
             // arrange
@@ -403,7 +403,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SplitToChunks_LessNumberOfItemsThanChunkSize_ReturnsOneChunkWithAllItems ()
         {
             // arrange
@@ -419,7 +419,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SplitToChunks_MoreItemsThanChunkSize_ReturnsChunks ()
         {
             // arrange
@@ -435,7 +435,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void AddRange_Null_AddsNothing ()
         {
             // arrange
@@ -451,7 +451,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void AddRange_Empty_AddsNothing ()
         {
             // arrange
@@ -467,7 +467,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void AddRange_ToList_AddsItems ()
         {
             // arrange
@@ -483,7 +483,7 @@ namespace Rocks.Helpers.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void AddRange_ToCollection_AddsItems ()
         {
             // arrange
@@ -496,6 +496,35 @@ namespace Rocks.Helpers.Tests
 
             // assert
             data.ShouldAllBeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
+        }
+
+
+        [Theory]
+        [InlineData (null, null, null, null, null)]
+        [InlineData (null, "abc", null, null, "abc")]
+        [InlineData ("abc", null, "abc", null, null)]
+        [InlineData ("abc", "abc", null, "abc", null)]
+        [InlineData ("abc", "ab", "c", "ab", null)]
+        [InlineData ("ab", "abc", null, "ab", "c")]
+        [InlineData ("abd", "abc", "d", "ab", "c")]
+        public void CompareTo_Theory_Comply (string source,
+                                             string desination,
+                                             string expectedOnlyInSource,
+                                             string expectedInBoth,
+                                             string expectedOnlyInDestination)
+        {
+            // act
+            var result = source.CompareTo (desination, (a, b) => a == b);
+
+
+            // assert
+            result.ShouldBeEquivalentTo
+                (new CollectionComparisonResult<char>
+                 {
+                     OnlyInSource = expectedOnlyInSource != null ? expectedOnlyInSource.ToCharArray () : null,
+                     InBoth = expectedInBoth != null ? expectedInBoth.ToCharArray () : null,
+                     OnlyInDestination = expectedOnlyInDestination != null ? expectedOnlyInDestination.ToCharArray () : null
+                 });
         }
     }
 }

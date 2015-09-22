@@ -1,19 +1,21 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class StringExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ShouldSplitToTrimmedNonEmptyStringList ()
 		{
-			var res = "a.1, b, c 2".SplitToTrimmedNonEmptyStringList ();
+            // act
+			var result = "a.1, b, c 2".SplitToTrimmedNonEmptyStringList ();
 
-			Assert.IsNotNull (res);
-			CollectionAssert.AreEquivalent (new[] { "a.1", "b", "c 2" }, res.ToList ());
+            // assert
+            result.Should ().Equal ("a.1", "b", "c 2");
 		}
 	}
 }
+
+
+

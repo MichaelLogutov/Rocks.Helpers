@@ -1,16 +1,15 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 
 // ReSharper disable ExpressionIsAlwaysNull
 
 namespace Rocks.Helpers.Tests
 {
-	[TestClass]
 	public class HexExtensions
 	{
-		[TestMethod]
+		[Fact]
 		public void ToHexString_EmptyArray_ReturnsEmptyString ()
 		{
 			// arrange
@@ -26,7 +25,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToHexString_Null_ReturnsEmptyString ()
 		{
 			// arrange
@@ -42,7 +41,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToHexString_ReturnsCorrectString ()
 		{
 			// arrange
@@ -58,7 +57,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ToHexString_UpperCase_ReturnsCorrectString ()
 		{
 			// arrange
@@ -74,7 +73,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void HexStringToByteArray_EmptyString_ReturnsEmptyArray ()
 		{
 			// arrange
@@ -90,7 +89,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void HexStringToByteArray_Null_ReturnsEmptyArray ()
 		{
 			// arrange
@@ -106,7 +105,7 @@ namespace Rocks.Helpers.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void HexStringToByteArray_ReturnsCorrectArray ()
 		{
 			// arrange
@@ -122,3 +121,5 @@ namespace Rocks.Helpers.Tests
 		}
 	}
 }
+
+
