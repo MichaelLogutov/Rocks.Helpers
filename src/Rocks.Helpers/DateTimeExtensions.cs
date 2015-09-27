@@ -18,6 +18,20 @@ namespace Rocks.Helpers
         }
 
 
+        public static DateTime StartOfTheQuarter (this DateTime date, int quarter)
+        {
+            quarter.RequiredIn (1, 4, "quarter");
+
+            return new DateTime (date.Year, 1 + (quarter - 1) * 3, 1);
+        }
+
+
+        public static DateTime EndOfTheQuarter (this DateTime date, int quarter)
+        {
+            return date.StartOfTheQuarter (quarter).AddMonths (2).EndOfTheMonth ();
+        }
+
+
         public static int DayOfTheWeek (this DateTime date, DayOfWeek firstDayOfWeek = DayOfWeek.Monday)
         {
             return ((int) date.DayOfWeek - (int) DayOfWeek.Monday + 7) % 7 + 1;
