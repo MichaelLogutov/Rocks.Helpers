@@ -34,7 +34,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
         [Theory]
         [InlineData ("01.10.2000", 1, "01.01.2000")]
-        [InlineData ("01.04.2001", 2, "01.04.2001")]
+        [InlineData ("01.01.2001", 2, "01.04.2001")]
         [InlineData ("20.07.2015", 3, "01.07.2015")]
         [InlineData ("31.12.2002", 4, "01.10.2002")]
         public void StartOfTheQuarter_ReturnsCorrectResult (string d, int quarter, string expected)
@@ -51,8 +51,26 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
         [Theory]
+        [InlineData ("10.01.2000", "01.01.2000")]
+        [InlineData ("01.04.2001", "01.04.2001")]
+        [InlineData ("20.07.2015", "01.07.2015")]
+        [InlineData ("31.12.2002", "01.10.2002")]
+        public void StartOfTheQuarter_Current_ReturnsCorrectResult (string d, string expected)
+        {
+            // arrange
+
+            // act
+            var result = d.AsTestDateTime ().StartOfTheQuarter ();
+
+
+            // assert
+            result.Should ().Be (expected.AsTestDateTime ());
+        }
+
+
+        [Theory]
         [InlineData ("01.10.2000", 1, "31.03.2000")]
-        [InlineData ("01.04.2001", 2, "30.06.2001")]
+        [InlineData ("01.01.2001", 2, "30.06.2001")]
         [InlineData ("20.07.2015", 3, "30.09.2015")]
         [InlineData ("31.12.2002", 4, "31.12.2002")]
         public void EndOfTheQuarter_ReturnsCorrectResult (string d, int quarter, string expected)
@@ -61,6 +79,24 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
             // act
             var result = d.AsTestDateTime ().EndOfTheQuarter (quarter);
+
+
+            // assert
+            result.Should ().Be (expected.AsTestDateTime ());
+        }
+
+
+        [Theory]
+        [InlineData ("02.02.2000", "31.03.2000")]
+        [InlineData ("01.04.2001", "30.06.2001")]
+        [InlineData ("20.07.2015", "30.09.2015")]
+        [InlineData ("31.12.2002", "31.12.2002")]
+        public void EndOfTheQuarter_Current_ReturnsCorrectResult (string d, string expected)
+        {
+            // arrange
+
+            // act
+            var result = d.AsTestDateTime ().EndOfTheQuarter ();
 
 
             // assert

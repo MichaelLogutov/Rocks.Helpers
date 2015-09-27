@@ -26,9 +26,21 @@ namespace Rocks.Helpers
         }
 
 
+        public static DateTime StartOfTheQuarter (this DateTime date)
+        {
+            return date.StartOfTheQuarter (date.GetQuarter ());
+        }
+
+
         public static DateTime EndOfTheQuarter (this DateTime date, int quarter)
         {
             return date.StartOfTheQuarter (quarter).AddMonths (2).EndOfTheMonth ();
+        }
+
+
+        public static DateTime EndOfTheQuarter (this DateTime date)
+        {
+            return date.EndOfTheQuarter (date.GetQuarter ());
         }
 
 
