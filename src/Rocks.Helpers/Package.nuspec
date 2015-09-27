@@ -10,7 +10,4 @@
 		<licenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</licenseUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 	</metadata>
-	<files>
-		<file src="bin\$configuration$\$id$.xml" target="lib\net451" />
-	</files>
 </package>

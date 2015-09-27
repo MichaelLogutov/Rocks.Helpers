@@ -8,7 +8,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web;
 using System.Web.Routing;
 using FastMember;
 using JetBrains.Annotations;
@@ -31,11 +30,11 @@ namespace Rocks.Helpers
 		/// </summary>
 		/// <param name="obj">Object which properties will be added to <see cref="RouteValueDictionary" />. Can be null.</param>
 		/// <param name="filter">
-		///     Optional filter function that should return true for every property name that should be included
-		///     in the result.
+		///     Optional filter function that should return true for every property and it's current value
+		///     that should be included in the result.
 		/// </param>
 		[NotNull]
-		public static RouteValueDictionary PropertiesToRouteValueDictionary ([CanBeNull] this object obj, Func<string, bool> filter = null)
+		public static RouteValueDictionary PropertiesToRouteValueDictionary ([CanBeNull] this object obj, Func<Member, object, bool> filter = null)
 		{
 			var res = new RouteValueDictionary ();
 
@@ -48,10 +47,10 @@ namespace Rocks.Helpers
 
 			foreach (var member in type_accessor.GetMembers ())
 			{
-				if (filter != null && !filter (member.Name))
-					continue;
+                var value = type_accessor[obj, member.Name];
 
-				var value = type_accessor[obj, member.Name];
+				if (filter != null && !filter (member, value))
+					continue;
 
 				DisplayFormatAttribute display_format_attribute;
 				if (type_info.PropertiesCustomFormat.TryGetValue (member.Name, out display_format_attribute))
@@ -76,10 +75,10 @@ namespace Rocks.Helpers
 		///     parameters in the resulting query string.
 		/// </param>
 		/// <param name="filter">
-		///     Optional filter function that should return true for every property name that should be included
-		///     in the result.
+		///     Optional filter function that should return true for every property and it's current value
+		///     that should be included in the result.
 		/// </param>
-		public static string PropertiesToQueryParameters (this object obj, string prefix = "?", Func<string, bool> filter = null)
+		public static string PropertiesToQueryParameters (this object obj, string prefix = "?", Func<Member, object, bool> filter = null)
 		{
 			if (obj == null)
 				return string.Empty;
@@ -166,6 +165,9 @@ namespace Rocks.Helpers
 			foreach (var member in TypeAccessor.Create (type).GetMembers ())
 			{
 				var property = type.GetProperty (member.Name);
+                if (property == null)
+                    continue;
+
 				var attr = property.GetCustomAttribute<DisplayFormatAttribute> (false);
 				if (attr == null)
 					continue;
