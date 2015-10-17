@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Xunit;
 
 [assembly: AssemblyTitle ("Rocks.Helpers.Tests")]
 [assembly: AssemblyDescription ("")]
@@ -12,3 +13,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible (false)]
 [assembly: Guid ("9f0f00f9-12aa-4e43-aafd-d74175e76612")]
 [assembly: AssemblyVersion ("1.0.*")]
+[assembly: CollectionBehavior (CollectionBehavior.CollectionPerAssembly)]
