@@ -144,5 +144,20 @@ namespace Rocks.Helpers
                 date = date2.AddDays (1);
             }
         }
+
+
+        public static DateTime TrimMilliseconds (this DateTime date)
+        {
+            return date.AddMilliseconds (-date.Millisecond);
+        }
+
+
+        public static DateTime? TrimMilliseconds (this DateTime? date)
+        {
+            if (date == null)
+                return null;
+
+            return date.Value.TrimMilliseconds ();
+        }
     }
 }

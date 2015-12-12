@@ -79,6 +79,7 @@
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EncodeSpecifiedStringWriter.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="HashCodeExtensions.cs" />
     <Compile Include="HexExtensions.cs" />
     <Compile Include="IOExtensions.cs" />
