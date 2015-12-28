@@ -385,6 +385,51 @@ namespace Rocks.Helpers
 
 
         /// <summary>
+        ///     Compares two collections using <paramref name="key"/> function to retrieve key for comparison.
+        /// </summary>
+        [NotNull]
+        public static CollectionComparisonResult<TItem> CompareTo<TItem, TKey> ([CanBeNull] this IEnumerable<TItem> source,
+                                                                                [CanBeNull] IEnumerable<TItem> destination,
+                                                                                [NotNull] Func<TItem, TKey> key)
+        {
+            key.RequiredNotNull ("key");
+
+            var result = new CollectionComparisonResult<TItem> ();
+
+            if (source == null && destination == null)
+                return result;
+
+            if (source != null && destination == null)
+            {
+                result.OnlyInSource.AddRange (source);
+                return result;
+            }
+
+            if (source == null)
+            {
+                result.OnlyInDestination.AddRange (destination);
+                return result;
+            }
+
+            var source_list = source.ConvertToList ();
+            Debug.Assert (source_list != null, "source_list != null");
+
+            var destination_list = destination.ConvertToList ();
+            Debug.Assert (destination_list != null, "destination_list != null");
+
+            var source_keys = new HashSet<TKey> (source_list.Select (key));
+            var destination_keys = new HashSet<TKey> (destination_list.Select (key));
+
+            result.OnlyInSource.AddRange (source_list.Where (s => !destination_keys.Contains (key (s))));
+            result.SourceInBoth.AddRange (source_list.Where (s => destination_keys.Contains (key (s))));
+            result.DestinationInBoth.AddRange (destination_list.Where (d => source_keys.Contains (key (d))));
+            result.OnlyInDestination.AddRange (destination_list.Where (d => !source_keys.Contains (key (d))));
+
+            return result;
+        }
+
+
+        /// <summary>
         ///     <para>
         ///         Compares <paramref name="newItems"/> and <paramref name="existedItems"/>
         ///         using the <paramref name="compare"/> function.
@@ -424,6 +469,59 @@ namespace Rocks.Helpers
                 foreach (var item in comparison.SourceInBoth)
                 {
                     var dest_item = comparison.DestinationInBoth.First (x => compare (item, x));
+                    update (item, dest_item);
+                }
+            }
+
+            if (delete != null)
+            {
+                foreach (var item in comparison.OnlyInDestination)
+                    delete (item);
+            }
+        }
+
+
+        /// <summary>
+        ///     <para>
+        ///         Compares <paramref name="newItems"/> and <paramref name="existedItems"/>
+        ///         using the <paramref name="key"/> function to retrieve key for comparison.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="insert"/> action for
+        ///         every item only in <paramref name="newItems"/>.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="update"/> action for
+        ///         every item existed boeth in <paramref name="newItems"/> and <paramref name="existedItems"/>,
+        ///         passing existed item from <paramref name="newItems"/> as first argument
+        ///         and existed item from <paramref name="existedItems"/> as the second argument.
+        ///     </para>
+        ///     <para>
+        ///         If specified, executes <paramref name="delete"/> action for
+        ///         every item only in <paramref name="existedItems"/>.
+        ///     </para>
+        /// </summary>
+        public static void MergeInto<TItem, TKey> ([CanBeNull] this IEnumerable<TItem> newItems,
+                                                   [CanBeNull] IEnumerable<TItem> existedItems,
+                                                   [NotNull] Func<TItem, TKey> key,
+                                                   [CanBeNull] Action<TItem> insert,
+                                                   [CanBeNull] Action<TItem, TItem> update,
+                                                   [CanBeNull] Action<TItem> delete)
+        {
+            var comparison = newItems.CompareTo (existedItems, key);
+
+            if (insert != null)
+            {
+                foreach (var item in comparison.OnlyInSource)
+                    insert (item);
+            }
+
+            if (update != null)
+            {
+                foreach (var item in comparison.SourceInBoth)
+                {
+                    var item_key = key (item);
+                    var dest_item = comparison.DestinationInBoth.First (x => key (x).Equals (item_key));
                     update (item, dest_item);
                 }
             }
