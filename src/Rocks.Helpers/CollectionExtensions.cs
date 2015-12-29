@@ -345,6 +345,7 @@ namespace Rocks.Helpers
         /// <summary>
         ///     Compares two collections using <paramref name="comparer"/> function.
         /// </summary>
+        [Obsolete ("This method works considerably slower than CompareTo with key")]
         [NotNull]
         public static CollectionComparisonResult<T> CompareTo<T> ([CanBeNull] this IEnumerable<T> source,
                                                                   [CanBeNull] IEnumerable<T> destination,
@@ -471,6 +472,7 @@ namespace Rocks.Helpers
         ///         every item only in <paramref name="existedItems"/>.
         ///     </para>
         /// </summary>
+        [Obsolete ("This method works considerably slower than CompareTo with key")]
         public static void MergeInto<T> ([CanBeNull] this IEnumerable<T> newItems,
                                          [CanBeNull] IEnumerable<T> existedItems,
                                          [NotNull] Func<T, T, bool> compare,
