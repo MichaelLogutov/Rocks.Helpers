@@ -375,10 +375,21 @@ namespace Rocks.Helpers
             var destination_list = destination.ConvertToList ();
             Debug.Assert (destination_list != null, "destination_list != null");
 
-            result.OnlyInSource.AddRange (source_list.Where (s => !destination_list.Any (d => comparer (s, d))));
-            result.SourceInBoth.AddRange (source_list.Where (s => destination_list.Any (d => comparer (s, d))));
-            result.DestinationInBoth.AddRange (destination_list.Where (d => source_list.Any (s => comparer (s, d))));
-            result.OnlyInDestination.AddRange (destination_list.Where (d => !source_list.Any (s => comparer (s, d))));
+            foreach (var s in source_list)
+            {
+                if (destination_list.Any (d => comparer (s, d)))
+                    result.SourceInBoth.Add (s);
+                else
+                    result.OnlyInSource.Add (s);
+            }
+
+            foreach (var d in destination_list)
+            {
+                if (source_list.Any (s => comparer (s, d)))
+                    result.DestinationInBoth.Add (d);
+                else
+                    result.OnlyInDestination.Add (d);
+            }
 
             return result;
         }
@@ -420,10 +431,21 @@ namespace Rocks.Helpers
             var source_keys = new HashSet<TKey> (source_list.Select (key));
             var destination_keys = new HashSet<TKey> (destination_list.Select (key));
 
-            result.OnlyInSource.AddRange (source_list.Where (s => !destination_keys.Contains (key (s))));
-            result.SourceInBoth.AddRange (source_list.Where (s => destination_keys.Contains (key (s))));
-            result.DestinationInBoth.AddRange (destination_list.Where (d => source_keys.Contains (key (d))));
-            result.OnlyInDestination.AddRange (destination_list.Where (d => !source_keys.Contains (key (d))));
+            foreach (var s in source_list)
+            {
+                if (destination_keys.Contains (key (s)))
+                    result.SourceInBoth.Add (s);
+                else
+                    result.OnlyInSource.Add (s);
+            }
+
+            foreach (var d in destination_list)
+            {
+                if (source_keys.Contains (key (d)))
+                    result.DestinationInBoth.Add (d);
+                else
+                    result.OnlyInDestination.Add (d);
+            }
 
             return result;
         }
