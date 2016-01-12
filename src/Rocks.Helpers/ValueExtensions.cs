@@ -108,6 +108,10 @@ namespace Rocks.Helpers
         }
 
 
+        /// <summary>
+        ///     Throws <see cref="InvalidOperationException" /> if <paramref name="value"/> is less or equals 0.
+        ///     Returns original <paramref name="value"/> otherwise.
+        /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static int RequiredId (this int value, string paramName, string message = null)
         {
@@ -117,7 +121,24 @@ namespace Rocks.Helpers
             if (string.IsNullOrEmpty (message))
                 message = string.Format ("{0} = {1} must be greater than zero.", paramName, value);
 
-            throw new ArgumentNullException (paramName, message);
+            throw new ArgumentOutOfRangeException(paramName, message);
+        }
+
+
+        /// <summary>
+        ///     Throws <see cref="InvalidOperationException" /> if <paramref name="value"/> is less or equals 0.
+        ///     Returns original <paramref name="value"/> otherwise.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long RequiredId(this long value, string paramName, string message = null)
+        {
+            if (value > 0)
+                return value;
+
+            if (string.IsNullOrEmpty(message))
+                message = string.Format("{0} = {1} must be greater than zero.", paramName, value);
+
+            throw new ArgumentOutOfRangeException(paramName, message);
         }
 
 
