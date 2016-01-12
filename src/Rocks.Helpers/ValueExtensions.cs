@@ -109,7 +109,7 @@ namespace Rocks.Helpers
 
 
         /// <summary>
-        ///     Throws <see cref="InvalidOperationException" /> if <paramref name="value"/> is less or equals 0.
+        ///     Throws <see cref="ArgumentOutOfRangeException" /> if <paramref name="value"/> is less or equals 0.
         ///     Returns original <paramref name="value"/> otherwise.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -126,7 +126,7 @@ namespace Rocks.Helpers
 
 
         /// <summary>
-        ///     Throws <see cref="InvalidOperationException" /> if <paramref name="value"/> is less or equals 0.
+        ///     Throws <see cref="ArgumentOutOfRangeException" /> if <paramref name="value"/> is less or equals 0.
         ///     Returns original <paramref name="value"/> otherwise.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
