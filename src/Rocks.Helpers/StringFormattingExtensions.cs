@@ -21,7 +21,7 @@ namespace Rocks.Helpers
                                                 int? measures = null,
                                                 TimeSpanFormatStrings formatStrings = null)
         {
-            measures.RequiredNotLessOrEqualsThan (0, "measures");
+            measures.RequiredGreaterThan (0, "measures");
             measures.RequiredNotGreaterThan (5, "measures");
 
             var result = new StringBuilder ();

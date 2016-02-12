@@ -167,6 +167,41 @@ namespace Rocks.Helpers
             throw new ArgumentOutOfRangeException (paramName, message);
         }
 
+        [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T? RequiredLessThan<T> (this T? value, T maxValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value != null)
+                value.Value.RequiredLessThan(maxValue, paramName, message);
+
+            return value;
+        }
+
+
+        [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T? RequiredLessThan<T>(this T? value, T? maxValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value != null && maxValue != null)
+                value.Value.RequiredLessThan(maxValue.Value, paramName, message);
+
+            return value;
+        }
+
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T RequiredLessThan<T>(this T value, T maxValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value.CompareTo (maxValue) < 0)
+                return value;
+
+            if (string.IsNullOrEmpty (message))
+                message = string.Format ("{0} = {1} can not be greater or equals than {2}.", paramName, value, maxValue);
+
+            throw new ArgumentOutOfRangeException (paramName, message);
+        }
+
 
         [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static T? RequiredNotLessThan<T> (this T? value, T minValue, string paramName, string message = null) where T : struct, IComparable
@@ -202,6 +237,7 @@ namespace Rocks.Helpers
 
 
         [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use RequiredGreaterThan version.")]
         public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T minValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -213,6 +249,7 @@ namespace Rocks.Helpers
 
 
         [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use RequiredGreaterThan version.")]
         public static T? RequiredNotLessOrEqualsThan<T> (this T? value, T? minValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -224,6 +261,7 @@ namespace Rocks.Helpers
 
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use RequiredGreaterThan version.")]
         public static T RequiredNotLessOrEqualsThan<T> (this T value, T minValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -233,6 +271,44 @@ namespace Rocks.Helpers
                     message = string.Format ("{0} = {1} can not be less or equals than {2}.", paramName, value, minValue);
 
                 throw new ArgumentOutOfRangeException (paramName, message);
+            }
+
+            return value;
+        }
+
+
+        [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T? RequiredGreaterThan<T>(this T? value, T minValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value != null)
+                value.Value.RequiredGreaterThan(minValue, paramName, message);
+
+            return value;
+        }
+
+
+        [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T? RequiredGreaterThan<T>(this T? value, T? minValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value != null && minValue != null)
+                value.Value.RequiredGreaterThan(minValue.Value, paramName, message);
+
+            return value;
+        }
+
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static T RequiredGreaterThan<T>(this T value, T minValue, string paramName, string message = null)
+            where T : struct, IComparable
+        {
+            if (value.CompareTo(minValue) <= 0)
+            {
+                if (string.IsNullOrEmpty(message))
+                    message = string.Format("{0} = {1} must be greater than {2}.", paramName, value, minValue);
+
+                throw new ArgumentOutOfRangeException(paramName, message);
             }
 
             return value;
@@ -273,6 +349,7 @@ namespace Rocks.Helpers
 
 
         [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use RequiredLessThan version.")]
         public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T maxValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -284,6 +361,7 @@ namespace Rocks.Helpers
 
 
         [ContractAnnotation ("value:null => null"), MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use RequiredLessThan version.")]
         public static T? RequiredNotGreaterOrEqualsThan<T> (this T? value, T? maxValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -295,6 +373,7 @@ namespace Rocks.Helpers
 
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use RequiredLessThan version.")]
         public static T RequiredNotGreaterOrEqualsThan<T> (this T value, T maxValue, string paramName, string message = null)
             where T : struct, IComparable
         {
@@ -330,7 +409,7 @@ namespace Rocks.Helpers
             else if (minValue != null)
                 value.Value.RequiredNotLessThan (minValue.Value, paramName, message);
             else if (maxValue != null)
-                value.Value.RequiredNotGreaterThan (maxValue.Value, paramName, message);
+                value.Value.RequiredLessThan (maxValue.Value, paramName, message);
 
             return value;
         }
