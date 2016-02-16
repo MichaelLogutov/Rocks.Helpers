@@ -120,17 +120,14 @@ namespace Rocks.Helpers.Tests.DateTimeTests
         }
 
 
-        [Fact]
-        public void DayOfTheWeek_StartOfTheWeek_Returns1 ()
+        [Theory]
+        [InlineData ("20.01.2014", DayOfWeek.Monday, 1)]
+        [InlineData ("26.01.2014", DayOfWeek.Monday, 7)]
+        [InlineData ("03.01.2016", DayOfWeek.Monday, 7)]
+        [InlineData ("03.01.2016", DayOfWeek.Sunday, 1)]
+        public void DayOfTheWeek_Theory_Comply (string date, DayOfWeek dayOfWeek, int expected)
         {
-            new DateTime (2014, 1, 20).DayOfTheWeek (DayOfWeek.Monday).Should ().Be (1);
-        }
-
-
-        [Fact]
-        public void DayOfTheWeek_EndOfTheWeek_Returns7 ()
-        {
-            new DateTime (2014, 1, 26).DayOfTheWeek (DayOfWeek.Monday).Should ().Be (7);
+            date.AsTestDateTime ().DayOfTheWeek (dayOfWeek).Should ().Be (expected);
         }
 
 

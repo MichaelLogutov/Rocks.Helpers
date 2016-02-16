@@ -46,7 +46,7 @@ namespace Rocks.Helpers
 
         public static int DayOfTheWeek (this DateTime date, DayOfWeek firstDayOfWeek = DayOfWeek.Monday)
         {
-            return ((int) date.DayOfWeek - (int) DayOfWeek.Monday + 7) % 7 + 1;
+            return ((int) date.DayOfWeek - (int) firstDayOfWeek + 7) % 7 + 1;
         }
 
 
