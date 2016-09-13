@@ -64,5 +64,40 @@ namespace Rocks.Helpers
 
 			return res;
 		}
+        /// <summary>
+		/// Extends IReadOnlyDictionary.TryGetValue with default return value.
+		/// </summary>
+		/// <param name="dictionary">Source dictionary.</param>
+		/// <param name="key">Key.</param>
+		/// <param name="defaultValue">Default value.</param>
+		public static TValue GetValueOrDefault<TKey, TValue> (this IReadOnlyDictionary<TKey, TValue> dictionary,
+		                                                      TKey key,
+		                                                      TValue defaultValue = default (TValue))
+		{
+			TValue res;
+
+			if (dictionary.TryGetValue (key, out res))
+				return res;
+
+			return defaultValue;
+		}
+
+
+		/// <summary>
+		/// Extends IReadOnlyDictionary.TryGetValue with default return value.
+		/// </summary>
+		/// <param name="dictionary">Source dictionary.</param>
+		/// <param name="key">Key.</param>
+		/// <param name="defaultValue">Default value.</param>
+		public static TValue? GetValueOrDefault<TKey, TValue> (this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = null)
+			where TValue : struct
+		{
+			TValue res;
+
+			if (dictionary.TryGetValue (key, out res))
+				return res;
+
+			return defaultValue;
+		}
 	}
 }
