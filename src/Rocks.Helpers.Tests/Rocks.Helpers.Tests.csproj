@@ -99,6 +99,7 @@
     <Compile Include="CollectionExtensionsTests.cs" />
     <Compile Include="DateTimeTests\SplitToMonthsTests.cs" />
     <Compile Include="DateTimeTests\EnumerateWeeksTests.cs" />
+    <Compile Include="DictionaryExtensionsTests.cs" />
     <Compile Include="HashCodeExtensions.cs" />
     <Compile Include="HexExtensions.cs" />
     <Compile Include="IpExtensionsTests.cs" />

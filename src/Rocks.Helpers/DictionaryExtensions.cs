@@ -13,8 +13,8 @@ namespace Rocks.Helpers
         /// <param name="key">Key.</param>
         /// <param name="defaultValue">Default value.</param>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
-            TKey key,
-            TValue defaultValue = default(TValue))
+                                                             TKey key,
+                                                             TValue defaultValue = default(TValue))
         {
             TValue res;
 
@@ -31,9 +31,23 @@ namespace Rocks.Helpers
         /// <param name="dictionary">Source dictionary.</param>
         /// <param name="key">Key.</param>
         /// <param name="defaultValue">Default value.</param>
-        public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
-            TValue? defaultValue = null)
-            where TValue : struct
+        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary,
+                                                             TKey key,
+                                                             TValue defaultValue = default(TValue))
+        {
+            return GetValueOrDefault((IDictionary<TKey, TValue>) dictionary, key, defaultValue);
+        }
+
+
+        /// <summary>
+        /// Extends IDictionary.TryGetValue with default return value.
+        /// </summary>
+        /// <param name="dictionary">Source dictionary.</param>
+        /// <param name="key">Key.</param>
+        /// <param name="defaultValue">Default value.</param>
+        public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+                                                              TKey key,
+                                                              TValue? defaultValue = null) where TValue : struct
         {
             TValue res;
 
@@ -45,14 +59,29 @@ namespace Rocks.Helpers
 
 
         /// <summary>
+        /// Extends IDictionary.TryGetValue with default return value.
+        /// </summary>
+        /// <param name="dictionary">Source dictionary.</param>
+        /// <param name="key">Key.</param>
+        /// <param name="defaultValue">Default value.</param>
+        public static TValue? GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary,
+                                                              TKey key,
+                                                              TValue? defaultValue = null) where TValue : struct
+        {
+            return GetValueOrDefault((IDictionary<TKey, TValue>) dictionary, key, defaultValue);
+        }
+
+
+        /// <summary>
         /// Gets the value from the <paramref name="dictionary" /> and if the item with specified <paramref name="key"/> not present
         /// then calls <paramref name="callback"/> to get it's value, store it in the <paramref name="dictionary"/> and returns it.
         /// </summary>
         /// <param name="dictionary">Source dictionary.</param>
         /// <param name="key">Key.</param>
         /// <param name="callback">A callback function. Can not be null.</param>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
-            [NotNull] Func<TValue> callback)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+                                                             TKey key,
+                                                             [NotNull] Func<TValue> callback)
         {
             callback.RequiredNotNull("callback");
 
@@ -67,6 +96,22 @@ namespace Rocks.Helpers
             return res;
         }
 
+
+        /// <summary>
+        /// Gets the value from the <paramref name="dictionary" /> and if the item with specified <paramref name="key"/> not present
+        /// then calls <paramref name="callback"/> to get it's value, store it in the <paramref name="dictionary"/> and returns it.
+        /// </summary>
+        /// <param name="dictionary">Source dictionary.</param>
+        /// <param name="key">Key.</param>
+        /// <param name="callback">A callback function. Can not be null.</param>
+        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary,
+                                                             TKey key,
+                                                             [NotNull] Func<TValue> callback)
+        {
+            return GetValueOrDefault((IDictionary<TKey, TValue>) dictionary, key, callback);
+        }
+
+
         /// <summary>
         /// Extends IReadOnlyDictionary.TryGetValue with default return value.
         /// </summary>
@@ -74,8 +119,8 @@ namespace Rocks.Helpers
         /// <param name="key">Key.</param>
         /// <param name="defaultValue">Default value.</param>
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
-            TKey key,
-            TValue defaultValue = default(TValue))
+                                                             TKey key,
+                                                             TValue defaultValue = default(TValue))
         {
             TValue res;
 
@@ -93,7 +138,8 @@ namespace Rocks.Helpers
         /// <param name="key">Key.</param>
         /// <param name="defaultValue">Default value.</param>
         public static TValue? GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary,
-            TKey key, TValue? defaultValue = null)
+                                                              TKey key,
+                                                              TValue? defaultValue = null)
             where TValue : struct
         {
             TValue res;
