@@ -1,117 +1,89 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{45FF86B4-52DB-423A-9723-26560753C102}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rocks.Helpers</RootNamespace>
-    <AssemblyName>Rocks.Helpers</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>false</RestorePackages>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\Rocks.Helpers.XML</DocumentationFile>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Release\Rocks.Helpers.XML</DocumentationFile>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="FastMember">
-      <HintPath>..\packages\FastMember.1.0.0.11\lib\net40\FastMember.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AsyncLockExtensions.cs" />
-    <Compile Include="CollectionComparisonResult.cs" />
-    <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="EncodeSpecifiedStringWriter.cs" />
-    <Compile Include="ExceptionExtensions.cs" />
-    <Compile Include="HashCodeExtensions.cs" />
-    <Compile Include="HexExtensions.cs" />
-    <Compile Include="IOExtensions.cs" />
-    <Compile Include="IpExtensions.cs" />
-    <Compile Include="KeyEqualityComparer.cs" />
-    <Compile Include="PathExtensions.cs" />
-    <Compile Include="RandomizationExtensions.cs" />
-    <Compile Include="RangeExtensions.cs" />
-    <Compile Include="SelfImplementingTypeInfo.cs" />
-    <Compile Include="SqlExtensions.cs" />
-    <Compile Include="StringConvertExtensions.cs" />
-    <Compile Include="CryptoExtensions.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="StringFormattingExtensions.cs" />
-    <Compile Include="TimeSpanFormatStrings.cs" />
-    <Compile Include="TypeExtensions.cs" />
-    <Compile Include="UrlExtensions.cs" />
-    <Compile Include="ValueExtensions.cs" />
-    <Compile Include="XmlExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Package.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Properties -->
+    <PropertyGroup>
+        <TargetFrameworks>net46;net461;net462;net47;netstandard2.0;</TargetFrameworks>
+        <Version>2.0.0</Version>
+        <FileVersion>$(Version)</FileVersion>
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+        <Authors>Michael Logutov</Authors>
+        <Company>Michael Logutov</Company>
+        <Description>A collection of helper extensions.</Description>
+        <Copyright>Copyright © Michael Logutov 2013</Copyright>
+    </PropertyGroup>
+    <!-- Properties for NuGet package -->
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <PackageId>Rocks.Helpers</PackageId>
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
+    </PropertyGroup>
+    <!-- NuGet packages -->
+    <ItemGroup>
+        <PackageReference Include="FastMember" Version="1.1.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="11.0.0"/>
+    </ItemGroup>
+    <!-- NuGet packages for .NET 4.6 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    </ItemGroup>
+    <!-- NuGet packages for .NET 4.6.1 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    </ItemGroup>
+    <!-- NuGet packages for .NET 4.6.2 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    </ItemGroup>
+    <!-- NuGet packages for .NET 4.7 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+    </ItemGroup>
+    <!-- NuGet packages for .NET Standard 2.0 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0"/>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0"/>
+        <PackageReference Include="System.Data.Common" Version="4.3.0"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0"/>
+        <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.0.0"/>
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="2.0.0"/>
+    </ItemGroup>
+    <!-- References -->
+    <!-- References for .NET 4.6 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <!-- References for .NET 4.6.1 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <!-- References for .NET 4.6.2 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <!-- References for .NET 4.7 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <!-- References for .NET Standard 2.0 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    </ItemGroup>
+    <!-- Sources -->
+    <!-- Sources for .NET 4.6 - 4.7 -->
+    <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+        <Compile Remove="Internal\ADP.cs"/>
+        <Compile Remove="Internal\DbProviderFactories.cs"/>
+        <Compile Remove="Internal\DbProviderFactoriesConfigurationHandler.cs"/>
+        <Compile Remove="Internal\DbProviderFactoryConfigSection.cs"/>
+    </ItemGroup>
 </Project>
