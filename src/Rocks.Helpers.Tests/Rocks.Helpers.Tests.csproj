@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- Properties -->
     <PropertyGroup>
-        <TargetFrameworks>net46;net461;net462;net47;netstandard2.0;</TargetFrameworks>
+        <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject</DefaultItemExcludes>
+        <TargetFrameworks>net46;net461;net462;net47;netcoreapp2.0</TargetFrameworks>
     </PropertyGroup>
     <!-- Properties for NuGet package -->
     <PropertyGroup>
@@ -9,10 +10,11 @@
     </PropertyGroup>
     <!-- NuGet packages -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0"/>
-        <PackageReference Include="xunit" Version="2.2.0"/>
-        <PackageReference Include="AutoFixture" Version="3.50.6"/>
-        <PackageReference Include="FluentAssertions" Version="4.19.4"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+        <PackageReference Include="xunit" Version="2.2.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+        <PackageReference Include="AutoFixture" Version="3.50.6" />
+        <PackageReference Include="FluentAssertions" Version="4.19.4" />
     </ItemGroup>
     <!-- NuGet packages for .NET 4.6 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
@@ -32,29 +34,29 @@
     <!-- References -->
     <!-- References for .NET 4.6 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <!-- References for .NET 4.6.1 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <!-- References for .NET 4.6.2 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <!-- References for .NET 4.7 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <!-- References for .NET Standard 2.0 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     </ItemGroup>
     <!-- Projects -->
     <ItemGroup>
-        <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj"/>
+        <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj" />
     </ItemGroup>
 </Project>
