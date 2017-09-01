@@ -8,7 +8,7 @@
         <Authors>Michael Logutov</Authors>
         <Company>Michael Logutov</Company>
         <Description>A collection of helper extensions.</Description>
-        <Copyright>Copyright © Michael Logutov 2013</Copyright>
+        <Copyright>Copyright © Michael Logutov 2017</Copyright>
     </PropertyGroup>
     <!-- Properties for NuGet package -->
     <PropertyGroup>
@@ -38,13 +38,13 @@
     </ItemGroup>
     <!-- NuGet packages for .NET Standard 2.0 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.0.0"/>
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="2.0.0"/>
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0"/>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0"/>
         <PackageReference Include="System.Data.Common" Version="4.3.0"/>
         <PackageReference Include="System.Data.SqlClient" Version="4.4.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0"/>
-        <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.0.0"/>
-        <PackageReference Include="Microsoft.NETCore.Targets" Version="2.0.0"/>
     </ItemGroup>
     <!-- References -->
     <!-- References for .NET 4.6 -->

@@ -9,10 +9,10 @@
     </PropertyGroup>
     <!-- NuGet packages -->
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="3.50.6"/>
-        <PackageReference Include="FluentAssertions" Version="4.19.4"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0"/>
         <PackageReference Include="xunit" Version="2.2.0"/>
+        <PackageReference Include="AutoFixture" Version="3.50.6"/>
+        <PackageReference Include="FluentAssertions" Version="4.19.4"/>
     </ItemGroup>
     <!-- NuGet packages for .NET 4.6 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
@@ -33,29 +33,21 @@
     <!-- References for .NET 4.6 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
         <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.Data"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- References for .NET 4.6.1 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
         <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.Data"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- References for .NET 4.6.2 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
         <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.Data"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- References for .NET 4.7 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
         <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.Data"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- References for .NET Standard 2.0 -->
