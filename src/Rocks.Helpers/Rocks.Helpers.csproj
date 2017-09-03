@@ -15,7 +15,7 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>Rocks.Helpers</PackageId>
-        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        <PackageVersion>$(Version)</PackageVersion>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
