@@ -52,7 +52,7 @@
         <Reference Include="System.ComponentModel.DataAnnotations" />
         <Reference Include="System.Web" />
     </ItemGroup>
-    <!-- References for .NET Standard 2.0 -->
+    <!-- References for .NET Core App 2.0 -->
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     </ItemGroup>
     <!-- Projects -->
