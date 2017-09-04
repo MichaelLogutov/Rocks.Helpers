@@ -113,7 +113,7 @@ namespace Rocks.Helpers
 			if (value == null)
 				throw new ArgumentNullException ("value");
 
-			using (var hash_algorithm = HashAlgorithm.Create (algorithm))
+            using (var hash_algorithm = GetHashAlgorithm(algorithm))
 			{
 				if (hash_algorithm == null)
 					throw new NotSupportedException (string.Format ("Hash algorithm \"{0}\" is not supported.", algorithm));
@@ -124,5 +124,26 @@ namespace Rocks.Helpers
 				return hash;
 			}
 		}
-	}
+
+
+        private static HashAlgorithm GetHashAlgorithm(string algorithm)
+	    {
+	        switch (algorithm)
+	        {
+	            case "MD5":
+	                return MD5.Create();
+	            case "SHA1":
+	                return SHA1.Create();
+                case "SHA256":
+                    return SHA256.Create();
+	            case "SHA384":
+	                return SHA384.Create();
+	            case "SHA512":
+	                return SHA512.Create();
+
+                default:
+                    throw new NotSupportedException("Not supported hash algorithm: " + algorithm);
+            }
+	    }
+    }
 }

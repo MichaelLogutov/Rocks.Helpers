@@ -8,9 +8,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web.Routing;
 using FastMember;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Routing;
 
 namespace Rocks.Helpers
 {
