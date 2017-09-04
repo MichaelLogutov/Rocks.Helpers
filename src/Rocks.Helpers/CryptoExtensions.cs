@@ -113,14 +113,7 @@ namespace Rocks.Helpers
 			if (value == null)
 				throw new ArgumentNullException ("value");
 
-#if NET46 || NET461 || NET462 || NET47
-            var hash_algorithm = HashAlgorithm.Create(algorithm);
-#endif
-#if NETSTANDARD2_0
-            var hash_algorithm = GetHashAlgorithm(algorithm);
-#endif
-
-            using (hash_algorithm)
+            using (var hash_algorithm = GetHashAlgorithm(algorithm))
 			{
 				if (hash_algorithm == null)
 					throw new NotSupportedException (string.Format ("Hash algorithm \"{0}\" is not supported.", algorithm));
@@ -133,7 +126,6 @@ namespace Rocks.Helpers
 		}
 
 
-#if NETSTANDARD2_0
         private static HashAlgorithm GetHashAlgorithm(string algorithm)
 	    {
 	        switch (algorithm)
@@ -153,6 +145,5 @@ namespace Rocks.Helpers
                     throw new NotSupportedException("Not supported hash algorithm: " + algorithm);
             }
 	    }
-#endif
     }
 }

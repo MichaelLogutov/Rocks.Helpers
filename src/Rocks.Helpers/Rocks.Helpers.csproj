@@ -2,7 +2,7 @@
     <!-- Properties -->
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user</DefaultItemExcludes>
-        <TargetFrameworks>net46;net461;net462;net47;netstandard2.0</TargetFrameworks>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <Version>2.0.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
@@ -24,21 +24,6 @@
     <ItemGroup>
         <PackageReference Include="FastMember" Version="1.1.0" />
         <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.6 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.6.1 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.6.2 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.7 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET Standard 2.0 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
         <PackageReference Include="System.Data.Common" Version="4.3.0" />
@@ -48,43 +33,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0" />
     </ItemGroup>
     <!-- References -->
-    <!-- References for .NET 4.6 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Web" />
+    <ItemGroup>
     </ItemGroup>
-    <!-- References for .NET 4.6.1 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET 4.6.2 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET 4.7 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET Standard 2.0 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    </ItemGroup>
-    <!-- Sources -->
-    <!-- Sources for .NET 4.6 - 4.7 -->
-    <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
-        <Compile Remove="Internal\ADP.cs" />
-        <Compile Remove="Internal\DbProviderFactories.cs" />
-        <Compile Remove="Internal\DbProviderFactoriesConfigurationHandler.cs" />
-        <Compile Remove="Internal\DbProviderFactoryConfigSection.cs" />
+    <!-- Projects -->
+    <ItemGroup>
     </ItemGroup>
 </Project>

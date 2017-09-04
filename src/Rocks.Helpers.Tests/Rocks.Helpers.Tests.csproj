@@ -2,7 +2,7 @@
     <!-- Properties -->
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user</DefaultItemExcludes>
-        <TargetFrameworks>net46;net461;net462;net47;netcoreapp2.0</TargetFrameworks>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
     </PropertyGroup>
     <!-- Properties for NuGet package -->
     <PropertyGroup>
@@ -16,44 +16,8 @@
         <PackageReference Include="AutoFixture" Version="3.50.6" />
         <PackageReference Include="FluentAssertions" Version="4.19.4" />
     </ItemGroup>
-    <!-- NuGet packages for .NET 4.6 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.6.1 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.6.2 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET 4.7 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-    </ItemGroup>
-    <!-- NuGet packages for .NET Core App 2.0 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-    </ItemGroup>
     <!-- References -->
-    <!-- References for .NET 4.6 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET 4.6.1 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET 4.6.2 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET 4.7 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Web" />
-    </ItemGroup>
-    <!-- References for .NET Core App 2.0 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <ItemGroup>
     </ItemGroup>
     <!-- Projects -->
     <ItemGroup>

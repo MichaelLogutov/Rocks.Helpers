@@ -7,10 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-
-#if NETSTANDARD2_0
 using Rocks.Helpers.Internal;
-#endif
 
 namespace Rocks.Helpers
 {
