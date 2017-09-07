@@ -2,12 +2,10 @@
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Rocks.Helpers.Internal;
 
 namespace Rocks.Helpers
 {
@@ -20,7 +18,7 @@ namespace Rocks.Helpers
         public static DbConnection CreateDbConnection ([NotNull] this string connectionString,
                                                        [NotNull] string providerName = "System.Data.SqlClient")
         {
-            var connection = DbProviderFactories.GetFactory (providerName).CreateConnection ();
+            var connection = DbFactory.Get(providerName).CreateConnection();
             if (connection == null)
                 throw new InvalidOperationException ("Unable to create DbConnection.");
 
@@ -90,54 +88,11 @@ namespace Rocks.Helpers
                                                 object value)
         {
             var parameter = command.CreateParameter ();
-
             parameter.ParameterName = parameterName;
             parameter.DbType = type;
             parameter.Value = value;
 
             command.Parameters.Add (parameter);
-
-            return parameter;
-        }
-
-
-        /// <summary>
-        ///     Adds new parameter to the command.
-        /// </summary>
-        [NotNull]
-        public static DbParameter AddParameter ([NotNull] this DbCommand command,
-                                                [NotNull] string parameterName,
-                                                SqlDbType type,
-                                                object value)
-        {
-            var parameter = new SqlParameter ();
-
-            parameter.ParameterName = parameterName;
-            parameter.SqlDbType = type;
-            parameter.Value = value;
-
-            command.Parameters.Add (parameter);
-
-            return parameter;
-        }
-
-
-        /// <summary>
-        ///     Adds new parameter to the <paramref name="parameters"/> collection.
-        /// </summary>
-        [NotNull]
-        public static DbParameter Add ([NotNull] this DbParameterCollection parameters,
-                                       [NotNull] string parameterName,
-                                       SqlDbType type,
-                                       object value)
-        {
-            var parameter = new SqlParameter ();
-
-            parameter.ParameterName = parameterName;
-            parameter.SqlDbType = type;
-            parameter.Value = value;
-
-            parameters.Add (parameter);
 
             return parameter;
         }
