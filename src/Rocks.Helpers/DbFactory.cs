@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
@@ -9,53 +9,87 @@ using System.Reflection;
 
 namespace Rocks.Helpers
 {
+    /// <summary>
+    /// Db factory class.
+    /// </summary>
     public static class DbFactory
     {
         private static bool m_IsInitialized = false;
 
-        private static readonly Dictionary<string, DbProviderFactory> m_Descriptions = new Dictionary<string, DbProviderFactory>();
+        private static readonly ConcurrentDictionary<string, DbProviderFactory> m_Descriptions = new ConcurrentDictionary<string, DbProviderFactory>();
 
-        public static Func<DbProviderFactory, DbProviderFactory> CreateInstance { private get; set; }
+        private static Func<DbProviderFactory, DbProviderFactory> m_ConstructInstanceInterceptor = null;
 
+        /// <summary>
+        /// Set construct instance interceptor.
+        /// </summary>
+        /// <param name="func">Interceptor function.</param>
+        public static void SetConstructInstanceInterceptor(Func<DbProviderFactory, DbProviderFactory> func)
+        {
+            m_ConstructInstanceInterceptor = func;
+        }
+        
+        /// <summary>
+        /// Set DbProviderFactory instance by provider name. 
+        /// </summary>
+        /// <param name="providerName">Provider name.</param>
+        /// <param name="providerInstance">DbProviderFactory instance.</param>
+        /// <typeparam name="T">Type of DbProviderFactory.</typeparam>
         public static void Set<T>(string providerName, T providerInstance) where T : DbProviderFactory
         {
-            lock (m_Descriptions)
-            {
-                if (m_Descriptions.ContainsKey(providerName))
-                {
-                    m_Descriptions[providerName] = providerInstance;
-                }
-                else
-                {
-                    m_Descriptions.Add(providerName, providerInstance);
-                }
-            }
+            EnsureIsInitialized();
+            
+            SetInternal(providerName, providerInstance);
         }
 
+        /// <summary>
+        /// Get DbProviderFactory instance by provider name. 
+        /// </summary>
+        /// <param name="providerName">Provider name.</param>
+        /// <returns>DbProviderFactory instance.</returns>
         public static DbProviderFactory Get(string providerName)
         {
             EnsureIsInitialized();
 
-            lock (m_Descriptions)
+            return GetInternal(providerName);
+        }
+
+        /// <summary>
+        /// Get DbProviderFactory by DbConnection.
+        /// </summary>
+        /// <param name="dbConnection">DbConnection instance.</param>
+        /// <returns>DbProviderFactory instance.</returns>
+        public static DbProviderFactory Get(DbConnection dbConnection)
+        {
+            return Get(dbConnection.GetType().Namespace);
+        }
+
+        private static void SetInternal<T>(string providerName, T providerInstance) where T : DbProviderFactory
+        {
+            m_Descriptions.AddOrUpdate(providerName,
+                                       providerInstance,
+                                       (key, value) =>
+                                       {
+                                           m_Descriptions[key] = value;
+                                           return value;
+                                       });
+        }
+        
+        private static DbProviderFactory GetInternal(string providerName)
+        {
+            if (m_Descriptions.TryGetValue(providerName, out var result))
             {
-                if (m_Descriptions.ContainsKey(providerName))
-                {
-                    return ConstructInstance(m_Descriptions[providerName]);
-                }
+                return ConstructInstance(result);
             }
 
             return null;
         }
-
-        public static DbProviderFactory Get(DbConnection dbConnection)
-        {
-            var providerName = dbConnection.GetType().Namespace;
-            return Get(providerName);
-        }
-
+        
         private static DbProviderFactory ConstructInstance(DbProviderFactory instance)
         {
-            return CreateInstance(instance) ?? instance;
+            return m_ConstructInstanceInterceptor != null
+                       ? m_ConstructInstanceInterceptor(instance)
+                       : instance;
         }
 
         private static void EnsureIsInitialized()
@@ -77,7 +111,7 @@ namespace Rocks.Helpers
 
         private static void IncludeBuiltInFactoryClasses()
         {
-            Set("System.Data.SqlClient", SqlClientFactory.Instance);
+            SetInternal("System.Data.SqlClient", SqlClientFactory.Instance);
         }
 
         private static void IncludeFactoryClassesFromConfig()
@@ -129,7 +163,7 @@ namespace Rocks.Helpers
 
                 if (instance != null)
                 {
-                    Set(providerName, instance);
+                    SetInternal(providerName, instance);
                 }
             }
         }
