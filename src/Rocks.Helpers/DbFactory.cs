@@ -38,7 +38,7 @@ namespace Rocks.Helpers
 
             lock (m_Descriptions)
             {
-                if (m_Descriptions.ContainsKey(providerName.ToLower()))
+                if (m_Descriptions.ContainsKey(providerName))
                 {
                     return ConstructInstance(m_Descriptions[providerName]);
                 }
@@ -77,7 +77,7 @@ namespace Rocks.Helpers
 
         private static void IncludeBuiltInFactoryClasses()
         {
-            Set("system.data.sqlclient", SqlClientFactory.Instance);
+            Set("System.Data.SqlClient", SqlClientFactory.Instance);
         }
 
         private static void IncludeFactoryClassesFromConfig()
