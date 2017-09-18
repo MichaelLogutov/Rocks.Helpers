@@ -68,11 +68,7 @@ namespace Rocks.Helpers
         {
             m_Descriptions.AddOrUpdate(providerName,
                                        providerInstance,
-                                       (key, value) =>
-                                       {
-                                           m_Descriptions[key] = value;
-                                           return value;
-                                       });
+                                       (key, value) => value);
         }
         
         private static DbProviderFactory GetInternal(string providerName)
