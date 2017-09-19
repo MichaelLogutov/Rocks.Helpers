@@ -68,7 +68,7 @@ namespace Rocks.Helpers
         {
             m_Descriptions.AddOrUpdate(providerName,
                                        providerInstance,
-                                       (key, value) => value);
+                                       (key, value) => providerInstance );
         }
         
         private static DbProviderFactory GetInternal(string providerName)
@@ -97,7 +97,6 @@ namespace Rocks.Helpers
                     if (!m_IsInitialized)
                     {
                         IncludeBuiltInFactoryClasses();
-                        IncludeFactoryClassesFromConfig();
 
                         m_IsInitialized = true;
                     }
@@ -108,60 +107,6 @@ namespace Rocks.Helpers
         private static void IncludeBuiltInFactoryClasses()
         {
             SetInternal("System.Data.SqlClient", SqlClientFactory.Instance);
-        }
-
-        private static void IncludeFactoryClassesFromConfig()
-        {
-            var section = ConfigurationManager.GetSection("system.data") as DataSet;
-
-            if (section == null
-                || !section.Tables.Contains("DbProviderFactories")
-                || !section.Tables["DbProviderFactories"].Columns.Contains("InvariantName")
-                || !section.Tables["DbProviderFactories"].Columns.Contains("AssemblyQualifiedName"))
-            {
-                return;
-            }
-
-            for (var i = 0; i < section.Tables["DbProviderFactories"].Rows.Count; i++)
-            {
-                var providerName = section.Tables["DbProviderFactories"].Rows[i]["InvariantName"] as string;
-                var providerType = section.Tables["DbProviderFactories"].Rows[i]["AssemblyQualifiedName"] as string;
-
-                DbProviderFactory instance = null;
-
-                var instanceType = Type.GetType(providerType);
-                var instanceField = instanceType.GetField("Instance", BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Public);
-
-                if (instanceField != null
-                    && instanceField.FieldType.IsSubclassOf(typeof (DbProviderFactory)))
-                {
-                    try
-                    {
-                        instance = (DbProviderFactory) instanceField.GetValue(null);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-
-                if (instance == null)
-                {
-                    try
-                    {
-                        instance = (DbProviderFactory) Activator.CreateInstance(instanceType);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-
-                if (instance != null)
-                {
-                    SetInternal(providerName, instance);
-                }
-            }
         }
     }
 }
