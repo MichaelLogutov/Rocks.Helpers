@@ -10,7 +10,13 @@ using System.Reflection;
 using System.Text;
 using FastMember;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Routing;
+
+#if NET46 || NET461 || NET462 || NET47 || NET471
+    using System.Web.Routing;
+#endif
+#if NETSTANDARD2_0
+    using Microsoft.AspNetCore.Routing;
+#endif
 
 namespace Rocks.Helpers
 {
