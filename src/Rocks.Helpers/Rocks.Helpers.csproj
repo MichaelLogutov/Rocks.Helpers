@@ -3,14 +3,15 @@
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user
         </DefaultItemExcludes>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>2.1.0</Version>
+        <TargetFrameworks>net46;net461;net462;net47;net471;netstandard2.0</TargetFrameworks>
+        <Version>2.2.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <Authors>Michael Logutov</Authors>
         <Company>Michael Logutov</Company>
         <Description>A collection of helper extensions.</Description>
         <Copyright>Copyright © Michael Logutov 2017</Copyright>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Rocks.Helpers.xml</DocumentationFile>
     </PropertyGroup>
     <!-- Properties for NuGet package -->
     <PropertyGroup>
@@ -25,6 +26,20 @@
     <ItemGroup>
         <PackageReference Include="FastMember" Version="1.1.0"/>
         <PackageReference Include="JetBrains.Annotations" Version="11.0.0"/>
+    </ItemGroup>
+    <!-- NuGet packages for .NET Framework -->
+    <ItemGroup Condition="$(TargetFramework) == 'net46'">
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net461'">
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net462'">
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net47'">
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net471'">
+    </ItemGroup>
+    <!-- NuGet packages for .NET Core -->
+    <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0"/>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0"/>
         <PackageReference Include="System.Data.Common" Version="4.3.0"/>
@@ -32,4 +47,43 @@
         <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0"/>
     </ItemGroup>
+    <!-- References for .NET Framework -->
+    <ItemGroup Condition="$(TargetFramework) == 'net46'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net461'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net462'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net47'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net471'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <!-- Documentation -->
+    <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
+        <ItemGroup>
+            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
+        </ItemGroup>
+        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+    </Target>
+
 </Project>
