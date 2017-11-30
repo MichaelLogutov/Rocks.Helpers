@@ -11,7 +11,7 @@ using System.Text;
 using FastMember;
 using JetBrains.Annotations;
 
-#if NET46 || NET461 || NET462 || NET47 || NET471
+#if NET461 || NET471
     using System.Web.Routing;
 #endif
 #if NETSTANDARD2_0

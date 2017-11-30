@@ -3,7 +3,7 @@
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user
         </DefaultItemExcludes>
-        <TargetFrameworks>net46;net461;net462;net47;net471;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net461;net471;netstandard2.0</TargetFrameworks>
         <Version>2.2.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
@@ -28,13 +28,7 @@
         <PackageReference Include="JetBrains.Annotations" Version="11.0.0"/>
     </ItemGroup>
     <!-- NuGet packages for .NET Framework -->
-    <ItemGroup Condition="$(TargetFramework) == 'net46'">
-    </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net461'">
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework) == 'net462'">
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework) == 'net47'">
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
     </ItemGroup>
@@ -48,25 +42,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0"/>
     </ItemGroup>
     <!-- References for .NET Framework -->
-    <ItemGroup Condition="$(TargetFramework) == 'net46'">
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Security"/>
-        <Reference Include="System.Web"/>
-    </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net461'">
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Security"/>
-        <Reference Include="System.Web"/>
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework) == 'net462'">
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Security"/>
-        <Reference Include="System.Web"/>
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework) == 'net47'">
         <Reference Include="System.Configuration"/>
         <Reference Include="System.ComponentModel.DataAnnotations"/>
         <Reference Include="System.Security"/>
