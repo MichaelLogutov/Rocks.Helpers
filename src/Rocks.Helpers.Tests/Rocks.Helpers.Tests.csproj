@@ -3,7 +3,7 @@
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user
         </DefaultItemExcludes>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <TargetFrameworks>net461;net471;netcoreapp2.0</TargetFrameworks>
     </PropertyGroup>
     <!-- Properties for NuGet package -->
     <PropertyGroup>
@@ -12,10 +12,23 @@
     <!-- NuGet packages -->
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0"/>
-        <PackageReference Include="xunit" Version="2.2.0"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0"/>
-        <PackageReference Include="AutoFixture" Version="3.50.6"/>
+        <PackageReference Include="xunit" Version="2.3.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1"/>
+        <PackageReference Include="AutoFixture" Version="3.51.0"/>
         <PackageReference Include="FluentAssertions" Version="4.19.4"/>
+    </ItemGroup>
+    <!-- References for .NET Framework -->
+    <ItemGroup Condition="$(TargetFramework) == 'net461'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net471'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Security"/>
+        <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- Projects -->
     <ItemGroup>

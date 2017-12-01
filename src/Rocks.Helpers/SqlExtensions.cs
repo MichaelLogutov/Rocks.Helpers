@@ -18,7 +18,12 @@ namespace Rocks.Helpers
         public static DbConnection CreateDbConnection ([NotNull] this string connectionString,
                                                        [NotNull] string providerName = "System.Data.SqlClient")
         {
+#if NET461 || NET471
+            var connection = DbProviderFactories.GetFactory(providerName).CreateConnection();
+#endif
+#if NETSTANDARD2_0
             var connection = DbFactory.Get(providerName).CreateConnection();
+#endif
             if (connection == null)
                 throw new InvalidOperationException ("Unable to create DbConnection.");
 

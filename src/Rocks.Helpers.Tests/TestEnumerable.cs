@@ -5,13 +5,9 @@ namespace Rocks.Helpers.Tests
 	public class TestEnumerable<T>
 	{
 		private readonly IEnumerable<T> items;
-		private int enumeratedCount;
 
-
-		public int EnumeratedCount
-		{
-			get { return this.enumeratedCount; }
-		}
+		
+		public int EnumeratedCount { get; private set; }
 
 
 		public TestEnumerable (IEnumerable<T> items)
@@ -22,11 +18,11 @@ namespace Rocks.Helpers.Tests
 
 		public IEnumerable<T> Enumerate ()
 		{
-			enumeratedCount = 0;
+			EnumeratedCount = 0;
 
 			foreach (var item in items)
 			{
-				enumeratedCount++;
+				EnumeratedCount++;
 				yield return item;
 			}
 		}
