@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- Properties -->
     <PropertyGroup>
-        <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v3.ncrunchproject;**\*.v3.ncrunchproject.user
+        <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v2.ncrunchproject;**\*.v3.ncrunchproject;**\*.nupkg
         </DefaultItemExcludes>
         <TargetFrameworks>net461;net471;netcoreapp2.0</TargetFrameworks>
     </PropertyGroup>
@@ -19,14 +19,14 @@
     </ItemGroup>
     <!-- References for .NET Framework -->
     <ItemGroup Condition="$(TargetFramework) == 'net461'">
-        <Reference Include="System.Configuration"/>
         <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
         <Reference Include="System.Security"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <Reference Include="System.Configuration"/>
         <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Configuration"/>
         <Reference Include="System.Security"/>
         <Reference Include="System.Web"/>
     </ItemGroup>
