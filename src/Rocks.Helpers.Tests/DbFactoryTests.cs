@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
+    [Collection("NoParallel")]
     public class DbFactoryTests
     {
         private sealed class TestDbProviderFactory : DbProviderFactory
