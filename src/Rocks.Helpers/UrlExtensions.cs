@@ -12,7 +12,7 @@ using FastMember;
 using JetBrains.Annotations;
 
 #if NET461 || NET471
-    using System.Web.Routing;
+    using RouteValueDictionary = System.Web.Http.Routing.HttpRouteValueDictionary;
 #endif
 #if NETSTANDARD2_0
     using Microsoft.AspNetCore.Routing;

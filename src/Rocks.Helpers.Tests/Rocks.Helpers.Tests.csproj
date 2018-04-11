@@ -19,10 +19,8 @@
     </ItemGroup>
     <!-- References for .NET Framework -->
     <ItemGroup Condition="$(TargetFramework) == 'net461'">
-        <Reference Include="System.Web"/>
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <Reference Include="System.Web"/>
     </ItemGroup>
     <!-- Projects -->
     <ItemGroup>
