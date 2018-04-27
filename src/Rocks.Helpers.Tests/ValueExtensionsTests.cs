@@ -4,160 +4,160 @@ using Xunit;
 
 namespace Rocks.Helpers.Tests
 {
-	public class ValueExtensionsTests
-	{
-		public enum TestEnum
-		{
-			A = 1,
-			B = 2
-		}
+    public class ValueExtensionsTests
+    {
+#pragma warning disable IDE1006 // Naming Styles
+        public enum TestEnum
+        {
+            A = 1,
+            B = 2
+        }
+#pragma warning restore IDE1006 // Naming Styles
 
 
-		[Fact]
-		public void ShouldRequireEnum_Ok ()
-		{
-			var target = TestEnum.A;
+        [Fact]
+        public void ShouldRequireEnum_Ok()
+        {
+            var target = TestEnum.A;
 
-			target.RequiredEnum ("target");
-		}
-
-
-		[Fact]
-		public void ShouldRequireEnum_OkNullable ()
-		{
-			var target = (TestEnum?) TestEnum.A;
-
-			target.RequiredEnum ("target");
-		}
+            target.RequiredEnum("target");
+        }
 
 
-		[Fact]
-		public void ShouldRequireEnum_FailWhenInvalid ()
-		{
-			var target = (TestEnum) 0;
+        [Fact]
+        public void ShouldRequireEnum_OkNullable()
+        {
+            var target = (TestEnum?) TestEnum.A;
 
-			Action act = () => target.RequiredEnum ("target");
-
-		    act.ShouldThrow<ArgumentOutOfRangeException> ();
-		}
+            target.RequiredEnum("target");
+        }
 
 
-		[Fact]
-		public void ShouldRequiredAll_Ok ()
-		{
-			var target = new[] { TestEnum.A, TestEnum.B };
+        [Fact]
+        public void ShouldRequireEnum_FailWhenInvalid()
+        {
+            var target = (TestEnum) 0;
 
-			target.RequiredAll (x => x.RequiredEnum ("target"));
-		}
+            Action act = () => target.RequiredEnum("target");
 
-
-		[Fact]
-		public void ShouldRequiredAll_FailWhenInvalid ()
-		{
-			var target = new[] { TestEnum.A, (TestEnum) 0 };
-
-			Action act = () => target.RequiredAll (x => x.RequiredEnum ("target"));
-
-		    act.ShouldThrow<ArgumentOutOfRangeException> ();
-		}
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
 
 
-		[Fact]
-		public void AsValidEntityUrl_ValidUrl_DoesNotThrows ()
-		{
-			// arrange
-			var url = "aaa";
+        [Fact]
+        public void ShouldRequiredAll_Ok()
+        {
+            var target = new[] { TestEnum.A, TestEnum.B };
+
+            target.RequiredAll(x => x.RequiredEnum("target"));
+        }
 
 
-			// act
-			var action = new Action (() => url.AsValidEntityUrl ("url"));
+        [Fact]
+        public void ShouldRequiredAll_FailWhenInvalid()
+        {
+            var target = new[] { TestEnum.A, (TestEnum) 0 };
+
+            Action act = () => target.RequiredAll(x => x.RequiredEnum("target"));
+
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
 
 
-			// assert
-			action.ShouldNotThrow ();
-		}
+        [Fact]
+        public void AsValidEntityUrl_ValidUrl_DoesNotThrows()
+        {
+            // arrange
+            var url = "aaa";
 
 
-		[Fact]
-		public void AsValidEntityUrl_ValidUrlWithRussianChars_DoesNotThrows ()
-		{
-			// arrange
-			var url = "абв";
+            // act
+            var action = new Action(() => url.AsValidEntityUrl("url"));
 
 
-			// act
-			var action = new Action (() => url.AsValidEntityUrl ("url"));
+            // assert
+            action.Should().NotThrow();
+        }
 
 
-			// assert
-			action.ShouldNotThrow ();
-		}
+        [Fact]
+        public void AsValidEntityUrl_ValidUrlWithRussianChars_DoesNotThrows()
+        {
+            // arrange
+            var url = "абв";
 
 
-		[Fact]
-		public void AsValidEntityUrl_Null_DoesNotThrows ()
-		{
-			// arrange
-			string url = null;
+            // act
+            var action = new Action(() => url.AsValidEntityUrl("url"));
 
 
-			// act
-			// ReSharper disable once ExpressionIsAlwaysNull
-			var action = new Action (() => url.AsValidEntityUrl ("url"));
+            // assert
+            action.Should().NotThrow();
+        }
 
 
-			// assert
-			action.ShouldNotThrow ();
-		}
+        [Fact]
+        public void AsValidEntityUrl_Null_DoesNotThrows()
+        {
+            // arrange
+            string url = null;
 
 
-		[Fact]
-		public void AsValidEntityUrl_InvalidUrl_Throws ()
-		{
-			// arrange
-			var url = "+aaa";
+            // act
+            // ReSharper disable once ExpressionIsAlwaysNull
+            var action = new Action(() => url.AsValidEntityUrl("url"));
 
 
-			// act
-			var action = new Action (() => url.AsValidEntityUrl ("url"));
+            // assert
+            action.Should().NotThrow();
+        }
 
 
-			// assert
-			action.ShouldThrow<FormatException> ();
-		}
+        [Fact]
+        public void AsValidEntityUrl_InvalidUrl_Throws()
+        {
+            // arrange
+            var url = "+aaa";
 
 
-		[Fact]
-		public void AsValidEmail_ValidEmail_DoesNotThrows ()
-		{
-			// arrange
-			var email = "a@a";
+            // act
+            var action = new Action(() => url.AsValidEntityUrl("url"));
 
 
-			// act
-			var action = new Action (() => email.AsValidEmail ("email"));
+            // assert
+            action.Should().Throw<FormatException>();
+        }
 
 
-			// assert
-			action.ShouldNotThrow ();
-		}
+        [Fact]
+        public void AsValidEmail_ValidEmail_DoesNotThrows()
+        {
+            // arrange
+            var email = "a@a";
 
 
-		[Fact]
-		public void AsValidEmail_InvalidEmail_Throws ()
-		{
-			// arrange
-			var email = "aaa";
+            // act
+            var action = new Action(() => email.AsValidEmail("email"));
 
 
-			// act
-			var action = new Action (() => email.AsValidEmail ("email"));
+            // assert
+            action.Should().NotThrow();
+        }
 
 
-			// assert
-			action.ShouldThrow<FormatException> ();
-		}
-	}
+        [Fact]
+        public void AsValidEmail_InvalidEmail_Throws()
+        {
+            // arrange
+            var email = "aaa";
+
+
+            // act
+            var action = new Action(() => email.AsValidEmail("email"));
+
+
+            // assert
+            action.Should().Throw<FormatException>();
+        }
+    }
 }
-
-

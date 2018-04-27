@@ -10,11 +10,9 @@ namespace Rocks.Helpers
     /// </summary>
     public static class DbFactory
     {
-        private static bool m_IsInitialized = false;
-
-        private static readonly ConcurrentDictionary<string, DbProviderFactory> m_Descriptions = new ConcurrentDictionary<string, DbProviderFactory>();
-
-        private static Func<DbProviderFactory, DbProviderFactory> m_ConstructInstanceInterceptor = null;
+        private static bool IsInitialized = false;
+        private static readonly ConcurrentDictionary<string, DbProviderFactory> Descriptions = new ConcurrentDictionary<string, DbProviderFactory>();
+        private static Func<DbProviderFactory, DbProviderFactory> ConstructInstanceInterceptor = null;
 
         /// <summary>
         /// Set construct instance interceptor.
@@ -22,7 +20,7 @@ namespace Rocks.Helpers
         /// <param name="func">Interceptor function.</param>
         public static void SetConstructInstanceInterceptor(Func<DbProviderFactory, DbProviderFactory> func)
         {
-            m_ConstructInstanceInterceptor = func;
+            ConstructInstanceInterceptor = func;
         }
         
         /// <summary>
@@ -62,39 +60,36 @@ namespace Rocks.Helpers
 
         private static void SetInternal<T>(string providerName, T providerInstance) where T : DbProviderFactory
         {
-            m_Descriptions.AddOrUpdate(providerName,
+            Descriptions.AddOrUpdate(providerName,
                                        providerInstance,
                                        (key, value) => providerInstance );
         }
         
         private static DbProviderFactory GetInternal(string providerName)
         {
-            if (m_Descriptions.TryGetValue(providerName, out var result))
-            {
+            if (Descriptions.TryGetValue(providerName, out var result))
                 return ConstructInstance(result);
-            }
 
             return null;
         }
         
         private static DbProviderFactory ConstructInstance(DbProviderFactory instance)
         {
-            return m_ConstructInstanceInterceptor != null
-                       ? m_ConstructInstanceInterceptor(instance)
+            return ConstructInstanceInterceptor != null
+                       ? ConstructInstanceInterceptor(instance)
                        : instance;
         }
 
         private static void EnsureIsInitialized()
         {
-            if (!m_IsInitialized)
+            if (!IsInitialized)
             {
-                lock (m_Descriptions)
+                lock (Descriptions)
                 {
-                    if (!m_IsInitialized)
+                    if (!IsInitialized)
                     {
                         IncludeBuiltInFactoryClasses();
-
-                        m_IsInitialized = true;
+                        IsInitialized = true;
                     }
                 }
             }

@@ -8,14 +8,8 @@ namespace Rocks.Helpers
 {
     public static class AsyncLockExtensions
     {
-        #region Static fields
-
         private static readonly ConcurrentDictionary<object, LockToken> Locks =
             new ConcurrentDictionary<object, LockToken> ();
-
-        #endregion
-
-        #region Static methods
 
         /// <summary>
         ///     Executes <paramref name="get" /> method and returns it's value if it not null.
@@ -243,10 +237,6 @@ namespace Rocks.Helpers
             }
         }
 
-        #endregion
-
-        #region Private methods
-
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         private static void ReleaseLock (object key, LockToken @lock)
         {
@@ -254,48 +244,25 @@ namespace Rocks.Helpers
 
             if (@lock.IsNotUsed)
             {
-                LockToken tmp;
-                Locks.TryRemove (key, out tmp);
+                Locks.TryRemove(key, out var tmp);
             }
         }
 
-        #endregion
-
-        #region Nested type: LockToken
-
         private class LockToken
         {
-            #region Private readonly fields
-
             private readonly SemaphoreSlim semaphore;
 
-            #endregion
-
-            #region Private fields
-
             private int awaiting;
-
-            #endregion
-
-            #region Construct
 
             public LockToken ()
             {
                 this.semaphore = new SemaphoreSlim (1, 1);
             }
 
-            #endregion
-
-            #region Public properties
-
             public bool IsNotUsed
             {
                 get { return this.awaiting == 0; }
             }
-
-            #endregion
-
-            #region Public methods
 
             public void Acquire ()
             {
@@ -316,10 +283,6 @@ namespace Rocks.Helpers
                 this.semaphore.Release ();
                 Interlocked.Decrement (ref this.awaiting);
             }
-
-            #endregion
         }
-
-        #endregion
     }
 }

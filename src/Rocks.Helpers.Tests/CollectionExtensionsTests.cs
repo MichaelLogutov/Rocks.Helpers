@@ -277,7 +277,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            result.ShouldBeEquivalentTo (new[]
+            result.Should().BeEquivalentTo (new[]
                                          {
                                              new { id = 1 },
                                              new { id = 2 },
@@ -398,7 +398,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            result.ShouldAllBeEquivalentTo (new[] { data });
+            result.Should().BeEquivalentTo (new[] { data });
         }
 
 
@@ -414,7 +414,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            result.ShouldAllBeEquivalentTo (new[] { data });
+            result.Should().BeEquivalentTo (new[] { data });
         }
 
 
@@ -430,7 +430,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            result.ShouldAllBeEquivalentTo (new[] { new[] { 1, 2 }, new[] { 3 } });
+            result.Should().BeEquivalentTo (new[] { new[] { 1, 2 }, new[] { 3 } });
         }
 
 
@@ -446,7 +446,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            data.ShouldAllBeEquivalentTo (new[] { 1, 2, 3 });
+            data.Should().BeEquivalentTo (new[] { 1, 2, 3 });
         }
 
 
@@ -462,7 +462,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            data.ShouldAllBeEquivalentTo (new[] { 1, 2, 3 });
+            data.Should().BeEquivalentTo (new[] { 1, 2, 3 });
         }
 
 
@@ -478,7 +478,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            data.ShouldAllBeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
+            data.Should().BeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
         }
 
 
@@ -494,7 +494,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            data.ShouldAllBeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
+            data.Should().BeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
         }
 
 
@@ -518,11 +518,13 @@ namespace Rocks.Helpers.Tests
                                              string expectedOnlyInDestination)
         {
             // act
+#pragma warning disable 618
             var result = source.CompareTo (desination, (a, b) => a == b);
+#pragma warning restore 618
 
 
             // assert
-            result.ShouldBeEquivalentTo
+            result.Should().BeEquivalentTo
                 (new CollectionComparisonResult<char>
                  {
                      OnlyInSource = expectedOnlyInSource.ToCharArray (),
@@ -557,7 +559,7 @@ namespace Rocks.Helpers.Tests
 
 
             // assert
-            result.ShouldBeEquivalentTo
+            result.Should().BeEquivalentTo
                 (new CollectionComparisonResult<char>
                  {
                      OnlyInSource = expectedOnlyInSource.ToCharArray (),
@@ -586,12 +588,13 @@ namespace Rocks.Helpers.Tests
             var deletes = new List<char> ();
 
             // act
+#pragma warning disable 618
             source.MergeInto (existedItems: desination,
                               compare: (a, b) => a == b,
                               insert: x => inserts.Add (x),
                               update: (s, d) => updates.Add (s + "-" + d),
                               delete: x => deletes.Add (x));
-
+#pragma warning restore 618
 
             // assert
             inserts.Should ().Equal (expectedInserts);

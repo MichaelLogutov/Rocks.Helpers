@@ -1,6 +1,6 @@
 using System.Linq;
+using AutoFixture;
 using FluentAssertions;
-using Ploeh.AutoFixture;
 using Xunit;
 
 namespace Rocks.Helpers.Tests

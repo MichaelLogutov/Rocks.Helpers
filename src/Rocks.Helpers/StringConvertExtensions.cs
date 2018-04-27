@@ -12,8 +12,7 @@ namespace Rocks.Helpers
         /// <param name="value">Value as a string.</param>
         public static bool? ToBool (this string value)
         {
-            bool result;
-            if (!bool.TryParse (value, out result))
+            if (!bool.TryParse(value, out var result))
                 return null;
 
             return result;
@@ -28,8 +27,7 @@ namespace Rocks.Helpers
         /// <param name="defaultValue">Default value that will be returned if parse failed.</param>
         public static bool ToBool (this string value, bool defaultValue)
         {
-            bool result;
-            if (!bool.TryParse (value, out result))
+            if (!bool.TryParse(value, out var result))
                 return defaultValue;
 
             return result;
@@ -45,8 +43,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static int? ToInt (this string value, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
         {
-            int result;
-            if (!int.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!int.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
             return result;
@@ -63,8 +60,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static int ToInt (this string value, int defaultValue, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
         {
-            int result;
-            if (!int.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!int.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 
             return result;
@@ -80,8 +76,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static long? ToLong (this string value, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
         {
-            long result;
-            if (!long.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!long.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
             return result;
@@ -98,8 +93,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static long ToLong (this string value, long defaultValue, NumberStyles style = NumberStyles.Integer, CultureInfo culture = null)
         {
-            long result;
-            if (!long.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!long.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 
             return result;
@@ -115,8 +109,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static decimal? ToDecimal (this string value, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
         {
-            decimal result;
-            if (!decimal.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!decimal.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
             return result;
@@ -133,8 +126,7 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static decimal ToDecimal (this string value, decimal defaultValue, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
         {
-            decimal result;
-            if (!decimal.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!decimal.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 
             return result;
@@ -160,8 +152,7 @@ namespace Rocks.Helpers
             if (replaceCommaWithDot)
                 value = value.Replace (',', '.');
 
-            float result;
-            if (!float.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!float.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
             return result;
@@ -189,8 +180,7 @@ namespace Rocks.Helpers
             if (replaceCommaWithDot)
                 value = value.Replace (',', '.');
 
-            float result;
-            if (!float.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!float.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 
             return result;
@@ -216,8 +206,7 @@ namespace Rocks.Helpers
             if (replaceCommaWithDot)
                 value = value.Replace (',', '.');
 
-            double result;
-            if (!double.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!double.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
             return result;
@@ -245,8 +234,7 @@ namespace Rocks.Helpers
             if (replaceCommaWithDot)
                 value = value.Replace (',', '.');
 
-            double result;
-            if (!double.TryParse (value, style, culture ?? CultureInfo.InvariantCulture, out result))
+            if (!double.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 
             return result;
@@ -306,8 +294,7 @@ namespace Rocks.Helpers
                 if (string.IsNullOrEmpty (format))
                     throw new InvalidOperationException ("One of the formats is null or empty string");
 
-                DateTime res;
-                if (DateTime.TryParseExact (value, formats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out res))
+                if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var res))
                     return res;
             }
 

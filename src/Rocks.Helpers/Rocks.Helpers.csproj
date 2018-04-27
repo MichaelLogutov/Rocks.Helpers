@@ -1,54 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <!-- Properties -->
-    <PropertyGroup>
-        <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v2.ncrunchproject;**\*.v3.ncrunchproject;**\*.nupkg
+  <!-- Properties -->
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v2.ncrunchproject;**\*.v3.ncrunchproject;**\*.nupkg
         </DefaultItemExcludes>
-        <TargetFrameworks>net461;net471;netstandard2.0</TargetFrameworks>
-        <Version>2.4.0</Version>
-        <FileVersion>$(Version)</FileVersion>
-        <AssemblyVersion>$(Version)</AssemblyVersion>
-        <Authors>Michael Logutov</Authors>
-        <Company>Michael Logutov</Company>
-        <Description>A collection of helper extensions.</Description>
-        <Copyright>Copyright © Michael Logutov 2018</Copyright>
-        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Rocks.Helpers.xml</DocumentationFile>
-        <NoWarn>1591</NoWarn>
-    </PropertyGroup>
-    <!-- Properties for NuGet package -->
-    <PropertyGroup>
-        <IsPackable>true</IsPackable>
-        <PackageId>Rocks.Helpers</PackageId>
-        <PackageVersion>$(Version)</PackageVersion>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
-    </PropertyGroup>
-    <!-- NuGet packages -->
+    <TargetFrameworks>net461;net471;netstandard2.0</TargetFrameworks>
+    <Version>2.5.0</Version>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <Authors>Michael Logutov</Authors>
+    <Company>Michael Logutov</Company>
+    <Description>A collection of helper extensions.</Description>
+    <Copyright>Copyright © Michael Logutov 2018</Copyright>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Rocks.Helpers.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <!-- Properties for NuGet package -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Rocks.Helpers</PackageId>
+    <PackageVersion>$(Version)</PackageVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>2.5.0 (2018-04-27)
+Packages update, refactor tests to new major version fluent assertions and autofixture</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/MichaelLogutov/Rocks.Helpers</RepositoryUrl>
+  </PropertyGroup>
+  <!-- NuGet packages -->
+  <ItemGroup>
+    <PackageReference Include="FastMember" Version="1.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+  </ItemGroup>
+  <!-- NuGet packages for .NET Framework -->
+  <ItemGroup Condition="$(TargetFramework) == 'net461'">
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework) == 'net471'">
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4" />
+  </ItemGroup>
+  <!-- NuGet packages for .NET Core -->
+  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
+  </ItemGroup>
+  <!-- Documentation -->
+  <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
     <ItemGroup>
-        <PackageReference Include="FastMember" Version="1.3.0"/>
-        <PackageReference Include="JetBrains.Annotations" Version="11.0.0"/>
-        <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0"/>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0"/>
+      <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
     </ItemGroup>
-    <!-- NuGet packages for .NET Framework -->
-    <ItemGroup Condition="$(TargetFramework) == 'net461'">
-        <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4"/>
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4"/>
-    </ItemGroup>
-    <!-- NuGet packages for .NET Core -->
-    <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-        <PackageReference Include="System.Data.Common" Version="4.3.0"/>
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0"/>
-        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0"/>
-    </ItemGroup>
-    <!-- Documentation -->
-    <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
-        <ItemGroup>
-            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
-        </ItemGroup>
-        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
-    </Target>
+    <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+  </Target>
 </Project>

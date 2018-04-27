@@ -22,14 +22,8 @@ namespace Rocks.Helpers
 {
     public static class UrlExtensions
     {
-        #region Private fields
-
         private static readonly ConcurrentDictionary<string, TypeInfo> typesInfoCache =
             new ConcurrentDictionary<string, TypeInfo> (StringComparer.Ordinal);
-
-        #endregion
-
-        #region Static methods
 
         /// <summary>
         ///     Creates new <see cref="RouteValueDictionary" /> from <paramref name="obj" /> properties.
@@ -53,8 +47,7 @@ namespace Rocks.Helpers
 
             foreach (var member in type_accessor.GetMembers ())
             {
-                PropertyInfo property;
-                if (!type_info.Properties.TryGetValue (member.Name, out property))
+                if (!type_info.Properties.TryGetValue(member.Name, out var property))
                     continue;
 
                 if (filter != null && !filter (property))
@@ -62,9 +55,8 @@ namespace Rocks.Helpers
 
                 var value = type_accessor[obj, member.Name];
 
-                DisplayFormatAttribute display_format_attribute;
-                if (type_info.PropertiesCustomFormat.TryGetValue (member.Name, out display_format_attribute))
-                    value = FormatValue (value, display_format_attribute);
+                if (type_info.PropertiesCustomFormat.TryGetValue(member.Name, out var display_format_attribute))
+                    value = FormatValue(value, display_format_attribute);
 
                 res.Add (member.Name, value);
             }
@@ -141,10 +133,6 @@ namespace Rocks.Helpers
             return prefix + result;
         }
 
-        #endregion
-
-        #region Private methods
-
         private static object FormatValue (object value, [NotNull] DisplayFormatAttribute displayFormatAttribute)
         {
             if (value == null)
@@ -205,20 +193,11 @@ namespace Rocks.Helpers
             result.Append (escapeValue ? Uri.EscapeDataString (str) : str);
         }
 
-        #endregion
-
-        #region Nested type: TypeInfo
-
         private class TypeInfo
         {
-            #region Public properties
-
             public IDictionary<string, DisplayFormatAttribute> PropertiesCustomFormat { get; set; }
             public IDictionary<string, PropertyInfo> Properties { get; set; }
 
-            #endregion
         }
-
-        #endregion
     }
 }

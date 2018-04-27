@@ -19,7 +19,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (date, date2)
 			                                });
@@ -39,7 +39,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (date, date2)
 			                                });
@@ -59,7 +59,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (date, date2)
 			                                });
@@ -79,7 +79,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (date, date2)
 			                                });
@@ -99,7 +99,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (date, date2)
 			                                });
@@ -119,7 +119,7 @@ namespace Rocks.Helpers.Tests.DateTimeTests
 
 
 			// assert
-			result.ShouldAllBeEquivalentTo (new[]
+			result.Should().BeEquivalentTo (new[]
 			                                {
 				                                new Tuple<DateTime, DateTime> (new DateTime (2014, 2, 6), new DateTime (2014, 2, 9)),
 												new Tuple<DateTime, DateTime> (new DateTime (2014, 2, 10), new DateTime (2014, 2, 14))

@@ -16,9 +16,8 @@ namespace Rocks.Helpers
                                                              TKey key,
                                                              TValue defaultValue = default(TValue))
         {
-            TValue res;
 
-            if (dictionary.TryGetValue(key, out res))
+            if (dictionary.TryGetValue(key, out var res))
                 return res;
 
             return defaultValue;
@@ -49,9 +48,8 @@ namespace Rocks.Helpers
                                                               TKey key,
                                                               TValue? defaultValue = null) where TValue : struct
         {
-            TValue res;
 
-            if (dictionary.TryGetValue(key, out res))
+            if (dictionary.TryGetValue(key, out var res))
                 return res;
 
             return defaultValue;
@@ -85,9 +83,8 @@ namespace Rocks.Helpers
         {
             callback.RequiredNotNull("callback");
 
-            TValue res;
 
-            if (!dictionary.TryGetValue(key, out res))
+            if (!dictionary.TryGetValue(key, out var res))
             {
                 res = callback();
                 dictionary[key] = res;
@@ -122,9 +119,8 @@ namespace Rocks.Helpers
                                                              TKey key,
                                                              TValue defaultValue = default(TValue))
         {
-            TValue res;
 
-            if (dictionary.TryGetValue(key, out res))
+            if (dictionary.TryGetValue(key, out var res))
                 return res;
 
             return defaultValue;
@@ -142,9 +138,8 @@ namespace Rocks.Helpers
                                                               TValue? defaultValue = null)
             where TValue : struct
         {
-            TValue res;
 
-            if (dictionary.TryGetValue(key, out res))
+            if (dictionary.TryGetValue(key, out var res))
                 return res;
 
             return defaultValue;
