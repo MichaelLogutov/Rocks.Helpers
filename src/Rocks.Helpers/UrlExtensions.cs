@@ -11,7 +11,7 @@ using System.Text;
 using FastMember;
 using JetBrains.Annotations;
 
-#if NET461 || NET471
+#if NET471
     using RouteValueDictionary = System.Web.Http.Routing.HttpRouteValueDictionary;
 #endif
 #if NETSTANDARD2_0
