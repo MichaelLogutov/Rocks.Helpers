@@ -14,6 +14,10 @@ namespace Rocks.Helpers.Tests
         {
         }
 
+        private sealed class TestDbProviderFactory2 : DbProviderFactory
+        {
+        }
+
 
         [Fact]
         public void Get_BuiltInSqlClientFactory_ShoulBeCorrectlyType()
@@ -31,14 +35,14 @@ namespace Rocks.Helpers.Tests
 
 
         [Fact]
-        public void Set_BuiltInSqlClientFactory_ShoulBeCorrectlyType()
+        public void Set_ShoulBeCorrectlyType()
         {
             // arrange
 
 
             // act
-            DbFactory.Set("System.Data.SqlClient", new TestDbProviderFactory());
-            var result = DbFactory.Get("System.Data.SqlClient");
+            DbFactory.Set("aaa", new TestDbProviderFactory());
+            var result = DbFactory.Get("aaa");
 
 
             // assert
@@ -52,31 +56,30 @@ namespace Rocks.Helpers.Tests
             // arrange
             var calls = new List<string>();
 
-            DbFactory.SetConstructInstanceInterceptor((instance) =>
-                                                      {
-                                                          if (instance is TestDbProviderFactory)
-                                                          {
-                                                              return instance;
-                                                          }
+            DbFactory.Set("bbb", new TestDbProviderFactory());
+            DbFactory.SetConstructInstanceInterceptor(
+                instance =>
+                {
+                    if (!(instance is TestDbProviderFactory))
+                        return instance;
 
-                                                          calls.Add("ExecuteConstructInstanceInterceptor");
+                    calls.Add("ExecuteConstructInstanceInterceptor");
 
-                                                          var newInstance = new TestDbProviderFactory();
+                    var new_instance = new TestDbProviderFactory2();
+                    DbFactory.Set("bbb", new_instance);
 
-                                                          DbFactory.Set(instance.GetType().Namespace, newInstance);
-
-                                                          return newInstance;
-                                                      });
+                    return new_instance;
+                });
 
 
             // act
-            var result_1 = DbFactory.Get("System.Data.SqlClient");
-            var result_2 = DbFactory.Get("System.Data.SqlClient");
+            var result_1 = DbFactory.Get("bbb");
+            var result_2 = DbFactory.Get("bbb");
 
 
             // assert
-            result_1.Should().BeOfType<TestDbProviderFactory>();
-            result_2.Should().BeOfType<TestDbProviderFactory>();
+            result_1.Should().BeOfType<TestDbProviderFactory2>();
+            result_2.Should().BeOfType<TestDbProviderFactory2>();
             calls.Should().BeEquivalentTo("ExecuteConstructInstanceInterceptor");
         }
     }

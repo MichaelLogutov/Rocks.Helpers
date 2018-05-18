@@ -6,73 +6,71 @@ using System.Data.SqlClient;
 namespace Rocks.Helpers
 {
     /// <summary>
-    /// Db factory class.
+    ///     Db factory class.
     /// </summary>
     public static class DbFactory
     {
-        private static bool IsInitialized = false;
-        private static readonly ConcurrentDictionary<string, DbProviderFactory> Descriptions = new ConcurrentDictionary<string, DbProviderFactory>();
-        private static Func<DbProviderFactory, DbProviderFactory> ConstructInstanceInterceptor = null;
+        private static bool IsInitialized;
+        private static readonly ConcurrentDictionary<string, DbProviderFactory> Factories = new ConcurrentDictionary<string, DbProviderFactory>();
+        private static Func<DbProviderFactory, DbProviderFactory> ConstructInstanceInterceptor;
+
 
         /// <summary>
-        /// Set construct instance interceptor.
+        ///     Set construct instance interceptor.
         /// </summary>
-        /// <param name="func">Interceptor function.</param>
         public static void SetConstructInstanceInterceptor(Func<DbProviderFactory, DbProviderFactory> func)
         {
             ConstructInstanceInterceptor = func;
         }
-        
+
+
         /// <summary>
-        /// Set DbProviderFactory instance by provider name. 
+        ///     Set DbProviderFactory instance by provider name. 
         /// </summary>
-        /// <param name="providerName">Provider name.</param>
-        /// <param name="providerInstance">DbProviderFactory instance.</param>
-        /// <typeparam name="T">Type of DbProviderFactory.</typeparam>
         public static void Set<T>(string providerName, T providerInstance) where T : DbProviderFactory
         {
             EnsureIsInitialized();
-            
+
             SetInternal(providerName, providerInstance);
         }
 
+
         /// <summary>
-        /// Get DbProviderFactory instance by provider name. 
+        ///     Get DbProviderFactory instance by <paramref name="providerName"/>.
         /// </summary>
-        /// <param name="providerName">Provider name.</param>
-        /// <returns>DbProviderFactory instance.</returns>
         public static DbProviderFactory Get(string providerName)
         {
             EnsureIsInitialized();
-
             return GetInternal(providerName);
         }
 
+
         /// <summary>
-        /// Get DbProviderFactory by DbConnection.
+        ///     Get DbProviderFactory by DbConnection namespace.
         /// </summary>
-        /// <param name="dbConnection">DbConnection instance.</param>
-        /// <returns>DbProviderFactory instance.</returns>
         public static DbProviderFactory Get(DbConnection dbConnection)
         {
             return Get(dbConnection.GetType().Namespace);
         }
 
+
         private static void SetInternal<T>(string providerName, T providerInstance) where T : DbProviderFactory
         {
-            Descriptions.AddOrUpdate(providerName,
-                                       providerInstance,
-                                       (key, value) => providerInstance );
+            Factories.AddOrUpdate(providerName,
+                                  providerInstance,
+                                  (key, value) => providerInstance);
         }
-        
+
+
         private static DbProviderFactory GetInternal(string providerName)
         {
-            if (Descriptions.TryGetValue(providerName, out var result))
+            if (Factories.TryGetValue(providerName, out var result))
                 return ConstructInstance(result);
 
             return null;
         }
-        
+
+
         private static DbProviderFactory ConstructInstance(DbProviderFactory instance)
         {
             return ConstructInstanceInterceptor != null
@@ -80,20 +78,22 @@ namespace Rocks.Helpers
                        : instance;
         }
 
+
         private static void EnsureIsInitialized()
         {
-            if (!IsInitialized)
+            if (IsInitialized)
+                return;
+
+            lock (Factories)
             {
-                lock (Descriptions)
-                {
-                    if (!IsInitialized)
-                    {
-                        IncludeBuiltInFactoryClasses();
-                        IsInitialized = true;
-                    }
-                }
+                if (IsInitialized)
+                    return;
+
+                IncludeBuiltInFactoryClasses();
+                IsInitialized = true;
             }
         }
+
 
         private static void IncludeBuiltInFactoryClasses()
         {
