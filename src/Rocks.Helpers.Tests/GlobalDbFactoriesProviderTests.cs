@@ -8,7 +8,7 @@ using Xunit;
 namespace Rocks.Helpers.Tests
 {
     [Collection("NoParallel")]
-    public class DbFactoryTests
+    public class GlobalDbFactoriesProviderTests
     {
         private sealed class TestDbProviderFactory : DbProviderFactory
         {
@@ -26,7 +26,7 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = DbFactory.Get("System.Data.SqlClient");
+            var result = GlobalDbFactoriesProvider.Get("System.Data.SqlClient");
 
 
             // assert
@@ -41,8 +41,8 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            DbFactory.Set("aaa", new TestDbProviderFactory());
-            var result = DbFactory.Get("aaa");
+            GlobalDbFactoriesProvider.Set("aaa", new TestDbProviderFactory());
+            var result = GlobalDbFactoriesProvider.Get("aaa");
 
 
             // assert
@@ -56,8 +56,8 @@ namespace Rocks.Helpers.Tests
             // arrange
             var calls = new List<string>();
 
-            DbFactory.Set("bbb", new TestDbProviderFactory());
-            DbFactory.SetConstructInstanceInterceptor(
+            GlobalDbFactoriesProvider.Set("bbb", new TestDbProviderFactory());
+            GlobalDbFactoriesProvider.SetConstructInstanceInterceptor(
                 instance =>
                 {
                     if (!(instance is TestDbProviderFactory))
@@ -66,15 +66,15 @@ namespace Rocks.Helpers.Tests
                     calls.Add("ExecuteConstructInstanceInterceptor");
 
                     var new_instance = new TestDbProviderFactory2();
-                    DbFactory.Set("bbb", new_instance);
+                    GlobalDbFactoriesProvider.Set("bbb", new_instance);
 
                     return new_instance;
                 });
 
 
             // act
-            var result_1 = DbFactory.Get("bbb");
-            var result_2 = DbFactory.Get("bbb");
+            var result_1 = GlobalDbFactoriesProvider.Get("bbb");
+            var result_2 = GlobalDbFactoriesProvider.Get("bbb");
 
 
             // assert

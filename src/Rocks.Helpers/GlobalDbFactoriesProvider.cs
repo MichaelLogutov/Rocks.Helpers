@@ -8,7 +8,7 @@ namespace Rocks.Helpers
     /// <summary>
     ///     Db factory class.
     /// </summary>
-    public static class DbFactory
+    public static class GlobalDbFactoriesProvider
     {
         private static bool IsInitialized;
         private static readonly ConcurrentDictionary<string, DbProviderFactory> Factories = new ConcurrentDictionary<string, DbProviderFactory>();

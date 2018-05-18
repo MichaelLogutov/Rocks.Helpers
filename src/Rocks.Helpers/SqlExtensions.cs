@@ -22,7 +22,7 @@ namespace Rocks.Helpers
             var connection = DbProviderFactories.GetFactory(providerName).CreateConnection();
 #endif
 #if NETSTANDARD2_0
-            var connection = DbFactory.Get(providerName).CreateConnection();
+            var connection = GlobalDbFactoriesProvider.Get(providerName).CreateConnection();
 #endif
             if (connection == null)
                 throw new InvalidOperationException ("Unable to create DbConnection.");

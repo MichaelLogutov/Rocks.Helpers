@@ -4,10 +4,10 @@ using JetBrains.Annotations;
 
 namespace Rocks.Helpers
 {
-    public static class ConnectionStringProvider
+    public static class GlobalConnectionStringProvider
     {
         /// <summary>
-        ///     Custom provider that can be used to get the connection string in the method <see cref="GetConnectionString"/>.<br />
+        ///     Custom provider that can be used to get the connection string in the method <see cref="Get"/>.<br />
         ///     It value will have a priority before using app configuration.<br />
         ///     Default value null.
         /// </summary>
@@ -20,7 +20,7 @@ namespace Rocks.Helpers
         ///     Throws an exception if connection string was not found.
         /// </summary>
         [NotNull]
-        public static string GetConnectionString([NotNull] string connectionStringName)
+        public static string Get([NotNull] string connectionStringName)
         {
             if (connectionStringName == null)
                 throw new ArgumentNullException(nameof(connectionStringName));
@@ -34,7 +34,7 @@ namespace Rocks.Helpers
                 return css.ConnectionString;
 
 #if !NET471
-            var configuration = ConfigurationProvider.Get();
+            var configuration = GlobalConfigurationProvider.Get();
             if (configuration != null)
             {
                 var cs = configuration.GetSection("ConnectionStrings")?[connectionStringName];

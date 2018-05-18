@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 namespace Rocks.Helpers
 {
     /// <summary>
-    ///     A static <see cref="IConfiguration"/> provider that can be used to get active configuration instance.<br />
+    ///     A global static <see cref="IConfiguration"/> provider that can be used to get active configuration instance.<br />
     ///     Before using confugration provider must be set with method <see cref="Set"/>.
     /// </summary>
-    public static class ConfigurationProvider
+    public static class GlobalConfigurationProvider
     {
         [CanBeNull]
         private static Func<IConfiguration> Provider { get; set; }
