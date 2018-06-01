@@ -18,14 +18,14 @@ namespace Rocks.Helpers
         ///         retry attempt count (starting with 1).
         ///     </para>
         /// </summary>
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static void RetryOnException ([NotNull] this Action action,
-                                             [NotNull] Func<Exception, bool> isRetriableException,
-                                             int maxRetries,
-                                             Action<Exception, int> logException = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RetryOnException([NotNull] this Action action,
+                                            [NotNull] Func<Exception, bool> isRetriableException,
+                                            int maxRetries,
+                                            Action<Exception, int> logException = null)
         {
-            action.RequiredNotNull ("action");
-            isRetriableException.RequiredNotNull ("isRetriableException");
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
 
             var retries = 0;
 
@@ -33,18 +33,17 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    action ();
+                    action();
                     break;
                 }
                 catch (Exception ex)
                 {
                     retries++;
 
-                    if (retries > maxRetries || !isRetriableException (ex))
+                    if (retries > maxRetries || !isRetriableException(ex))
                         throw;
 
-                    if (logException != null)
-                        logException (ex, retries);
+                    logException?.Invoke(ex, retries);
                 }
             }
         }
@@ -61,14 +60,14 @@ namespace Rocks.Helpers
         ///         retry attempt count (starting with 1).
         ///     </para>
         /// </summary>
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static async Task RetryOnExceptionAsync ([NotNull] this Func<Task> action,
-                                                        [NotNull] Func<Exception, bool> isRetriableException,
-                                                        int maxRetries,
-                                                        Action<Exception, int> logException = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async Task RetryOnExceptionAsync([NotNull] this Func<Task> action,
+                                                       [NotNull] Func<Exception, bool> isRetriableException,
+                                                       int maxRetries,
+                                                       Func<Exception, int, Task> logException = null)
         {
-            action.RequiredNotNull ("action");
-            isRetriableException.RequiredNotNull ("isRetriableException");
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
 
             var retries = 0;
 
@@ -76,18 +75,18 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    await action ().ConfigureAwait (false);
+                    await action().ConfigureAwait(false);
                     break;
                 }
                 catch (Exception ex)
                 {
                     retries++;
 
-                    if (retries > maxRetries || !isRetriableException (ex))
+                    if (retries > maxRetries || !isRetriableException(ex))
                         throw;
 
                     if (logException != null)
-                        logException (ex, retries);
+                        await logException(ex, retries).ConfigureAwait(false);
                 }
             }
         }
@@ -104,14 +103,14 @@ namespace Rocks.Helpers
         ///         retry attempt count (starting with 1).
         ///     </para>
         /// </summary>
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static T RetryOnException<T> ([NotNull] this Func<T> action,
-                                             [NotNull] Func<Exception, bool> isRetriableException,
-                                             int maxRetries,
-                                             Action<Exception, int> logException = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T RetryOnException<T>([NotNull] this Func<T> action,
+                                            [NotNull] Func<Exception, bool> isRetriableException,
+                                            int maxRetries,
+                                            Action<Exception, int> logException = null)
         {
-            action.RequiredNotNull ("action");
-            isRetriableException.RequiredNotNull ("isRetriableException");
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
 
             var retries = 0;
 
@@ -119,17 +118,16 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    return action ();
+                    return action();
                 }
                 catch (Exception ex)
                 {
                     retries++;
 
-                    if (retries > maxRetries || !isRetriableException (ex))
+                    if (retries > maxRetries || !isRetriableException(ex))
                         throw;
 
-                    if (logException != null)
-                        logException (ex, retries);
+                    logException?.Invoke(ex, retries);
                 }
             }
         }
@@ -146,14 +144,14 @@ namespace Rocks.Helpers
         ///         retry attempt count (starting with 1).
         ///     </para>
         /// </summary>
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static async Task<T> RetryOnExceptionAsync<T> ([NotNull] this Func<Task<T>> action,
-                                                              [NotNull] Func<Exception, bool> isRetriableException,
-                                                              int maxRetries,
-                                                              Action<Exception, int> logException = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async Task<T> RetryOnExceptionAsync<T>([NotNull] this Func<Task<T>> action,
+                                                             [NotNull] Func<Exception, bool> isRetriableException,
+                                                             int maxRetries,
+                                                             Func<Exception, int, Task> logException = null)
         {
-            action.RequiredNotNull ("action");
-            isRetriableException.RequiredNotNull ("isRetriableException");
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
 
             var retries = 0;
 
@@ -161,17 +159,17 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    return await action ().ConfigureAwait (false);
+                    return await action().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     retries++;
 
-                    if (retries > maxRetries || !isRetriableException (ex))
+                    if (retries > maxRetries || !isRetriableException(ex))
                         throw;
 
                     if (logException != null)
-                        logException (ex, retries);
+                        await logException(ex, retries).ConfigureAwait(false);
                 }
             }
         }

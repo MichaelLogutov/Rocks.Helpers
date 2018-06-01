@@ -1,27 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Properties -->
-  <PropertyGroup>
-    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.v2.ncrunchproject;**\*.v3.ncrunchproject;**\*.nupkg
-        </DefaultItemExcludes>
-    <TargetFrameworks>net471;netcoreapp2.0</TargetFrameworks>
-  </PropertyGroup>
-  <!-- Properties for NuGet package -->
-  <PropertyGroup>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-  <!-- NuGet packages -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <PackageReference Include="AutoFixture" Version="4.2.1" />
-    <PackageReference Include="FluentAssertions" Version="5.3.0" />
-  </ItemGroup>
-  <!-- References for .NET Framework -->
-  <ItemGroup Condition="$(TargetFramework) == 'net471'">
-  </ItemGroup>
-  <!-- Projects -->
-  <ItemGroup>
-    <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net471;netcoreapp2.1</TargetFrameworks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2"/>
+        <PackageReference Include="xunit" Version="2.3.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1"/>
+        <PackageReference Include="AutoFixture" Version="4.4.0"/>
+        <PackageReference Include="FluentAssertions" Version="5.3.2"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'net471'">
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Web"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj"/>
+    </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
-        <Version>3.0.0</Version>
+        <Version>4.0.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <Authors>Michael Logutov</Authors>
@@ -18,9 +18,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
-        <PackageReleaseNotes>3.0.0 (2018-05-18)
+        <PackageReleaseNotes>4.0.0 (2018-06-01)
+            RetryOnExceptionAsync now support async logException
+            Packages update
+
+            3.0.0 (2018-05-18)
             Renamed global provider classes
-            
+
             2.7.0 (2018-05-18)
             Added configuration provider and connection string provider that can be used in netfx and netcore
 
@@ -40,18 +44,19 @@
         <Compile Remove="**/*.netcore.*"/>
         <Reference Include="System.Configuration"/>
         <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4"/>
+        <Reference Include="System.Web"/>
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
         <Compile Remove="**/*.netfx.*"/>
-        <PackageReference Include="System.Data.Common" Version="4.3.0"/>
-        <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>
+        <!--<PackageReference Include="System.Data.Common" Version="4.3.0"/>-->
+        <!--<PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>-->
         <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.2"/>
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1"/>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1"/>
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
+        <!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1"/>-->
+        <!--<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>-->
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2"/>
+        <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.6"/>
     </ItemGroup>
     <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
         <ItemGroup>
