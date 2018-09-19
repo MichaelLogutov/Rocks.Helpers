@@ -1,67 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
-        <Version>4.0.0</Version>
+        <Version>4.1.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <Authors>Michael Logutov</Authors>
         <Company>Michael Logutov</Company>
         <Description>A collection of helper extensions.</Description>
         <Copyright>Copyright © Michael Logutov 2018</Copyright>
-        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Rocks.Helpers.xml</DocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <NoWarn>1591</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>true</IsPackable>
-        <PackageId>Rocks.Helpers</PackageId>
+        <PackageId>$(AssemblyName)</PackageId>
         <PackageVersion>$(Version)</PackageVersion>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/MichaelLogutov/Rocks.Helpers</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/MichaelLogutov/Rocks.Helpers/blob/master/LICENSE</PackageLicenseUrl>
-        <PackageReleaseNotes>4.0.0 (2018-06-01)
-            RetryOnExceptionAsync now support async logException
-            Packages update
-
-            3.0.0 (2018-05-18)
-            Renamed global provider classes
-
-            2.7.0 (2018-05-18)
-            Added configuration provider and connection string provider that can be used in netfx and netcore
-
-            2.6.0 (2018-04-28)
-            Removed .NET 4.6.1, fixed dependencies
-
-            2.5.0 (2018-04-27)
-            Packages update, refactor tests to new major version fluent assertions and autofixture
-        </PackageReleaseNotes>
         <RepositoryUrl>https://github.com/MichaelLogutov/Rocks.Helpers</RepositoryUrl>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FastMember" Version="1.3.0"/>
-        <PackageReference Include="JetBrains.Annotations" Version="11.1.0"/>
+        <PackageReference Include="FastMember" Version="1.3.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <Compile Remove="**/*.netcore.*"/>
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Compile Remove="**/*.netcore.*" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-        <Compile Remove="**/*.netfx.*"/>
-        <!--<PackageReference Include="System.Data.Common" Version="4.3.0"/>-->
-        <!--<PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0"/>-->
-        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.2"/>
-        <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1"/>
-        <!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1"/>-->
-        <!--<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>-->
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2"/>
-        <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.6"/>
+        <Compile Remove="**/*.netfx.*" />
+        <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.2" />
     </ItemGroup>
     <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
         <ItemGroup>
-            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml"/>
+            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
         </ItemGroup>
-        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false"/>
+        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
     </Target>
 </Project>
