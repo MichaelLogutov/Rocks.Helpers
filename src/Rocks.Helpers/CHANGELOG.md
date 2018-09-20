@@ -1,3 +1,10 @@
+## 4.2.0 - 2018-09-20
+### Changed
+- GlobalDbFactoriesProvider under .NET Framework will fallback to DbProviderFactories if no provider defined.
+- Packages update 
+### Fixed
+- Fixed issue when using SqlExtensions.CreateDbConnection were not using GlobalDbFactoriesProvider in .NET Framework. 
+
 ## 4.1.0 - 2018-09-19
 ### Removed
 - Removed unused dependency on Microsoft.AspNet.WebApi 

@@ -64,8 +64,16 @@ namespace Rocks.Helpers
 
         private static DbProviderFactory GetInternal(string providerName)
         {
+#if NETSTANDARD
             if (Factories.TryGetValue(providerName, out var result))
                 return ConstructInstance(result);
+#elif NETFRAMEWORK
+            if (!Factories.TryGetValue(providerName, out var result))
+                result = DbProviderFactories.GetFactory(providerName);
+
+            if (result != null)
+                return ConstructInstance(result);
+#endif
 
             return null;
         }
