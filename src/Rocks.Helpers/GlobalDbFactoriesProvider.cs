@@ -69,7 +69,16 @@ namespace Rocks.Helpers
                 return ConstructInstance(result);
 #elif NETFRAMEWORK
             if (!Factories.TryGetValue(providerName, out var result))
-                result = DbProviderFactories.GetFactory(providerName);
+            {
+                try
+                {
+                    result = DbProviderFactories.GetFactory(providerName);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
 
             if (result != null)
                 return ConstructInstance(result);

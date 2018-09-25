@@ -1,3 +1,7 @@
+## 4.2.1 - 2018-09-25
+### Fixed
+- Fixed issue with GlobalDbFactoriesProvider.Get throwing exception when factory is not defined in .NET Framework app.
+
 ## 4.2.0 - 2018-09-20
 ### Changed
 - GlobalDbFactoriesProvider under .NET Framework will fallback to DbProviderFactories if no provider defined.
