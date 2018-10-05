@@ -109,6 +109,12 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static decimal? ToDecimal (this string value, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
         {
+            if (string.IsNullOrWhiteSpace (value))
+                return null;
+            
+            if (culture == null || culture.Equals(CultureInfo.InvariantCulture))
+                value = value.Replace (',', '.');
+            
             if (!decimal.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return null;
 
@@ -126,6 +132,12 @@ namespace Rocks.Helpers
         /// <param name="culture">A culture which will be used for parsing. If null invariant culture is used.</param>
         public static decimal ToDecimal (this string value, decimal defaultValue, NumberStyles style = NumberStyles.Number, CultureInfo culture = null)
         {
+            if (string.IsNullOrWhiteSpace (value))
+                return defaultValue;
+            
+            if (culture == null || culture.Equals(CultureInfo.InvariantCulture))
+                value = value.Replace (',', '.');
+            
             if (!decimal.TryParse(value, style, culture ?? CultureInfo.InvariantCulture, out var result))
                 return defaultValue;
 

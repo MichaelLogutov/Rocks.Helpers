@@ -1,3 +1,7 @@
+## 4.2.2 - 2018-09-25
+### Fixed
+- Fixed ToDecimal the way that comma will be equal to dot (decimal separator) for invariant culture. 
+
 ## 4.2.1 - 2018-09-25
 ### Fixed
 - Fixed issue with GlobalDbFactoriesProvider.Get throwing exception when factory is not defined in .NET Framework app.
