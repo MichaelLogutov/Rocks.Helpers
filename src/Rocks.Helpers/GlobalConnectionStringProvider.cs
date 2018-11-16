@@ -13,6 +13,13 @@ namespace Rocks.Helpers
         /// </summary>
         [CanBeNull]
         public static Func<string, string> CustomProvider { get; set; }
+        
+        /// <summary>
+        ///     Optional custom function that if set will be called on each successfull result of <see cref="Get"/> method
+        ///     and it's value will be used as the result. If this function will return null - an exception will be thrown.<br />
+        ///     Default is null.
+        /// </summary>
+        public static Func<string, string> ConnectionStringTransform { get; set; }
 
 
         /// <summary>
@@ -22,7 +29,23 @@ namespace Rocks.Helpers
         [NotNull]
         public static string Get([NotNull] string connectionStringName)
         {
-            if (connectionStringName == null)
+            var result = GetConnectionStringByName(connectionStringName);
+
+            var connection_string_transform = ConnectionStringTransform;
+            if (connection_string_transform != null)
+            {
+                result = connection_string_transform(result);
+                if (result == null)
+                    throw new InvalidOperationException("ConnectionStringTransform returned null for a connection string named " + connectionStringName);
+            }
+
+            return result;
+        }
+        
+        
+        private static string GetConnectionStringByName([NotNull] string connectionStringName)
+        {
+            if (string.IsNullOrWhiteSpace(connectionStringName))
                 throw new ArgumentNullException(nameof(connectionStringName));
 
             var result = CustomProvider?.Invoke(connectionStringName);
@@ -33,7 +56,7 @@ namespace Rocks.Helpers
             if (css != null && !string.IsNullOrWhiteSpace(css.ConnectionString))
                 return css.ConnectionString;
 
-#if !NET471
+#if NETSTANDARD
             var configuration = GlobalConfigurationProvider.Get();
             if (configuration != null)
             {

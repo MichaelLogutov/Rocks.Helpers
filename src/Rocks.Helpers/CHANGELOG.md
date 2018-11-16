@@ -1,3 +1,7 @@
+## 4.3.0 - 2018-11-16
+### Added
+- Added GlobalConnectionStringProvider.ConnectionStringTransform property for features like adding application name.
+
 ## 4.2.2 - 2018-09-25
 ### Fixed
 - Fixed ToDecimal the way that comma will be equal to dot (decimal separator) for invariant culture. 

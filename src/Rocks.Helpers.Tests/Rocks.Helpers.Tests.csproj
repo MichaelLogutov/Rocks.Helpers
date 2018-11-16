@@ -1,23 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net471;netcoreapp2.1</TargetFrameworks>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0"/>
-        <PackageReference Include="xunit" Version="2.4.0"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0"/>
-        <PackageReference Include="AutoFixture" Version="4.5.0"/>
-        <PackageReference Include="FluentAssertions" Version="5.4.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="AutoFixture" Version="4.5.0" />
+        <PackageReference Include="FluentAssertions" Version="5.4.2" />
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework) == 'netcoreapp2.1'">
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <Reference Include="System.Configuration"/>
-        <Reference Include="System.ComponentModel.DataAnnotations"/>
-        <Reference Include="System.Web"/>
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+        <Reference Include="System.Web" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj"/>
+        <ProjectReference Include="..\Rocks.Helpers\Rocks.Helpers.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="app.config" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="testhost.dll.config" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 </Project>

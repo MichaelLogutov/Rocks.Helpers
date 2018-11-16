@@ -20,7 +20,7 @@ namespace Rocks.Helpers.Tests
 
 
         [Fact]
-        public void Get_BuiltInSqlClientFactory_ShoulBeCorrectlyType()
+        public void Get_BuiltInSqlClientFactory_ShouldBeCorrectlyType()
         {
             // arrange
 
@@ -35,7 +35,7 @@ namespace Rocks.Helpers.Tests
 
 
         [Fact]
-        public void Set_ShoulBeCorrectlyType()
+        public void Set_ShouldBeCorrectlyType()
         {
             // arrange
 
@@ -51,7 +51,7 @@ namespace Rocks.Helpers.Tests
 
 
         [Fact]
-        public void SetConstructInstanceInterceptor_SetNewInstance_ShoulBeSetOnceTime()
+        public void SetConstructInstanceInterceptor_SetNewInstance_ShouldBeSetOnceTime()
         {
             // arrange
             var calls = new List<string>();
