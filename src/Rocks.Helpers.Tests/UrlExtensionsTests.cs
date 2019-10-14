@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using FluentAssertions;
 using Xunit;
 
@@ -275,6 +276,50 @@ namespace Rocks.Helpers.Tests
 
             // act
             var result = data.PropertiesToRouteValueDictionary();
+
+
+            // assert
+            result.Should().Equal(new Dictionary<string, object>
+                                  {
+                                      { "String", "abc" }
+                                  });
+        }
+
+
+        private class DataWithDataMemberAttr
+        {
+            [DataMember(Name = "str")]
+            public string String { get; set; }
+        }
+
+
+        [Fact]
+        public void PropertiesToRouteValueDictionary_ClassWithDataMember_ParamIsTrue_ReturnNameFromAttribute()
+        {
+            // arrange
+            var data = new DataWithDataMemberAttr { String = "abc" };
+
+
+            // act
+            var result = data.PropertiesToRouteValueDictionary(shouldUseDataMember: true);
+
+
+            // assert
+            result.Should().Equal(new Dictionary<string, object>
+                                  {
+                                      { "str", "abc" }
+                                  });
+        }
+        
+        [Fact]
+        public void PropertiesToRouteValueDictionary_ClassWithDataMember_ParamIsFalse_ReturnNameFromAttribute()
+        {
+            // arrange
+            var data = new DataWithDataMemberAttr { String = "abc" };
+
+
+            // act
+            var result = data.PropertiesToRouteValueDictionary(shouldUseDataMember: false);
 
 
             // assert
