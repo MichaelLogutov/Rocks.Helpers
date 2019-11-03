@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -12,260 +14,260 @@ namespace Rocks.Helpers.Tests
     public class CollectionExtensionsTests
     {
         [Fact]
-        public void SkipNull_OneItemNull_ReturnsNoNulls ()
+        public void SkipNull_OneItemNull_ReturnsNoNulls()
         {
-            var result = (new[] { "a", null, "b" }).SkipNull ();
+            var result = (new[] { "a", null, "b" }).SkipNull();
 
-            result.Should ().Equal ("a", "b");
+            result.Should().Equal("a", "b");
         }
 
 
         [Fact]
-        public void SkipNull_Null_ReturnsEmpty ()
+        public void SkipNull_Null_ReturnsEmpty()
         {
-            var result = ((string[]) null).SkipNull ();
+            var result = ((string[]) null).SkipNull();
 
-            result.Should ().BeEmpty ();
+            result.Should().BeEmpty();
         }
 
 
         [Fact]
-        public void SkipNullOrEmpty_OneItemEmptyString_AndOneItemNull_ReturnsNoNullOrEmpty ()
+        public void SkipNullOrEmpty_OneItemEmptyString_AndOneItemNull_ReturnsNoNullOrEmpty()
         {
-            var result = (new[] { "a", null, "b", string.Empty }).SkipNullOrEmpty ();
+            var result = (new[] { "a", null, "b", string.Empty }).SkipNullOrEmpty();
 
-            result.Should ().Equal ("a", "b");
+            result.Should().Equal("a", "b");
         }
 
 
         [Fact]
-        public void ShouldSkipNullOrEmpty_Null_ReturnsEmpty ()
+        public void ShouldSkipNullOrEmpty_Null_ReturnsEmpty()
         {
-            var result = ((string[]) null).SkipNullOrEmpty ();
+            var result = ((string[]) null).SkipNullOrEmpty();
 
-            result.Should ().BeEmpty ();
+            result.Should().BeEmpty();
         }
 
 
         [Fact]
-        public void TrimAll_ReturnsAllTrimmed ()
+        public void TrimAll_ReturnsAllTrimmed()
         {
-            var result = (new[] { "a", "b ", " c" }).TrimAll ();
+            var result = (new[] { "a", "b ", " c" }).TrimAll();
 
-            result.Should ().Equal ("a", "b", "c");
+            result.Should().Equal("a", "b", "c");
         }
 
 
         [Fact]
-        public void TrimAll_Null_ReturnsEmpty ()
+        public void TrimAll_Null_ReturnsEmpty()
         {
-            var result = ((string[]) null).TrimAll ();
+            var result = ((string[]) null).TrimAll();
 
-            result.Should ().BeEmpty ();
+            result.Should().BeEmpty();
         }
 
 
         [Fact]
-        public void ConvertToList_ReturnsIList ()
-        {
-            // arrange
-            var data = new[] { "a", null, "b" };
-
-
-            // act
-            var result = data.Select (x => x).ConvertToList ();
-
-
-            // assert
-            result.Should ()
-                  .BeAssignableTo<IList<string>> ()
-                  .And
-                  .NotBeSameAs (data)
-                  .And
-                  .Equal ("a", null, "b");
-        }
-
-
-        [Fact]
-        public void ConvertToList_Null_ReturnsNull ()
-        {
-            var result = ((string[]) null).ConvertToList ();
-
-            result.Should ().BeNull ();
-        }
-
-
-        [Fact]
-        public void ConvertToArray_ReturnsIArray ()
+        public void ConvertToList_ReturnsIList()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).ConvertToArray ();
+            var result = data.Select(x => x).ConvertToList();
 
 
             // assert
-            result.Should ()
-                  .BeAssignableTo<string[]> ()
+            result.Should()
+                  .BeAssignableTo<IList<string>>()
                   .And
-                  .NotBeSameAs (data)
+                  .NotBeSameAs(data)
                   .And
-                  .Equal ("a", null, "b");
+                  .Equal("a", null, "b");
         }
 
 
         [Fact]
-        public void ConvertToArray_Null_ReturnsNull ()
+        public void ConvertToList_Null_ReturnsNull()
         {
-            var result = ((string[]) null).ConvertToArray ();
+            var result = ((string[]) null).ConvertToList();
 
-            result.Should ().BeNull ();
+            result.Should().BeNull();
         }
 
 
         [Fact]
-        public void ConvertToReadOnlyList_ReturnsIReadOnlyList ()
+        public void ConvertToArray_ReturnsIArray()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).ConvertToReadOnlyList ();
+            var result = data.Select(x => x).ConvertToArray();
 
 
             // assert
-            result.Should ()
-                  .BeAssignableTo<IReadOnlyList<string>> ()
+            result.Should()
+                  .BeAssignableTo<string[]>()
                   .And
-                  .NotBeSameAs (data)
+                  .NotBeSameAs(data)
                   .And
-                  .Equal ("a", null, "b");
+                  .Equal("a", null, "b");
         }
 
 
         [Fact]
-        public void ConvertToReadOnlyList_Null_ReturnsNull ()
+        public void ConvertToArray_Null_ReturnsNull()
         {
-            var result = ((string[]) null).ConvertToReadOnlyList ();
+            var result = ((string[]) null).ConvertToArray();
 
-            result.Should ().BeNull ();
+            result.Should().BeNull();
         }
 
 
         [Fact]
-        public void ConvertToReadOnlyCollection_ReturnsIReadOnlyCollection ()
+        public void ConvertToReadOnlyList_ReturnsIReadOnlyList()
         {
             // arrange
             var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Select (x => x).ConvertToReadOnlyCollection ();
+            var result = data.Select(x => x).ConvertToReadOnlyList();
 
 
             // assert
-            result.Should ()
-                  .BeAssignableTo<IReadOnlyCollection<string>> ()
+            result.Should()
+                  .BeAssignableTo<IReadOnlyList<string>>()
                   .And
-                  .NotBeSameAs (data)
+                  .NotBeSameAs(data)
                   .And
-                  .Equal ("a", null, "b");
+                  .Equal("a", null, "b");
         }
 
 
         [Fact]
-        public void ConvertToReadOnlyCollection_Null_ReturnsNull ()
+        public void ConvertToReadOnlyList_Null_ReturnsNull()
         {
-            var result = ((string[]) null).ConvertToReadOnlyCollection ();
+            var result = ((string[]) null).ConvertToReadOnlyList();
 
-            result.Should ().BeNull ();
+            result.Should().BeNull();
         }
 
 
         [Fact]
-        public void IsNullOrEmpty_Empty_ReturnsTrue ()
-        {
-            var result = new string[0].IsNullOrEmpty ();
-
-            result.Should ().BeTrue ();
-        }
-
-
-        [Fact]
-        public void IsNullOrEmpty_NotEmpty_ReturnsFalse ()
-        {
-            var result = new[] { "a" }.IsNullOrEmpty ();
-
-            result.Should ().BeFalse ();
-        }
-
-
-        [Fact]
-        public void IsNullOrEmpty_Null_ReturnsTrue ()
-        {
-            var result = ((IEnumerable<string>) null).IsNullOrEmpty ();
-
-            result.Should ().BeTrue ();
-        }
-
-
-        [Fact]
-        public void IsNullOrEmpty_ShouldEnumerateOnce ()
+        public void ConvertToReadOnlyCollection_ReturnsIReadOnlyCollection()
         {
             // arrange
-            var data = new TestEnumerable<string> (new[] { "a", "b", "c" });
+            var data = new[] { "a", null, "b" };
 
 
             // act
-            var result = data.Enumerate ().IsNullOrEmpty ();
+            var result = data.Select(x => x).ConvertToReadOnlyCollection();
 
 
             // assert
-            result.Should ().BeFalse ();
-            data.EnumeratedCount.Should ().Be (1);
+            result.Should()
+                  .BeAssignableTo<IReadOnlyCollection<string>>()
+                  .And
+                  .NotBeSameAs(data)
+                  .And
+                  .Equal("a", null, "b");
         }
 
 
         [Fact]
-        public void FirstOrNull_ShouldEnumerateOnce ()
+        public void ConvertToReadOnlyCollection_Null_ReturnsNull()
+        {
+            var result = ((string[]) null).ConvertToReadOnlyCollection();
+
+            result.Should().BeNull();
+        }
+
+
+        [Fact]
+        public void IsNullOrEmpty_Empty_ReturnsTrue()
+        {
+            var result = new string[0].IsNullOrEmpty();
+
+            result.Should().BeTrue();
+        }
+
+
+        [Fact]
+        public void IsNullOrEmpty_NotEmpty_ReturnsFalse()
+        {
+            var result = new[] { "a" }.IsNullOrEmpty();
+
+            result.Should().BeFalse();
+        }
+
+
+        [Fact]
+        public void IsNullOrEmpty_Null_ReturnsTrue()
+        {
+            var result = ((IEnumerable<string>) null).IsNullOrEmpty();
+
+            result.Should().BeTrue();
+        }
+
+
+        [Fact]
+        public void IsNullOrEmpty_ShouldEnumerateOnce()
         {
             // arrange
-            var data = new TestEnumerable<int> (new[] { 1, 2, 3 });
+            var data = new TestEnumerable<string>(new[] { "a", "b", "c" });
 
 
             // act
-            var result = data.Enumerate ().FirstOrNull ();
+            var result = data.Enumerate().IsNullOrEmpty();
 
 
             // assert
-            result.Should ().Be (1);
-            data.EnumeratedCount.Should ().Be (1);
+            result.Should().BeFalse();
+            data.EnumeratedCount.Should().Be(1);
         }
 
 
         [Fact]
-        public void FirstOrNull_Null_ReturnsNull ()
+        public void FirstOrNull_ShouldEnumerateOnce()
         {
-            var result = ((int[]) null).FirstOrNull ();
+            // arrange
+            var data = new TestEnumerable<int>(new[] { 1, 2, 3 });
 
-            result.Should ().NotHaveValue ();
+
+            // act
+            var result = data.Enumerate().FirstOrNull();
+
+
+            // assert
+            result.Should().Be(1);
+            data.EnumeratedCount.Should().Be(1);
         }
 
 
         [Fact]
-        public void FirstOrNull_Empty_ReturnsNull ()
+        public void FirstOrNull_Null_ReturnsNull()
         {
-            var result = new int[0].FirstOrNull ();
+            var result = ((int[]) null).FirstOrNull();
 
-            result.Should ().NotHaveValue ();
+            result.Should().NotHaveValue();
         }
 
 
         [Fact]
-        public void SortById_ReturnsCorrectlySorted ()
+        public void FirstOrNull_Empty_ReturnsNull()
+        {
+            var result = new int[0].FirstOrNull();
+
+            result.Should().NotHaveValue();
+        }
+
+
+        [Fact]
+        public void SortById_ReturnsCorrectlySorted()
         {
             // arrange
             var ids = new[] { 1, 2, 3 };
@@ -273,16 +275,13 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = items.SortById (ids, x => x.id);
+            var result = items.SortById(ids, x => x.id);
 
 
             // assert
-            result.Should().BeEquivalentTo (new[]
-                                         {
-                                             new { id = 1 },
-                                             new { id = 2 },
-                                             new { id = 3 }
-                                         });
+            result.Should().BeEquivalentTo(new { id = 1 },
+                                           new { id = 2 },
+                                           new { id = 3 });
         }
 
 
@@ -293,7 +292,7 @@ namespace Rocks.Helpers.Tests
 
 
         [Fact]
-        public void DistinctBy_ShouldReturnUniqueWithTheSameOrder ()
+        public void DistinctBy_ShouldReturnUniqueWithTheSameOrder()
         {
             // arrange
             var data = new[]
@@ -305,16 +304,16 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = data.DistinctBy (x => x.Name, StringComparer.OrdinalIgnoreCase);
+            var result = data.DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase);
 
 
             // assert
-            result.Select (x => x.Name).Should ().Equal ("b", "a");
+            result.Select(x => x.Name).Should().Equal("b", "a");
         }
 
 
         [Fact]
-        public void IndexOf_Found_ReturnsCorrectIndex ()
+        public void IndexOf_Found_ReturnsCorrectIndex()
         {
             // arrange
             var data = new[]
@@ -326,16 +325,16 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = data.IndexOf (x => x.Name == "b");
+            var result = data.IndexOf(x => x.Name == "b");
 
 
             // assert
-            result.Should ().Be (1);
+            result.Should().Be(1);
         }
 
 
         [Fact]
-        public void IndexOf_NotFound_ReturnsMinusOne ()
+        public void IndexOf_NotFound_ReturnsMinusOne()
         {
             // arrange
             var data = new[]
@@ -346,292 +345,337 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = data.IndexOf (x => x.Name == "c");
+            var result = data.IndexOf(x => x.Name == "c");
 
 
             // assert
-            result.Should ().Be (-1);
+            result.Should().Be(-1);
         }
 
 
         [Fact]
-        public void SplitToChunks_Null_ReturnsEmpty ()
+        public void SplitToChunks_Null_ReturnsEmpty()
         {
             // arrange
             var data = (int[]) null;
 
 
             // act
-            var result = data.SplitToChunks (10);
+            var result = data.SplitToChunks(10);
 
 
             // assert
-            result.Should ().BeEmpty ();
+            result.Should().BeEmpty();
         }
 
 
         [Fact]
-        public void SplitToChunks_Empty_ReturnsEmpty ()
+        public void SplitToChunks_Empty_ReturnsEmpty()
         {
             // arrange
             var data = new int[0];
 
 
             // act
-            var result = data.SplitToChunks (10);
+            var result = data.SplitToChunks(10);
 
 
             // assert
-            result.Should ().BeEmpty ();
+            result.Should().BeEmpty();
         }
 
 
         [Fact]
-        public void SplitToChunks_EqualNumberOfItemsToChunkSize_ReturnsOneChunkWithAllItems ()
+        public void SplitToChunks_EqualNumberOfItemsToChunkSize_ReturnsOneChunkWithAllItems()
         {
             // arrange
             var data = new[] { 1, 2, 3 };
 
 
             // act
-            var result = data.SplitToChunks (3);
+            var result = data.SplitToChunks(3);
 
 
             // assert
-            result.Should().BeEquivalentTo (new[] { data });
+            result.Should().BeEquivalentTo(new object[] { data });
         }
 
 
         [Fact]
-        public void SplitToChunks_LessNumberOfItemsThanChunkSize_ReturnsOneChunkWithAllItems ()
+        public void SplitToChunks_LessNumberOfItemsThanChunkSize_ReturnsOneChunkWithAllItems()
         {
             // arrange
             var data = new[] { 1, 2, 3 };
 
 
             // act
-            var result = data.SplitToChunks (4);
+            var result = data.SplitToChunks(4);
 
 
             // assert
-            result.Should().BeEquivalentTo (new[] { data });
+            result.Should().BeEquivalentTo(new object[] { data });
         }
 
 
         [Fact]
-        public void SplitToChunks_MoreItemsThanChunkSize_ReturnsChunks ()
+        public void SplitToChunks_MoreItemsThanChunkSize_ReturnsChunks()
         {
             // arrange
             var data = new[] { 1, 2, 3 };
 
 
             // act
-            var result = data.SplitToChunks (2);
+            var result = data.SplitToChunks(2);
 
 
             // assert
-            result.Should().BeEquivalentTo (new[] { new[] { 1, 2 }, new[] { 3 } });
+            result.Should().BeEquivalentTo(new[] { 1, 2 }, new[] { 3 });
         }
 
 
         [Fact]
-        public void AddRange_Null_AddsNothing ()
+        public void AddRange_Null_AddsNothing()
         {
             // arrange
             ICollection<int> data = new List<int> { 1, 2, 3 };
 
 
             // act
-            data.AddRange (null);
+            data.AddRange(null);
 
 
             // assert
-            data.Should().BeEquivalentTo (new[] { 1, 2, 3 });
+            data.Should().BeEquivalentTo(new[] { 1, 2, 3 });
         }
 
 
         [Fact]
-        public void AddRange_Empty_AddsNothing ()
+        public void AddRange_Empty_AddsNothing()
         {
             // arrange
             ICollection<int> data = new List<int> { 1, 2, 3 };
 
 
             // act
-            data.AddRange (new int[0]);
+            data.AddRange(new int[0]);
 
 
             // assert
-            data.Should().BeEquivalentTo (new[] { 1, 2, 3 });
+            data.Should().BeEquivalentTo(new[] { 1, 2, 3 });
         }
 
 
         [Fact]
-        public void AddRange_ToList_AddsItems ()
+        public void AddRange_ToList_AddsItems()
         {
             // arrange
             ICollection<int> data = new List<int> { 1, 2, 3 };
 
 
             // act
-            data.AddRange (new[] { 4, 5, 6 });
+            data.AddRange(new[] { 4, 5, 6 });
 
 
             // assert
-            data.Should().BeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
+            data.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5, 6 });
         }
 
 
         [Fact]
-        public void AddRange_ToCollection_AddsItems ()
+        public void AddRange_ToCollection_AddsItems()
         {
             // arrange
             var data = new Collection<int> { 1, 2, 3 };
 
 
             // act
-            data.AddRange (new[] { 4, 5, 6 });
+            data.AddRange(new[] { 4, 5, 6 });
 
 
             // assert
-            data.Should().BeEquivalentTo (new[] { 1, 2, 3, 4, 5, 6 });
+            data.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5, 6 });
         }
 
 
         [Theory]
-        [InlineData (null, null, "", "", "", "")]
-        [InlineData ("", "", "", "", "", "")]
-        [InlineData (null, "abc", "", "", "", "abc")]
-        [InlineData ("", "abc", "", "", "", "abc")]
-        [InlineData ("abc", null, "abc", "", "", "")]
-        [InlineData ("abc", "", "abc", "", "", "")]
-        [InlineData ("abc", "abc", "", "abc", "abc", "")]
-        [InlineData ("abc", "ab", "c", "ab", "ab", "")]
-        [InlineData ("ab", "abc", "", "ab", "ab", "c")]
-        [InlineData ("abd", "abc", "d", "ab", "ab", "c")]
-        [InlineData ("abda", "abcb", "d", "aba", "abb", "c")]
-        public void CompareTo_Theory_Comply (string source,
-                                             string desination,
-                                             string expectedOnlyInSource,
-                                             string expectedSourceInBoth,
-                                             string expectedDestinationInBoth,
-                                             string expectedOnlyInDestination)
+        [InlineData(null, null, "", "", "", "")]
+        [InlineData("", "", "", "", "", "")]
+        [InlineData(null, "abc", "", "", "", "abc")]
+        [InlineData("", "abc", "", "", "", "abc")]
+        [InlineData("abc", null, "abc", "", "", "")]
+        [InlineData("abc", "", "abc", "", "", "")]
+        [InlineData("abc", "abc", "", "abc", "abc", "")]
+        [InlineData("abc", "ab", "c", "ab", "ab", "")]
+        [InlineData("ab", "abc", "", "ab", "ab", "c")]
+        [InlineData("abd", "abc", "d", "ab", "ab", "c")]
+        [InlineData("abda", "abcb", "d", "aba", "abb", "c")]
+        public void CompareTo_Theory_Comply(string source,
+                                            string destination,
+                                            string expectedOnlyInSource,
+                                            string expectedSourceInBoth,
+                                            string expectedDestinationInBoth,
+                                            string expectedOnlyInDestination)
         {
             // act
 #pragma warning disable 618
-            var result = source.CompareTo (desination, (a, b) => a == b);
+            var result = source.CompareTo(destination, (a, b) => a == b);
 #pragma warning restore 618
 
 
             // assert
             result.Should().BeEquivalentTo
-                (new CollectionComparisonResult<char>
-                 {
-                     OnlyInSource = expectedOnlyInSource.ToCharArray (),
-                     SourceInBoth = expectedSourceInBoth.ToCharArray (),
-                     DestinationInBoth = expectedDestinationInBoth.ToCharArray (),
-                     OnlyInDestination = expectedOnlyInDestination.ToCharArray ()
-                 });
+            (new CollectionComparisonResult<char>
+             {
+                 OnlyInSource = expectedOnlyInSource.ToCharArray(),
+                 SourceInBoth = expectedSourceInBoth.ToCharArray(),
+                 DestinationInBoth = expectedDestinationInBoth.ToCharArray(),
+                 OnlyInDestination = expectedOnlyInDestination.ToCharArray()
+             });
         }
 
 
         [Theory]
-        [InlineData (null, null, "", "", "", "")]
-        [InlineData ("", "", "", "", "", "")]
-        [InlineData (null, "abc", "", "", "", "abc")]
-        [InlineData ("", "abc", "", "", "", "abc")]
-        [InlineData ("abc", null, "abc", "", "", "")]
-        [InlineData ("abc", "", "abc", "", "", "")]
-        [InlineData ("abc", "abc", "", "abc", "abc", "")]
-        [InlineData ("abc", "ab", "c", "ab", "ab", "")]
-        [InlineData ("ab", "abc", "", "ab", "ab", "c")]
-        [InlineData ("abd", "abc", "d", "ab", "ab", "c")]
-        [InlineData ("abda", "abcb", "d", "aba", "abb", "c")]
-        public void CompareTo_ByKey_Theory_Comply (string source,
-                                                   string desination,
-                                                   string expectedOnlyInSource,
-                                                   string expectedSourceInBoth,
-                                                   string expectedDestinationInBoth,
-                                                   string expectedOnlyInDestination)
+        [InlineData(null, null, "", "", "", "")]
+        [InlineData("", "", "", "", "", "")]
+        [InlineData(null, "abc", "", "", "", "abc")]
+        [InlineData("", "abc", "", "", "", "abc")]
+        [InlineData("abc", null, "abc", "", "", "")]
+        [InlineData("abc", "", "abc", "", "", "")]
+        [InlineData("abc", "abc", "", "abc", "abc", "")]
+        [InlineData("abc", "ab", "c", "ab", "ab", "")]
+        [InlineData("ab", "abc", "", "ab", "ab", "c")]
+        [InlineData("abd", "abc", "d", "ab", "ab", "c")]
+        [InlineData("abda", "abcb", "d", "aba", "abb", "c")]
+        public void CompareTo_ByKey_Theory_Comply(string source,
+                                                  string destination,
+                                                  string expectedOnlyInSource,
+                                                  string expectedSourceInBoth,
+                                                  string expectedDestinationInBoth,
+                                                  string expectedOnlyInDestination)
         {
             // act
-            var result = source.CompareTo (desination, x => x);
+            var result = source.CompareTo(destination, x => x);
 
 
             // assert
             result.Should().BeEquivalentTo
-                (new CollectionComparisonResult<char>
-                 {
-                     OnlyInSource = expectedOnlyInSource.ToCharArray (),
-                     SourceInBoth = expectedSourceInBoth.ToCharArray (),
-                     DestinationInBoth = expectedDestinationInBoth.ToCharArray (),
-                     OnlyInDestination = expectedOnlyInDestination.ToCharArray ()
-                 });
+            (new CollectionComparisonResult<char>
+             {
+                 OnlyInSource = expectedOnlyInSource.ToCharArray(),
+                 SourceInBoth = expectedSourceInBoth.ToCharArray(),
+                 DestinationInBoth = expectedDestinationInBoth.ToCharArray(),
+                 OnlyInDestination = expectedOnlyInDestination.ToCharArray()
+             });
         }
 
 
         [Theory]
-        [InlineData (null, null, "", "", "")]
-        [InlineData ("abc", null, "abc", "", "")]
-        [InlineData (null, "abc", "", "", "abc")]
-        [InlineData ("abc", "abc", "", "a-a,b-b,c-c", "")]
-        [InlineData ("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
-        public void MergeInto_Theory_Comply (string source,
-                                             string desination,
-                                             string expectedInserts,
-                                             string expectedUpdates,
-                                             string expectedDeletes)
+        [InlineData(null, null, "", "", "")]
+        [InlineData("abc", null, "abc", "", "")]
+        [InlineData(null, "abc", "", "", "abc")]
+        [InlineData("abc", "abc", "", "a-a,b-b,c-c", "")]
+        [InlineData("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
+        public void MergeInto_Theory_Comply(string source,
+                                            string destination,
+                                            string expectedInserts,
+                                            string expectedUpdates,
+                                            string expectedDeletes)
         {
             // arrange
-            var inserts = new List<char> ();
-            var updates = new List<string> ();
-            var deletes = new List<char> ();
+            var inserts = new List<char>();
+            var updates = new List<string>();
+            var deletes = new List<char>();
 
             // act
 #pragma warning disable 618
-            source.MergeInto (existedItems: desination,
-                              compare: (a, b) => a == b,
-                              insert: x => inserts.Add (x),
-                              update: (s, d) => updates.Add (s + "-" + d),
-                              delete: x => deletes.Add (x));
+            source.MergeInto(existedItems: destination,
+                             compare: (a, b) => a == b,
+                             insert: x => inserts.Add(x),
+                             update: (s, d) => updates.Add(s + "-" + d),
+                             delete: x => deletes.Add(x));
 #pragma warning restore 618
 
             // assert
-            inserts.Should ().Equal (expectedInserts);
-            updates.Should ().Equal (expectedUpdates.Split (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-            deletes.Should ().Equal (expectedDeletes);
+            inserts.Should().Equal(expectedInserts);
+            updates.Should().Equal(expectedUpdates.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            deletes.Should().Equal(expectedDeletes);
         }
 
 
         [Theory]
-        [InlineData (null, null, "", "", "")]
-        [InlineData ("abc", null, "abc", "", "")]
-        [InlineData (null, "abc", "", "", "abc")]
-        [InlineData ("abc", "abc", "", "a-a,b-b,c-c", "")]
-        [InlineData ("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
-        public void MergeInto_ByKey_Theory_Comply (string source,
-                                                   string desination,
-                                                   string expectedInserts,
-                                                   string expectedUpdates,
-                                                   string expectedDeletes)
+        [InlineData(null, null, "", "", "")]
+        [InlineData("abc", null, "abc", "", "")]
+        [InlineData(null, "abc", "", "", "abc")]
+        [InlineData("abc", "abc", "", "a-a,b-b,c-c", "")]
+        [InlineData("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
+        public void MergeInto_ByKey_Theory_Comply(string source,
+                                                  string destination,
+                                                  string expectedInserts,
+                                                  string expectedUpdates,
+                                                  string expectedDeletes)
         {
             // arrange
-            var inserts = new List<char> ();
-            var updates = new List<string> ();
-            var deletes = new List<char> ();
+            var inserts = new List<char>();
+            var updates = new List<string>();
+            var deletes = new List<char>();
 
             // act
-            source.MergeInto (existedItems: desination,
-                              key: x => x,
-                              insert: x => inserts.Add (x),
-                              update: (s, d) => updates.Add (s + "-" + d),
-                              delete: x => deletes.Add (x));
+            source.MergeInto(existedItems: destination,
+                             key: x => x,
+                             insert: x => inserts.Add(x),
+                             update: (s, d) => updates.Add(s + "-" + d),
+                             delete: x => deletes.Add(x));
 
 
             // assert
-            inserts.Should ().Equal (expectedInserts);
-            updates.Should ().Equal (expectedUpdates.Split (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-            deletes.Should ().Equal (expectedDeletes);
+            inserts.Should().Equal(expectedInserts);
+            updates.Should().Equal(expectedUpdates.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            deletes.Should().Equal(expectedDeletes);
+        }
+
+
+        [Theory]
+        [InlineData(null, null, "", "", "")]
+        [InlineData("abc", null, "abc", "", "")]
+        [InlineData(null, "abc", "", "", "abc")]
+        [InlineData("abc", "abc", "", "a-a,b-b,c-c", "")]
+        [InlineData("abcd", "abce", "d", "a-a,b-b,c-c", "e")]
+        public async Task MergeIntoAsync_ByKey_Theory_Comply(string source,
+                                                             string destination,
+                                                             string expectedInserts,
+                                                             string expectedUpdates,
+                                                             string expectedDeletes)
+        {
+            // arrange
+            var inserts = new List<char>();
+            var updates = new List<string>();
+            var deletes = new List<char>();
+
+            // act
+            await source.MergeIntoAsync(existedItems: destination,
+                                        key: x => x,
+                                        insert: async (x, t) =>
+                                                {
+                                                    await Task.Yield();
+                                                    inserts.Add(x);
+                                                },
+                                        update: async (s, d, t) =>
+                                                {
+                                                    await Task.Yield();
+                                                    updates.Add(s + "-" + d);
+                                                },
+                                        delete: async (x, t) =>
+                                                {
+                                                    await Task.Yield();
+                                                    deletes.Add(x);
+                                                },
+                                        CancellationToken.None);
+
+
+            // assert
+            inserts.Should().Equal(expectedInserts);
+            updates.Should().Equal(expectedUpdates.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            deletes.Should().Equal(expectedDeletes);
         }
     }
 }

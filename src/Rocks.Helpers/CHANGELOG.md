@@ -1,3 +1,7 @@
+## 4.5.0 - 2019-11-03
+### Added
+- Added MergeIntoAsync
+
 ## 4.4.0 - 2019-10-14
 ### Added
 - Added ability to use DataMember attribute for propertiesposs in PropertiesToQueryParameters and PropertiesToRouteValueDictionary
