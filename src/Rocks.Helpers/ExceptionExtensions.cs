@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -65,6 +66,40 @@ namespace Rocks.Helpers
                                                        [NotNull] Func<Exception, bool> isRetriableException,
                                                        int maxRetries,
                                                        Func<Exception, int, Task> logException = null)
+        {
+            await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+        }
+
+
+        /// <summary>
+        ///     <para>
+        ///         Retries <paramref name="action" /> maximum <paramref name="maxRetries" /> times
+        ///         if catched exceptions are retriable (<paramref name="isRetriableException" /> returns true for them).
+        ///     </para>
+        ///     <para>
+        ///         Optionally logs each applicable exception before retrying the <paramref name="action" />
+        ///         to specified <paramref name="logException" /> callback passing the exception and current
+        ///         retry attempt count (starting with 1).
+        ///     </para>
+        /// </summary>
+        /// <exception cref="OperationCanceledException">Thrown when cancellation requested</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async Task RetryOnExceptionAsync([NotNull] this Func<Task> action,
+                                                       [NotNull] Func<Exception, bool> isRetriableException,
+                                                       int maxRetries,
+                                                       CancellationToken token,
+                                                       Func<Exception, int, Task> logException = null)
+        {
+            token.ThrowIfCancellationRequested();
+
+            await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+        }
+
+
+        private static async Task RetryOnExceptionAsyncInternal(Func<Task> action,
+                                                                Func<Exception, bool> isRetriableException,
+                                                                int maxRetries,
+                                                                Func<Exception, int, Task> logException)
         {
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");
@@ -149,6 +184,41 @@ namespace Rocks.Helpers
                                                              [NotNull] Func<Exception, bool> isRetriableException,
                                                              int maxRetries,
                                                              Func<Exception, int, Task> logException = null)
+        {
+            return await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+        }
+
+
+        /// <summary>
+        ///     <para>
+        ///         Retries <paramref name="action" /> maximum <paramref name="maxRetries" /> times
+        ///         if catched exceptions are retriable (<paramref name="isRetriableException" /> returns true for them).
+        ///     </para>
+        ///     <para>
+        ///         Optionally logs each applicable exception before retrying the <paramref name="action" />
+        ///         to specified <paramref name="logException" /> callback passing the exception and current
+        ///         retry attempt count (starting with 1).
+        ///     </para>
+        /// </summary>
+        /// <exception cref="OperationCanceledException">Thrown when cancellation requested</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async Task<T> RetryOnExceptionAsync<T>([NotNull] this Func<Task<T>> action,
+                                                             [NotNull] Func<Exception, bool> isRetriableException,
+                                                             int maxRetries,
+                                                             CancellationToken token,
+                                                             Func<Exception, int, Task> logException = null)
+        {
+            token.ThrowIfCancellationRequested();
+
+            return await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static async Task<T> RetryOnExceptionAsyncInternal<T>(Func<Task<T>> action,
+                                                                      Func<Exception, bool> isRetriableException,
+                                                                      int maxRetries,
+                                                                      Func<Exception, int, Task> logException)
         {
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");

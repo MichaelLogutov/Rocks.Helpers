@@ -1,3 +1,7 @@
+## 4.4.0 - 2019-11-12
+### Added
+- Added overload for RetryOnExceptionAsync
+
 ## 4.3.0 - 2018-11-16
 ### Added
 - Added GlobalConnectionStringProvider.ConnectionStringTransform property for features like adding application name.
