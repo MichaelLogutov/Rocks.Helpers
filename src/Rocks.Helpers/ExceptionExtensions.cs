@@ -110,9 +110,8 @@ namespace Rocks.Helpers
                                                        [NotNull] Func<Exception, bool> isRetriableException,
                                                        int maxRetries,
                                                        CancellationToken token,
-                                                       Func<Exception, int, Task> logException = null)
+                                                       Func<Exception, int, CancellationToken, Task> logException = null)
         {
-
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");
 
@@ -134,7 +133,7 @@ namespace Rocks.Helpers
                         throw;
 
                     if (logException != null)
-                        await logException(ex, retries).ConfigureAwait(false);
+                        await logException(ex, retries, token).ConfigureAwait(false);
                 }
             }
         }
@@ -240,7 +239,7 @@ namespace Rocks.Helpers
                                                              [NotNull] Func<Exception, bool> isRetriableException,
                                                              int maxRetries,
                                                              CancellationToken token,
-                                                             Func<Exception, int, Task> logException = null)
+                                                             Func<Exception, int, CancellationToken, Task> logException = null)
         {
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");
@@ -262,7 +261,7 @@ namespace Rocks.Helpers
                         throw;
 
                     if (logException != null)
-                        await logException(ex, retries).ConfigureAwait(false);
+                        await logException(ex, retries, token).ConfigureAwait(false);
                 }
             }
         }
