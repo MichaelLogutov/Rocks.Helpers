@@ -67,7 +67,29 @@ namespace Rocks.Helpers
                                                        int maxRetries,
                                                        Func<Exception, int, Task> logException = null)
         {
-            await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
+
+            var retries = 0;
+
+            while (true)
+            {
+                try
+                {
+                    await action().ConfigureAwait(false);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    retries++;
+
+                    if (retries > maxRetries || !isRetriableException(ex))
+                        throw;
+
+                    if (logException != null)
+                        await logException(ex, retries).ConfigureAwait(false);
+                }
+            }
         }
 
 
@@ -84,23 +106,13 @@ namespace Rocks.Helpers
         /// </summary>
         /// <exception cref="OperationCanceledException">Thrown when cancellation requested</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async Task RetryOnExceptionAsync([NotNull] this Func<Task> action,
+        public static async Task RetryOnExceptionAsync([NotNull] this Func<CancellationToken, Task> action,
                                                        [NotNull] Func<Exception, bool> isRetriableException,
                                                        int maxRetries,
                                                        CancellationToken token,
                                                        Func<Exception, int, Task> logException = null)
         {
-            token.ThrowIfCancellationRequested();
 
-            await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
-        }
-
-
-        private static async Task RetryOnExceptionAsyncInternal(Func<Task> action,
-                                                                Func<Exception, bool> isRetriableException,
-                                                                int maxRetries,
-                                                                Func<Exception, int, Task> logException)
-        {
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");
 
@@ -110,7 +122,8 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    await action().ConfigureAwait(false);
+                    token.ThrowIfCancellationRequested();
+                    await action(token).ConfigureAwait(false);
                     break;
                 }
                 catch (Exception ex)
@@ -185,7 +198,28 @@ namespace Rocks.Helpers
                                                              int maxRetries,
                                                              Func<Exception, int, Task> logException = null)
         {
-            return await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
+            action.RequiredNotNull("action");
+            isRetriableException.RequiredNotNull("isRetriableException");
+
+            var retries = 0;
+
+            while (true)
+            {
+                try
+                {
+                    return await action().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    retries++;
+
+                    if (retries > maxRetries || !isRetriableException(ex))
+                        throw;
+
+                    if (logException != null)
+                        await logException(ex, retries).ConfigureAwait(false);
+                }
+            }
         }
 
 
@@ -202,23 +236,11 @@ namespace Rocks.Helpers
         /// </summary>
         /// <exception cref="OperationCanceledException">Thrown when cancellation requested</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async Task<T> RetryOnExceptionAsync<T>([NotNull] this Func<Task<T>> action,
+        public static async Task<T> RetryOnExceptionAsync<T>([NotNull] this Func<CancellationToken, Task<T>> action,
                                                              [NotNull] Func<Exception, bool> isRetriableException,
                                                              int maxRetries,
                                                              CancellationToken token,
                                                              Func<Exception, int, Task> logException = null)
-        {
-            token.ThrowIfCancellationRequested();
-
-            return await RetryOnExceptionAsyncInternal(action, isRetriableException, maxRetries, logException);
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static async Task<T> RetryOnExceptionAsyncInternal<T>(Func<Task<T>> action,
-                                                                      Func<Exception, bool> isRetriableException,
-                                                                      int maxRetries,
-                                                                      Func<Exception, int, Task> logException)
         {
             action.RequiredNotNull("action");
             isRetriableException.RequiredNotNull("isRetriableException");
@@ -229,7 +251,8 @@ namespace Rocks.Helpers
             {
                 try
                 {
-                    return await action().ConfigureAwait(false);
+                    token.ThrowIfCancellationRequested();
+                    return await action(token).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
