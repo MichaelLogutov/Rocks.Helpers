@@ -1,13 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
-        <Version>4.6.0</Version>
+
+        <Version>4.7.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
+
+        <!--        <Version>4.7.0-rc1</Version>-->
+        <!--        <AssemblyVersion>4.7.0.1</AssemblyVersion>-->
+        <!--        <FileVersion>4.7.0.1</FileVersion>-->
+
         <Authors>Michael Logutov</Authors>
         <Company>Michael Logutov</Company>
         <Description>A collection of helper extensions.</Description>
-        <Copyright>Copyright © Michael Logutov 2018</Copyright>
+        <Copyright>Copyright © Michael Logutov 2020</Copyright>
         <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <NoWarn>1591</NoWarn>
     </PropertyGroup>
@@ -21,27 +27,27 @@
         <RepositoryUrl>https://github.com/MichaelLogutov/Rocks.Helpers</RepositoryUrl>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FastMember" Version="1.4.1" />
-        <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+        <PackageReference Include="FastMember" Version="1.5.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0"/>
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'net471'">
-        <Compile Remove="**/*.netcore.*" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Web" />
+        <Compile Remove="**/*.netcore.*"/>
+        <Reference Include="System.Configuration"/>
+        <Reference Include="System.ComponentModel.DataAnnotations"/>
+        <Reference Include="System.Web"/>
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-        <Compile Remove="**/*.netfx.*" />
-        <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.1.1" />
+        <Compile Remove="**/*.netfx.*"/>
+        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7"/>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0"/>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.2"/>
     </ItemGroup>
     <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
         <ItemGroup>
-            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
+            <DocumentationFiles Include="bin\$(Configuration)\$(TargetFramework)\*.xml"/>
         </ItemGroup>
-        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+        <Copy SourceFiles="@(DocumentationFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false"/>
     </Target>
 </Project>

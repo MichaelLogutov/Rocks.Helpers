@@ -2,14 +2,16 @@ cls
 
 cd $PSScriptRoot
 
-$id = ((Get-Item -Path ".\..").Name)
-& MSBuild.exe /m /t:clean
-& MSBuild.exe /m /t:restore
-& MSBuild.exe /m /t:pack /p:Configuration=Release
+$id = (Get-Item -Path ".\..").Name
 
-$package_file = @(Get-ChildItem "$id\bin\Release\*.nupkg" -Exclude "*.symbols.*" | Sort-Object -Property CreationTime -Descending)[0]
-$package_file.Name
+Get-ChildItem -Directory -Recurse -Include bin, obj, out | Remove-Item -Recurse -Force
+dotnet pack $id -c Release --output .
 
-& nuget.exe push $package_file.FullName -source nuget.org
+$apikey = Read-Host -Prompt "Enter nuget.org API key with push permission" -AsSecureString
+$apikey = (New-Object PSCredential "user",$apikey).GetNetworkCredential().Password
 
-$package_file | Remove-Item
+$nuget_file = (Get-ChildItem "$id.*.nupkg").Name
+dotnet nuget push $nuget_file --source nuget.org --api-key $apikey --force-english-output
+
+Remove-Item "$id.*.nupkg" -ErrorAction Continue
+Remove-Item "$id.*.snupkg" -ErrorAction Continue

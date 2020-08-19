@@ -1,3 +1,7 @@
+## 4.7.0 - 2020-08-19
+### Changed
+- Packages update
+
 ## 4.6.0 - 2019-11-12
 ### Added
 - Added RetryOnExceptionAsync overload with CancellationToken 
