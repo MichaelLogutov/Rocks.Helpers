@@ -108,8 +108,8 @@ namespace Rocks.Helpers.Tests
 
             res.Should().Be(1.23);
         }
-        
-        
+
+
         [Fact]
         public void ToDecimal_NumberWithDot_Converts()
         {
@@ -125,6 +125,114 @@ namespace Rocks.Helpers.Tests
             var res = "1,23".ToDecimal();
 
             res.Should().Be(1.23M);
+        }
+
+
+        [Fact]
+        public void ToEnum_Null_ReturnsDefault()
+        {
+            var res = ((string) null).ToEnum(TestEnum.Value2);
+
+            res.Should().Be(TestEnum.Value2);
+        }
+
+
+        [Fact]
+        public void ToEnum_Empty_ReturnsDefault()
+        {
+            var res = string.Empty.ToEnum(TestEnum.Value2);
+
+            res.Should().Be(TestEnum.Value2);
+        }
+
+
+        [Fact]
+        public void ToEnum_Value_ReturnsCorrespondingEnumValue()
+        {
+            var res = "Value3".ToEnum(TestEnum.Value2);
+
+            res.Should().Be(TestEnum.Value3);
+        }
+
+
+        [Fact]
+        public void ToEnum_InvalidValue_ReturnsDefault()
+        {
+            var res = "Value4".ToEnum(TestEnum.Value2);
+
+            res.Should().Be(TestEnum.Value2);
+        }
+
+
+        [Fact]
+        public void ToEnum_Value_WrongCase_ByDefault_ReturnsCorrespondingEnumValue()
+        {
+            var res = "value3".ToEnum(TestEnum.Value2);
+
+            res.Should().Be(TestEnum.Value3);
+        }
+
+
+        [Fact]
+        public void ToEnum_Value_WrongCase_CaseSensitive_ReturnsDefault()
+        {
+            var res = "value3".ToEnum(TestEnum.Value2, ignoreCase: false);
+
+            res.Should().Be(TestEnum.Value2);
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_Null_ReturnsDefault()
+        {
+            var res = ((string) null).ToEnum<TestEnum>(null);
+
+            res.Should().BeNull();
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_Empty_ReturnsDefault()
+        {
+            var res = string.Empty.ToEnum<TestEnum>(null);
+
+            res.Should().BeNull();
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_Value_ReturnsCorrespondingEnumValue()
+        {
+            var res = "Value3".ToEnum<TestEnum>(null);
+
+            res.Should().Be(TestEnum.Value3);
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_InvalidValue_ReturnsDefault()
+        {
+            var res = "Value4".ToEnum<TestEnum>(null);
+
+            res.Should().BeNull();
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_Value_WrongCase_ByDefault_ReturnsCorrespondingEnumValue()
+        {
+            var res = "value3".ToEnum<TestEnum>(null);
+
+            res.Should().Be(TestEnum.Value3);
+        }
+
+
+        [Fact]
+        public void ToEnumNullable_Value_WrongCase_CaseSensitive_ReturnsDefault()
+        {
+            var res = "value3".ToEnum<TestEnum>(null, ignoreCase: false);
+
+            res.Should().BeNull();
         }
     }
 }

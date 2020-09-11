@@ -1,3 +1,9 @@
+## 4.8.0 - 2020-09-09
+### Changed
+- Packages update
+### Fixed
+- Fixed `ToEnum` extensions ignored `ignoreCase` parameter
+
 ## 4.7.0 - 2020-08-19
 ### Changed
 - Packages update

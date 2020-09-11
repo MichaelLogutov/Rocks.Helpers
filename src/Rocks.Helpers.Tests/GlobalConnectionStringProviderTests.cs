@@ -16,6 +16,7 @@ namespace Rocks.Helpers.Tests
 #if NETCOREAPP
             GlobalConfigurationProvider.Set(() => new ConfigurationBuilder()
                                                   .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                                                  .AddXmlFile("app.config")
                                                   .Build());
 #endif
         }

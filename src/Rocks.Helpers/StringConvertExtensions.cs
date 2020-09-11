@@ -358,7 +358,7 @@ namespace Rocks.Helpers
 
             try
             {
-                return (T) Enum.Parse (typeof (T), value, true);
+                return (T) Enum.Parse (typeof (T), value, ignoreCase);
             }
             catch (ArgumentException)
             {
@@ -381,7 +381,7 @@ namespace Rocks.Helpers
 
             try
             {
-                return (T) Enum.Parse (typeof (T), value.Trim (), true);
+                return (T) Enum.Parse (typeof (T), value.Trim (), ignoreCase);
             }
             catch (ArgumentException)
             {

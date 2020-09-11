@@ -2,13 +2,13 @@
     <PropertyGroup>
         <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
 
-        <Version>4.7.0</Version>
+        <Version>4.8.0</Version>
         <FileVersion>$(Version)</FileVersion>
         <AssemblyVersion>$(Version)</AssemblyVersion>
 
-        <!--        <Version>4.7.0-rc1</Version>-->
-        <!--        <AssemblyVersion>4.7.0.1</AssemblyVersion>-->
-        <!--        <FileVersion>4.7.0.1</FileVersion>-->
+        <!--        <Version>4.8.0-rc4</Version>-->
+        <!--        <AssemblyVersion>4.8.0.4</AssemblyVersion>-->
+        <!--        <FileVersion>4.8.0.4</FileVersion>-->
 
         <Authors>Michael Logutov</Authors>
         <Company>Michael Logutov</Company>
@@ -38,11 +38,11 @@
     </ItemGroup>
     <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
         <Compile Remove="**/*.netfx.*"/>
-        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7"/>
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0"/>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0"/>
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.2"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.5.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0"/>
     </ItemGroup>
     <Target Name="IncludeDocumentationFiles" BeforeTargets="PrepareForPublish">
         <ItemGroup>
