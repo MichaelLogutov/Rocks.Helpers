@@ -151,7 +151,7 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = ((object) new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: true);
+            var result = (new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: true);
 
 
             // assert
@@ -166,7 +166,7 @@ namespace Rocks.Helpers.Tests
 
 
             // act
-            var result = ((object) new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: false);
+            var result = (new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: false);
 
 
             // assert

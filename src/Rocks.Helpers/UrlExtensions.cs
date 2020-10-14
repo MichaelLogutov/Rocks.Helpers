@@ -24,6 +24,9 @@ namespace Rocks.Helpers
     {
         private static readonly ConcurrentDictionary<string, TypeInfo> typesInfoCache =
             new ConcurrentDictionary<string, TypeInfo>(StringComparer.Ordinal);
+        
+        private static readonly ConcurrentDictionary<string, EnumMemberAttribute> enumMemberCache = 
+            new ConcurrentDictionary<string, EnumMemberAttribute>(StringComparer.Ordinal);
 
 
         /// <summary>
@@ -86,14 +89,7 @@ namespace Rocks.Helpers
         private static bool TryGetEnumMemberAttr(Type type, string memberName, out EnumMemberAttribute enumMemberAttribute)
         {
             enumMemberAttribute = null;
-            var memInfo = type.GetMember(memberName);
-            if (memInfo?.Length == 0)
-            {
-                return false;
-            }
-            
-            enumMemberAttribute = memInfo[0].GetCustomAttribute<EnumMemberAttribute>(false);
-            return enumMemberAttribute != null;
+            return enumMemberCache.TryGetValue(type.FullName + memberName, out enumMemberAttribute);
         }
 
 
@@ -206,6 +202,20 @@ namespace Rocks.Helpers
                                                    var data_member_attribute = property.GetCustomAttribute<DataMemberAttribute>(false);
                                                    if (data_member_attribute != null)
                                                        type_info.PropertiesDataMember[property.Name] = data_member_attribute;
+
+                                                   if (property.PropertyType.IsEnum)
+                                                   {
+                                                       var members = property.PropertyType.GetMembers();
+
+                                                       foreach (var member in members)
+                                                       {
+                                                           var enum_member_attribute = member.GetCustomAttribute<EnumMemberAttribute>(false);
+                                                           if (enum_member_attribute != null)
+                                                           {
+                                                               enumMemberCache.TryAdd(property.PropertyType.FullName + member.Name, enum_member_attribute);
+                                                           }
+                                                       }
+                                                   }
                                                }
 
                                                return type_info;
