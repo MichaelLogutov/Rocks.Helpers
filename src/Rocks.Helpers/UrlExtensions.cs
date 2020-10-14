@@ -61,7 +61,10 @@ namespace Rocks.Helpers
 
                 if (type_info.PropertiesCustomFormat.TryGetValue(member.Name, out var display_format_attribute))
                     value = FormatValue(value, display_format_attribute);
-
+                
+                if (shouldUseDataMember && property.PropertyType.IsEnum && TryGetEnumMemberAttr(property.PropertyType, value.ToString(), out var enum_data_attribute))
+                    value = enum_data_attribute.Value;
+                
                 if (shouldUseDataMember && TryGetDataMemberAttr(type_info, member.Name, out var data_member_attribute))
                     res.Add(data_member_attribute.Name, value);
                 else
@@ -77,6 +80,20 @@ namespace Rocks.Helpers
             dataMemberAttribute = null;
             return typeInfo.PropertiesDataMember.TryGetValue(memberName, out dataMemberAttribute) &&
                    !string.IsNullOrWhiteSpace(dataMemberAttribute.Name);
+        }
+        
+        
+        private static bool TryGetEnumMemberAttr(Type type, string memberName, out EnumMemberAttribute enumMemberAttribute)
+        {
+            enumMemberAttribute = null;
+            var memInfo = type.GetMember(memberName);
+            if (memInfo?.Length == 0)
+            {
+                return false;
+            }
+            
+            enumMemberAttribute = memInfo[0].GetCustomAttribute<EnumMemberAttribute>(false);
+            return enumMemberAttribute != null;
         }
 
 
