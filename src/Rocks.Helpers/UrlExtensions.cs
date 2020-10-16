@@ -88,31 +88,20 @@ namespace Rocks.Helpers
         
         private static bool TryGetEnumMemberAttr(Type type, string memberName, out EnumMemberAttribute enumMemberAttribute)
         {
-            enumMemberAttribute = null;
-            
             var key = type.FullName + memberName;
-            if (enumMemberCache.TryGetValue(key, out enumMemberAttribute))
-            {
-                return true;
-            }
-            
-            var member = type.GetMember(memberName);
-            if (member.Length == 0)
-            {
-                return false;
-            }
-            
-            var enum_member_attribute = member[0].GetCustomAttribute<EnumMemberAttribute>(false);
-            if (enum_member_attribute != null)
-            {
-                enumMemberCache.TryAdd(key, enum_member_attribute);
-                
-                enumMemberAttribute = enum_member_attribute;
-                
-                return true;
-            }
 
-            return false;
+            enumMemberAttribute = enumMemberCache.GetOrAdd(key, _ =>
+            {
+                var member = type.GetMember(memberName);
+                if (member.Length == 0)
+                {
+                    return null;
+                }
+            
+                return member[0].GetCustomAttribute<EnumMemberAttribute>(false);
+            });
+            
+            return enumMemberAttribute != null;
         }
 
 
