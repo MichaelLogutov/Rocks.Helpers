@@ -89,7 +89,30 @@ namespace Rocks.Helpers
         private static bool TryGetEnumMemberAttr(Type type, string memberName, out EnumMemberAttribute enumMemberAttribute)
         {
             enumMemberAttribute = null;
-            return enumMemberCache.TryGetValue(type.FullName + memberName, out enumMemberAttribute);
+            
+            var key = type.FullName + memberName;
+            if (enumMemberCache.TryGetValue(key, out enumMemberAttribute))
+            {
+                return true;
+            }
+            
+            var member = type.GetMember(memberName);
+            if (member.Length == 0)
+            {
+                return false;
+            }
+            
+            var enum_member_attribute = member[0].GetCustomAttribute<EnumMemberAttribute>(false);
+            if (enum_member_attribute != null)
+            {
+                enumMemberCache.TryAdd(key, enum_member_attribute);
+                
+                enumMemberAttribute = enum_member_attribute;
+                
+                return true;
+            }
+
+            return false;
         }
 
 
@@ -202,20 +225,6 @@ namespace Rocks.Helpers
                                                    var data_member_attribute = property.GetCustomAttribute<DataMemberAttribute>(false);
                                                    if (data_member_attribute != null)
                                                        type_info.PropertiesDataMember[property.Name] = data_member_attribute;
-
-                                                   if (property.PropertyType.IsEnum)
-                                                   {
-                                                       var members = property.PropertyType.GetMembers();
-
-                                                       foreach (var member in members)
-                                                       {
-                                                           var enum_member_attribute = member.GetCustomAttribute<EnumMemberAttribute>(false);
-                                                           if (enum_member_attribute != null)
-                                                           {
-                                                               enumMemberCache.TryAdd(property.PropertyType.FullName + member.Name, enum_member_attribute);
-                                                           }
-                                                       }
-                                                   }
                                                }
 
                                                return type_info;
