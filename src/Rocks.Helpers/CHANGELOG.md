@@ -1,3 +1,7 @@
+## 4.8.1 - 2020-10-14
+### Fixed
+- Fixed `PropertiesToQueryParameters` extension to use `EnumMemberAttribute` if `shouldUseDataMember` parameter value equal `true`
+
 ## 4.8.0 - 2020-09-09
 ### Changed
 - Packages update

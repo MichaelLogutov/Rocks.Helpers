@@ -24,6 +24,9 @@ namespace Rocks.Helpers
     {
         private static readonly ConcurrentDictionary<string, TypeInfo> typesInfoCache =
             new ConcurrentDictionary<string, TypeInfo>(StringComparer.Ordinal);
+        
+        private static readonly ConcurrentDictionary<string, EnumMemberAttribute> enumMemberCache = 
+            new ConcurrentDictionary<string, EnumMemberAttribute>(StringComparer.Ordinal);
 
 
         /// <summary>
@@ -61,7 +64,10 @@ namespace Rocks.Helpers
 
                 if (type_info.PropertiesCustomFormat.TryGetValue(member.Name, out var display_format_attribute))
                     value = FormatValue(value, display_format_attribute);
-
+                
+                if (shouldUseDataMember && property.PropertyType.IsEnum && TryGetEnumMemberAttr(property.PropertyType, value.ToString(), out var enum_data_attribute))
+                    value = enum_data_attribute.Value;
+                
                 if (shouldUseDataMember && TryGetDataMemberAttr(type_info, member.Name, out var data_member_attribute))
                     res.Add(data_member_attribute.Name, value);
                 else
@@ -77,6 +83,25 @@ namespace Rocks.Helpers
             dataMemberAttribute = null;
             return typeInfo.PropertiesDataMember.TryGetValue(memberName, out dataMemberAttribute) &&
                    !string.IsNullOrWhiteSpace(dataMemberAttribute.Name);
+        }
+        
+        
+        private static bool TryGetEnumMemberAttr(Type type, string memberName, out EnumMemberAttribute enumMemberAttribute)
+        {
+            var key = type.FullName + memberName;
+
+            enumMemberAttribute = enumMemberCache.GetOrAdd(key, _ =>
+            {
+                var member = type.GetMember(memberName);
+                if (member.Length == 0)
+                {
+                    return null;
+                }
+            
+                return member[0].GetCustomAttribute<EnumMemberAttribute>(false);
+            });
+            
+            return enumMemberAttribute != null;
         }
 
 

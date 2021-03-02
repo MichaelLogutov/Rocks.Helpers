@@ -9,6 +9,22 @@ namespace Rocks.Helpers.Tests
 {
     public class UrlExtensionsTests
     {
+        enum Test
+        {
+            [EnumMember(Value = "1")]
+            One,
+            [EnumMember(Value = "2")]
+            Two,
+            [EnumMember(Value = "3")]
+            Three
+        }
+
+        class TestModel
+        {
+            [DataMember(Name = "notTest")]
+            public Test Type { get; set; }
+        }
+        
         [Fact]
         public void PropertiesToRouteValueDictionary_Null_ReturnsEmpty()
         {
@@ -117,7 +133,7 @@ namespace Rocks.Helpers.Tests
         public void PropertiesToQueryParameters_Null_ReturnsEmpty()
         {
             // arrange
-
+            
 
             // act
             var result = ((object) null).PropertiesToQueryParameters();
@@ -125,6 +141,36 @@ namespace Rocks.Helpers.Tests
 
             // assert
             result.Should().BeEmpty();
+        }
+        
+        
+        [Fact]
+        public void PropertiesToQueryParameters_PropertyWithDataMemberAndEnumWithEnumMember_ReturnsValue()
+        {
+            // arrange
+
+
+            // act
+            var result = (new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: true);
+
+
+            // assert
+            result.Should().BeEquivalentTo("?notTest=1");
+        }
+        
+        
+        [Fact]
+        public void PropertiesToQueryParametersWithoutUseDataMember_PropertyWithDataMemberAndEnumWithEnumMember_ReturnsValue()
+        {
+            // arrange
+
+
+            // act
+            var result = (new TestModel() {Type = Test.One}).PropertiesToQueryParameters(shouldUseDataMember: false);
+
+
+            // assert
+            result.Should().BeEquivalentTo("?type=One");
         }
 
 
